@@ -11,6 +11,7 @@ from django_ratelimit.decorators import ratelimit
 from apps.bookings.availability import availability_summary
 from apps.bookings.forms import BookingRequestForm
 from apps.bookings.models import BookingItem, BookingRequest, BuilderSession
+from apps.notifications.telegram_bot import queue_new_booking_notification
 
 from . import pricing
 from .models import (
@@ -343,5 +344,7 @@ def build_submit(request: HttpRequest) -> HttpResponse:
 
     session_obj.is_converted = True
     session_obj.save(update_fields=["is_converted"])
+
+    queue_new_booking_notification(booking)
 
     return redirect(reverse("bookings:thanks", kwargs={"ref_code": booking.ref_code}))

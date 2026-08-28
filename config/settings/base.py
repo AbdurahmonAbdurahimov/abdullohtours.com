@@ -164,6 +164,9 @@ UNFOLD = {
     "SITE_SYMBOL": "map",
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
+    # Custom dashboard (CLAUDE.md §11) — see apps/core/admin_dashboard.py +
+    # templates/admin/index.html.
+    "DASHBOARD_CALLBACK": "apps.core.admin_dashboard.dashboard_callback",
     "SIDEBAR": {
         "show_search": True,
         "show_all_applications": False,
@@ -238,6 +241,11 @@ UNFOLD = {
                         "icon": "directions_car",
                         "link": "admin:catalog_vehicleclass_changelist",
                     },
+                    {
+                        "title": "Route pages (SEO)",
+                        "icon": "alt_route",
+                        "link": "admin:catalog_routepage_changelist",
+                    },
                 ],
             },
             {
@@ -248,6 +256,11 @@ UNFOLD = {
                         "title": "Blog posts",
                         "icon": "article",
                         "link": "admin:blog_blogpost_changelist",
+                    },
+                    {
+                        "title": "Reviews",
+                        "icon": "reviews",
+                        "link": "admin:core_review_changelist",
                     },
                 ],
             },

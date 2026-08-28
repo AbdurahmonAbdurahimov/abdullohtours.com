@@ -1,0 +1,47 @@
+{% extends "admin/base.html" %}
+{% load unfold %}
+
+{% comment %}
+Custom dashboard (CLAUDE.md §11). Deliberately extends admin/base.html
+directly (not unfold's own admin/index.html) — a project template also
+named admin/index.html can't {% extends %} the app template of the same
+name without the loader resolving back to itself, so the small amount of
+boilerplate from unfold's index.html (title/branding blocks) is duplicated
+here rather than inherited.
+{% endcomment %}
+
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title }}{% endblock %}
+
+{% block branding %}
+  {% include "unfold/helpers/site_branding.html" %}
+{% endblock %}
+
+{% block content %}
+  <div class="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-5">
+    {% component "unfold/components/card.html" with title="Today's requests" %}
+      <div class="text-2xl font-semibold text-important">{{ kpi_today }}</div>
+    {% endcomponent %}
+    {% component "unfold/components/card.html" with title="Pending" %}
+      <div class="text-2xl font-semibold text-important">{{ kpi_pending }}</div>
+    {% endcomponent %}
+    {% component "unfold/components/card.html" with title="Confirmed this month" %}
+      <div class="text-2xl font-semibold text-important">{{ kpi_confirmed_month }}</div>
+    {% endcomponent %}
+    {% component "unfold/components/card.html" with title="Estimated revenue (month)" %}
+      <div class="text-2xl font-semibold text-important">${{ kpi_revenue_month|floatformat:0 }}</div>
+    {% endcomponent %}
+    {% component "unfold/components/card.html" with title="Abandoned builders" %}
+      <div class="text-2xl font-semibold text-important">{{ kpi_abandoned_builders }}</div>
+    {% endcomponent %}
+  </div>
+
+  {% component "unfold/components/table.html" with title="Recent requests" table=recent_requests_table %}{% endcomponent %}
+
+  <div class="flex flex-col lg:flex-row lg:gap-8 mt-6">
+    <div class="grow">
+      {% include "unfold/helpers/app_list_default.html" %}
+    </div>
+
+    {% include "unfold/helpers/history.html" %}
+  </div>
+{% endblock %}

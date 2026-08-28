@@ -5,6 +5,8 @@ from django.views.decorators.http import require_GET
 
 from apps.catalog.models import Destination
 
+from .models import Review
+
 
 def home(request: HttpRequest) -> HttpResponse:
     destinations = Destination.objects.filter(is_active=True)[:5]
@@ -16,7 +18,8 @@ def about(request: HttpRequest) -> HttpResponse:
 
 
 def reviews(request: HttpRequest) -> HttpResponse:
-    return render(request, "core/reviews.html")
+    reviews_qs = Review.objects.filter(is_published=True).select_related("package", "destination")
+    return render(request, "core/reviews.html", {"reviews": reviews_qs})
 
 
 def faq(request: HttpRequest) -> HttpResponse:

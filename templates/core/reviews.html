@@ -3,6 +3,28 @@
 
 {% block meta_title %}{% trans "Reviews" %} — Abdulloh Tours{% endblock %}
 
+{% block json_ld %}
+{% if reviews %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "name": "Abdulloh Tours",
+  "review": [
+    {% for review in reviews %}
+    {
+      "@type": "Review",
+      "author": {"@type": "Person", "name": "{{ review.author_name|escapejs }}"},
+      "reviewRating": {"@type": "Rating", "ratingValue": "{{ review.rating }}", "bestRating": "5"},
+      "reviewBody": "{{ review.body|escapejs }}"
+    }{% if not forloop.last %},{% endif %}
+    {% endfor %}
+  ]
+}
+</script>
+{% endif %}
+{% endblock %}
+
 {% block content %}
 <section class="bg-navy text-cream py-lg">
   <div class="mx-auto max-w-[1280px] px-4 md:px-8">
@@ -13,10 +35,19 @@
 </section>
 <section class="bg-cream py-xl">
   <div class="mx-auto max-w-[1280px] px-4 md:px-8">
-    <p class="max-w-2xl text-[16px] leading-relaxed text-muted">
-      {% comment %} Reviews are Phase 2 scope (CLAUDE.md §13) — page shell only for now. {% endcomment %}
-      TODO: content needed
-    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% for review in reviews %}
+        <div class="rounded-lg border border-line bg-white p-6">
+          <p class="text-gold-bright text-[14px] mb-2">{{ review.rating }}/5 ★</p>
+          <p class="text-[14px] text-ink leading-relaxed">&ldquo;{{ review.body }}&rdquo;</p>
+          <p class="mt-4 text-[13px] text-muted">
+            <strong class="text-ink">{{ review.author_name }}</strong>{% if review.country %} · {{ review.country }}{% endif %}
+          </p>
+        </div>
+      {% empty %}
+        <p class="text-muted md:col-span-3">TODO: content needed — no published reviews yet.</p>
+      {% endfor %}
+    </div>
   </div>
 </section>
 {% endblock %}

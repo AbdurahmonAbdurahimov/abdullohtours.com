@@ -110,3 +110,50 @@ class SEOMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class Review(models.Model):
+    """A traveller review (Phase 2, CLAUDE.md §13).
+
+    Not a SEOMixin/translatable content model — this is quoted third-party
+    testimony, not editorial copy we author, so it's displayed as submitted
+    rather than translated. `is_published` defaults to False as a safety
+    rail: nothing appears on /reviews/ until an admin has verified it's a
+    real review, not a placeholder. This app deliberately ships with zero
+    seeded rows — fabricating "sample" reviews would be fake testimonials,
+    which is a different and worse problem than an empty page with a
+    TODO notice.
+    """
+
+    class Source(models.TextChoices):
+        GOOGLE = "GOOGLE", "Google"
+        TRIPADVISOR = "TRIPADVISOR", "TripAdvisor"
+        DIRECT = "DIRECT", "Direct / WhatsApp"
+        OTHER = "OTHER", "Other"
+
+    author_name = models.CharField(max_length=255)
+    country = models.CharField(max_length=100, blank=True)
+    rating = models.PositiveSmallIntegerField(help_text="1–5")
+    body = models.TextField()
+    source = models.CharField(max_length=20, choices=Source.choices, default=Source.DIRECT)
+    source_url = models.URLField(blank=True, help_text="Link to the original review, if public.")
+    package = models.ForeignKey(
+        "catalog.Package", on_delete=models.SET_NULL, null=True, blank=True, related_name="reviews"
+    )
+    destination = models.ForeignKey(
+        "catalog.Destination",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="reviews",
+    )
+    is_published = models.BooleanField(
+        default=False, help_text="Only verified, real reviews should be published."
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+
+    def __str__(self) -> str:
+        return f"{self.author_name} ({self.rating}★)"

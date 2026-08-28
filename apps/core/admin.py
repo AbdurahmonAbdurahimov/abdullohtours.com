@@ -1,12 +1,23 @@
 from django.contrib import admin
 from unfold.admin import ModelAdmin
 
-from .models import ExchangeRate, SiteSettings
+from .models import ExchangeRate, Review, SiteSettings
 
-# NOTE: the full custom dashboard (today's requests / pending count /
-# confirmed this month / estimated revenue / recent requests / abandoned
-# builders, per CLAUDE.md §11) is follow-up work, not part of this scaffold
-# pass. This registers SiteSettings so it's editable now.
+
+@admin.register(Review)
+class ReviewAdmin(ModelAdmin):
+    list_display = (
+        "author_name",
+        "rating",
+        "source",
+        "package",
+        "destination",
+        "is_published",
+        "created_at",
+    )
+    list_filter = ("is_published", "source", "rating")
+    search_fields = ("author_name", "body")
+    autocomplete_fields = ("package", "destination")
 
 
 @admin.register(SiteSettings)

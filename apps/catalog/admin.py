@@ -2,6 +2,8 @@ from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 from unfold.admin import ModelAdmin, TabularInline
 
+from apps.core.admin_mixins import TranslationStatusMixin
+
 from .models import (
     Activity,
     AddOn,
@@ -18,10 +20,10 @@ from .models import (
     VehicleClass,
 )
 
-# NOTE: colour-coded status badges, one-click WhatsApp links and CSV export
-# (CLAUDE.md §11) apply to BookingRequest (see apps/bookings/admin.py), not
-# here. This pass focuses on getting every catalog model registered and
-# usable in django-unfold with sensible list/filter/search config.
+# Colour-coded status badges, one-click WhatsApp links and CSV export
+# (CLAUDE.md §11) apply to BookingRequest — see apps/bookings/admin.py.
+# Every content model with SEOMixin gets a translation-status column via
+# TranslationStatusMixin (apps/core/admin_mixins.py).
 
 
 class AttractionInline(TabularInline):
@@ -30,28 +32,12 @@ class AttractionInline(TabularInline):
 
 
 @admin.register(Destination)
-class DestinationAdmin(TranslationAdmin, ModelAdmin):
+class DestinationAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
     list_display = ("name", "region", "min_recommended_days", "is_active", "order")
     list_filter = ("is_active", "region")
     search_fields = ("name", "region")
     prepopulated_fields = {"slug": ("name",)}
     inlines = [AttractionInline]
-    # Per-language translation status column (CLAUDE.md §11: "content models
-    # show a per-language translation status column so gaps are visible").
-    readonly_fields = ()
-
-    def get_list_display(self, request):
-        return (*super().get_list_display(request), "translation_status")
-
-    @admin.display(description="Translations")
-    def translation_status(self, obj):
-        flags = {
-            "RU": obj.translation_complete_ru,
-            "DE": obj.translation_complete_de,
-            "FR": obj.translation_complete_fr,
-            "ES": obj.translation_complete_es,
-        }
-        return ", ".join(f"{code}✓" if done else f"{code}✗" for code, done in flags.items())
 
 
 @admin.register(Attraction)
@@ -68,7 +54,7 @@ class VehicleClassAdmin(ModelAdmin):
 
 
 @admin.register(Activity)
-class ActivityAdmin(TranslationAdmin, ModelAdmin):
+class ActivityAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
     list_display = ("title", "destination", "price_type", "base_price_usd", "is_active")
     list_filter = ("destination", "price_type", "is_active")
     search_fields = ("title",)
@@ -93,7 +79,7 @@ class PackageDayInline(TabularInline):
 
 
 @admin.register(Package)
-class PackageAdmin(TranslationAdmin, ModelAdmin):
+class PackageAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
     list_display = ("title", "tier", "total_days", "base_vehicle_class", "is_featured", "is_active")
     list_filter = ("tier", "is_active", "is_featured")
     search_fields = ("title",)
@@ -102,7 +88,7 @@ class PackageAdmin(TranslationAdmin, ModelAdmin):
 
 
 @admin.register(PackageDay)
-class PackageDayAdmin(ModelAdmin):
+class PackageDayAdmin(TranslationAdmin, ModelAdmin):
     list_display = ("package", "day_number", "title")
     list_filter = ("package",)
     inlines = [PackageItemInline]
@@ -135,7 +121,7 @@ class DriverAdmin(ModelAdmin):
 
 
 @admin.register(RoutePage)
-class RoutePageAdmin(TranslationAdmin, ModelAdmin):
+class RoutePageAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
     list_display = ("__str__", "slug", "is_active", "order")
     list_filter = ("is_active",)
     autocomplete_fields = ("destination_a", "destination_b")

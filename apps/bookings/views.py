@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django_ratelimit.decorators import ratelimit
 
+from apps.notifications.telegram_bot import queue_new_booking_notification
+
 from .forms import BookingRequestForm
 from .models import BookingRequest
 
@@ -15,10 +17,7 @@ def booking_request(request: HttpRequest) -> HttpResponse:
             obj: BookingRequest = form.save(commit=False)
             obj.source_type = BookingRequest.SourceType.DIRECT
             obj.save()
-            # NOTE: enqueuing the Telegram "new request" Notification row
-            # happens here in the full build (apps.notifications.senders);
-            # left as a follow-up wire-up in this scaffold pass so the
-            # booking flow itself is testable independent of the bot.
+            queue_new_booking_notification(obj)
             return redirect(reverse("bookings:thanks", kwargs={"ref_code": obj.ref_code}))
     else:
         form = BookingRequestForm()

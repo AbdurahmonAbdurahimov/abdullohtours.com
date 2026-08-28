@@ -26,7 +26,7 @@ from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup, Update
 
 from apps.bookings.models import BookingRequest
 
-from .models import TelegramAdmin
+from .models import Notification, TelegramAdmin
 
 logger = logging.getLogger(__name__)
 
@@ -103,6 +103,33 @@ _CALLBACK_STATUS_MAP = {
     "contacted": BookingRequest.Status.CONTACTED,
     "reject": BookingRequest.Status.CANCELLED,
 }
+
+
+def queue_new_booking_notification(booking: BookingRequest) -> Notification:
+    """Write + immediately attempt-send the "new request" alert
+    (CLAUDE.md §1/§8) — response time is the key business metric, so this is
+    called synchronously right after a BookingRequest is created rather than
+    waiting for the next send_pending_notifications cron tick. The
+    Notification row is written first regardless of whether the immediate
+    send succeeds, so a Telegram outage never loses the request — cron
+    retries anything left PENDING/FAILED.
+    """
+    from apps.bookings.availability import availability_summary
+
+    from .senders import send_notification
+
+    availability = availability_summary(booking.start_date) if booking.start_date else None
+    notification = Notification.objects.create(
+        kind=Notification.Kind.NEW_BOOKING,
+        payload={
+            "audience": "bookings",
+            "ref_code": booking.ref_code,
+            "text": format_new_booking_message(booking, availability),
+            "reply_markup": build_booking_keyboard(booking).to_dict(),
+        },
+    )
+    send_notification(notification)
+    return notification
 
 
 # ---------------------------------------------------------------------------
