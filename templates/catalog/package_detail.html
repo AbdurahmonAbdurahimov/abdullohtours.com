@@ -32,8 +32,12 @@
 {% endblock %}
 
 {% block content %}
-<section class="bg-navy text-cream">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+<section class="relative bg-navy text-cream overflow-hidden">
+  {% if package.hero_image %}
+    <img src="{{ package.hero_image.url }}" alt="{{ package.title }}" loading="eager" class="absolute inset-0 w-full h-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy/40"></div>
+  {% endif %}
+  <div class="relative mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
     <p class="label text-gold">{{ package.get_tier_display }} · {{ package.total_days }} {% trans "days" %}</p>
     {% block h1 %}
     <h1 class="font-serif text-[28px] md:text-[44px] mt-2">{{ package.title }}</h1>
@@ -42,29 +46,38 @@
   </div>
 </section>
 
-<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
-  <div class="prose max-w-2xl text-[16px] leading-relaxed text-ink">
-    {{ package.body|default:"TODO: content needed"|linebreaks }}
-  </div>
+<section class="bg-cream py-lg">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-lg">
+    <div class="md:col-span-8">
+      <div class="prose max-w-none text-[16px] leading-relaxed text-ink">
+        {{ package.body|default:"TODO: content needed"|linebreaks }}
+      </div>
 
-  <h2 class="font-serif text-[24px] md:text-[32px] text-ink mt-lg mb-4">{% trans "Itinerary" %}</h2>
-  <ol class="space-y-4">
-    {% for day in package.days.all %}
-      <li class="border-l-2 border-gold pl-4">
-        <p class="label text-gold">{% trans "Day" %} {{ day.day_number }}</p>
-        <h3 class="font-serif text-[20px] text-ink">{{ day.title }}</h3>
-        <p class="text-[14px] text-muted mt-1">{{ day.description }}</p>
-      </li>
-    {% empty %}
-      <p class="text-muted">TODO: content needed</p>
-    {% endfor %}
-  </ol>
+      <h2 class="font-serif text-[24px] md:text-[32px] text-ink mt-lg mb-4">{% trans "Itinerary" %}</h2>
+      <ol class="space-y-4">
+        {% for day in package.days.all %}
+          <li class="border-l-2 border-gold pl-4">
+            <p class="label text-gold">{% trans "Day" %} {{ day.day_number }}</p>
+            <h3 class="font-serif text-[20px] text-ink">{{ day.title }}</h3>
+            <p class="text-[14px] text-muted mt-1">{{ day.description }}</p>
+          </li>
+        {% empty %}
+          <p class="text-muted">TODO: content needed</p>
+        {% endfor %}
+      </ol>
+    </div>
 
-  <div class="mt-lg border border-gold/40 rounded-lg p-6 bg-cream-soft">
-    <p class="text-[14px] text-muted">{% trans "Pricing is per private group (per vehicle), not per person. Entrance tickets, guide and meals are extras." %}</p>
-    <a href="{% url 'bookings:booking_request' %}" class="mt-4 inline-block rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
-      {% trans "Request a Quote for this Tour" %}
-    </a>
+    <div class="md:col-span-4">
+      <div class="sticky top-24 border border-gold/40 rounded-lg p-6 bg-cream-soft">
+        <p class="text-[14px] text-muted mb-4">{% trans "Pricing is per private group (per vehicle), not per person. Entrance tickets, guide and meals are extras." %}</p>
+        <a href="{% url 'catalog:tour_builder' %}" class="w-full inline-flex items-center justify-center rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
+          {% trans "Customise this tour" %}
+        </a>
+        <a href="{% url 'bookings:booking_request' %}" class="mt-3 w-full inline-flex items-center justify-center rounded border border-gold text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:bg-gold/10">
+          {% trans "Request a Quote for this Tour" %}
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}

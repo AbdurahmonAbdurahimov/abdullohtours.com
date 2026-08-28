@@ -3,9 +3,12 @@ from django.shortcuts import render
 from django.template import loader
 from django.views.decorators.http import require_GET
 
+from apps.catalog.models import Destination
+
 
 def home(request: HttpRequest) -> HttpResponse:
-    return render(request, "core/home.html")
+    destinations = Destination.objects.filter(is_active=True)[:5]
+    return render(request, "core/home.html", {"destinations": destinations})
 
 
 def about(request: HttpRequest) -> HttpResponse:

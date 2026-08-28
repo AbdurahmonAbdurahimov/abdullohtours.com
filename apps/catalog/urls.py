@@ -11,4 +11,5 @@ urlpatterns = [
     path("tours/<slug:slug>/", views.package_detail, name="package_detail"),
     path("build/", views.tour_builder, name="tour_builder"),
     path("build/quote/", views.build_quote, name="build_quote"),
+    path("build/submit/", views.build_submit, name="build_submit"),
 ]

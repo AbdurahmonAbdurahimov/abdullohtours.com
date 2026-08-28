@@ -20,13 +20,19 @@
 {% endblock %}
 
 {% block content %}
-<section class="mx-auto max-w-[720px] px-4 md:px-8 py-lg">
-  {% block h1 %}
-  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{{ post.title }}</h1>
-  {% endblock %}
-  <p class="mt-2 text-[13px] text-muted">{{ post.author }} · {{ post.published_at|date:"d M Y" }}</p>
-  <div class="prose mt-8 text-[16px] leading-relaxed text-ink">
-    {{ post.body|default:"TODO: content needed"|safe }}
+<section class="bg-navy text-cream py-lg">
+  <div class="mx-auto max-w-[720px] px-4 md:px-8">
+    {% block h1 %}
+    <h1 class="font-serif text-[28px] md:text-[44px]">{{ post.title }}</h1>
+    {% endblock %}
+    <p class="mt-2 text-[13px] text-cream/70">{{ post.author }} · {{ post.published_at|date:"d M Y" }}</p>
+  </div>
+</section>
+<section class="bg-cream py-xl">
+  <div class="mx-auto max-w-[720px] px-4 md:px-8">
+    <div class="prose text-[16px] leading-relaxed text-ink">
+      {{ post.body|default:"TODO: content needed"|safe }}
+    </div>
   </div>
 </section>
 {% endblock %}

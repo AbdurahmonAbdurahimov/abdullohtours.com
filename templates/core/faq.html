@@ -8,12 +8,22 @@
 {% endblock %}
 
 {% block content %}
-<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
-  {% block h1 %}
-  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Frequently asked questions" %}</h1>
-  {% endblock %}
-  <div class="mt-6 max-w-2xl text-[16px] leading-relaxed text-muted">
-    TODO: content needed
+<section class="bg-navy text-cream py-lg">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+    {% block h1 %}
+    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Frequently asked questions" %}</h1>
+    {% endblock %}
+  </div>
+</section>
+
+<section class="bg-cream py-xl">
+  <div class="mx-auto max-w-2xl px-4 md:px-8">
+    {% comment %}
+      TODO: content needed — replace with real Q&A, one <details> per
+      question, once Abdulloh supplies the copy. The accordion markup is
+      wired up so FAQPage JSON-LD can be added alongside it later.
+    {% endcomment %}
+    <p class="text-muted">TODO: content needed</p>
   </div>
 </section>
 {% endblock %}

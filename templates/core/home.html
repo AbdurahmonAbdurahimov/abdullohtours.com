@@ -5,8 +5,17 @@
 {% block meta_description %}Private group tours across Uzbekistan — Samarkand, Bukhara, Khiva, Tashkent — in our own vehicles with an English-speaking driver. Request a free quote.{% endblock %}
 
 {% block content %}
-<section class="bg-navy text-cream min-h-[80dvh] flex items-center">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+<!-- Hero -->
+<section class="relative min-h-[80dvh] flex items-center overflow-hidden bg-navy text-cream">
+  <div class="absolute inset-0 bg-gradient-to-b from-navy via-navy-soft to-navy"></div>
+
+  {# Uzbek-motif corner accents (CLAUDE.md §3: gold hairline borders, restrained decoration) #}
+  <div class="absolute top-6 left-6 w-20 h-20 border-t-2 border-l-2 border-gold/40" aria-hidden="true"></div>
+  <div class="absolute top-6 right-6 w-20 h-20 border-t-2 border-r-2 border-gold/40" aria-hidden="true"></div>
+  <div class="absolute bottom-6 left-6 w-20 h-20 border-b-2 border-l-2 border-gold/40" aria-hidden="true"></div>
+  <div class="absolute bottom-6 right-6 w-20 h-20 border-b-2 border-r-2 border-gold/40" aria-hidden="true"></div>
+
+  <div class="relative mx-auto max-w-[1280px] px-4 md:px-8 py-lg w-full">
     <p class="label text-gold mb-4">{% trans "Private tours · Uzbekistan" %}</p>
     {% block h1 %}
     <h1 class="font-serif text-[32px] md:text-[52px] leading-tight max-w-3xl">
@@ -17,24 +26,94 @@
       {% comment %} TODO: content needed — real hero copy from Abdulloh, not paraphrased from a third-party source. {% endcomment %}
       TODO: content needed
     </p>
-    <div class="mt-8 flex gap-4">
-      <a href="{% url 'catalog:package_index' %}" class="rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
-        {% trans "Browse Tours" %}
+    <div class="mt-8 flex flex-col sm:flex-row gap-4">
+      <a href="{% url 'catalog:tour_builder' %}" class="rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 text-center hover:opacity-90">
+        {% trans "Build Your Tour" %}
       </a>
-      <a href="{% url 'bookings:booking_request' %}" class="rounded border border-gold text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
-        {% trans "Request a Quote" %}
+      <a href="{% url 'catalog:package_index' %}" class="rounded border border-gold text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 text-center hover:bg-gold/10">
+        {% trans "Browse Tours" %}
       </a>
     </div>
   </div>
 </section>
 
-<section class="bg-cream py-lg">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
-    <h2 class="font-serif text-[24px] md:text-[32px] text-ink mb-6">{% trans "Popular destinations" %}</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {% comment %} TODO: content needed — loop over Destination queryset once seed data exists. {% endcomment %}
-      <p class="text-muted">TODO: content needed</p>
+<!-- Trust / value props -->
+<section class="bg-navy text-cream py-xl border-t border-gold/20">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+    <div class="flex flex-col items-center px-4">
+      <svg class="w-10 h-10 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
+      </svg>
+      <h3 class="font-serif text-[20px] mb-2">{% trans "Private Tours" %}</h3>
+      <p class="text-[14px] text-cream/70">{% trans "Exclusive experiences priced per vehicle, tailored entirely to your pace." %}</p>
     </div>
+    <div class="flex flex-col items-center px-4 md:border-x md:border-gold/20">
+      <svg class="w-10 h-10 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.5 4.5-.5-.75-6.5 3.75-6-3.5V4.5l6-3.5 6 3.5 6-3.5v14.25l-6 3.5Z"/>
+      </svg>
+      <h3 class="font-serif text-[20px] mb-2">{% trans "Local Experts" %}</h3>
+      <p class="text-[14px] text-cream/70">{% trans "English-speaking drivers who know the Silk Road cities inside out." %}</p>
+    </div>
+    <div class="flex flex-col items-center px-4">
+      <svg class="w-10 h-10 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008Z"/>
+      </svg>
+      <h3 class="font-serif text-[20px] mb-2">{% trans "Flexible Itineraries" %}</h3>
+      <p class="text-[14px] text-cream/70">{% trans "No online payment, no rigid packages — we agree the plan with you on WhatsApp." %}</p>
+    </div>
+  </div>
+</section>
+
+<!-- Explore destinations -->
+<section class="bg-cream py-xl">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+    <div class="flex items-end justify-between mb-8">
+      <div>
+        <h2 class="font-serif text-[24px] md:text-[32px] text-ink mb-2">{% trans "Explore Uzbekistan" %}</h2>
+        <p class="text-muted max-w-xl">{% trans "From the ancient Silk Road cities to modern alpine resorts." %}</p>
+      </div>
+      <a href="{% url 'catalog:destination_index' %}" class="hidden md:inline-flex items-center gap-1 label text-gold-bright hover:underline">
+        {% trans "View all destinations" %} &rarr;
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+      {% for destination in destinations %}
+        <a href="{% url 'catalog:destination_detail' destination.slug %}"
+           class="group relative overflow-hidden rounded-lg border border-gold/20 block h-[200px] {% if forloop.first %}md:col-span-8 md:h-[400px]{% else %}md:col-span-4{% endif %}">
+          {% if destination.hero_image %}
+            <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
+                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+          {% else %}
+            <div class="absolute inset-0 bg-navy"></div>
+          {% endif %}
+          <div class="absolute inset-0 bg-gradient-to-t from-navy to-transparent opacity-80"></div>
+          <div class="absolute bottom-0 left-0 p-4">
+            <h3 class="font-serif text-[20px] text-white border-l-2 border-gold pl-2">{{ destination.name }}</h3>
+            {% if destination.region %}<p class="text-[13px] text-gold mt-1 pl-2">{{ destination.region }}</p>{% endif %}
+          </div>
+        </a>
+      {% empty %}
+        <p class="text-muted md:col-span-12">TODO: content needed — no destinations yet (seed data is a follow-up task).</p>
+      {% endfor %}
+    </div>
+
+    <a href="{% url 'catalog:destination_index' %}" class="md:hidden mt-6 inline-flex items-center gap-1 label text-gold-bright">
+      {% trans "View all destinations" %} &rarr;
+    </a>
+  </div>
+</section>
+
+<!-- Booking CTA -->
+<section class="bg-navy-soft text-cream py-lg border-t border-gold/20">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+    <div>
+      <h2 class="font-serif text-[24px] md:text-[32px]">{% trans "Ready to plan your trip?" %}</h2>
+      <p class="mt-2 text-cream/70 max-w-xl">{{ site_settings.response_time_promise }}</p>
+    </div>
+    <a href="{% url 'bookings:booking_request' %}" class="shrink-0 rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
+      {% trans "Request a Quote" %}
+    </a>
   </div>
 </section>
 {% endblock %}

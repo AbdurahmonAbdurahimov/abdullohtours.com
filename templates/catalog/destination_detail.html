@@ -32,29 +32,72 @@ considered complete; others gate on Destination.translation_complete_<lang>.
 {% endblock %}
 
 {% block content %}
-<section class="bg-navy text-cream">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+<!-- Hero -->
+<section class="relative min-h-[60dvh] flex items-end overflow-hidden bg-navy text-cream">
+  {% if destination.hero_image %}
+    <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="eager"
+         class="absolute inset-0 w-full h-full object-cover">
+  {% endif %}
+  <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/30"></div>
+  <div class="relative mx-auto max-w-[1280px] px-4 md:px-8 py-lg w-full">
+    {% if destination.region %}<p class="label text-gold mb-2">{{ destination.region }}</p>{% endif %}
     {% block h1 %}
     <h1 class="font-serif text-[28px] md:text-[44px]">{{ destination.name }}</h1>
     {% endblock %}
     <p class="mt-4 max-w-2xl text-cream/85">{{ destination.intro|default:"TODO: content needed" }}</p>
   </div>
 </section>
-<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
-  <div class="prose max-w-2xl text-[16px] leading-relaxed text-ink">
-    {{ destination.body|default:"TODO: content needed"|linebreaks }}
-  </div>
 
-  <h2 class="font-serif text-[24px] md:text-[32px] text-ink mt-lg mb-4">{% trans "Attractions" %}</h2>
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-    {% for attraction in destination.attractions.all %}
-      <div class="border border-line rounded-lg p-4">
-        <h3 class="font-serif text-[20px] text-ink">{{ attraction.name }}</h3>
-        <p class="text-[14px] text-muted mt-1">{{ attraction.description|truncatewords:20 }}</p>
+<section class="bg-cream py-xl">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-lg">
+    <!-- Main content -->
+    <div class="md:col-span-8 space-y-xl">
+      <div>
+        <h2 class="font-serif text-[24px] md:text-[32px] text-ink mb-4">{% trans "About" %} {{ destination.name }}</h2>
+        <div class="prose max-w-none text-[16px] leading-relaxed text-ink">
+          {{ destination.body|default:"TODO: content needed"|linebreaks }}
+        </div>
       </div>
-    {% empty %}
-      <p class="text-muted">TODO: content needed</p>
-    {% endfor %}
+
+      <div>
+        <h3 class="font-serif text-[20px] md:text-[24px] text-ink mb-4">{% trans "Top attractions" %}</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {% for attraction in destination.attractions.all %}
+            <div class="rounded-lg overflow-hidden border border-line bg-cream-soft">
+              {% if attraction.images.0 %}
+                <img src="{{ attraction.images.0 }}" alt="{{ attraction.name }}" loading="lazy" class="w-full aspect-video object-cover">
+              {% else %}
+                <div class="w-full aspect-video bg-navy"></div>
+              {% endif %}
+              <div class="p-4">
+                <h4 class="font-serif text-[18px] text-ink mb-1">{{ attraction.name }}</h4>
+                <p class="text-[14px] text-muted">{{ attraction.description|default:"TODO: content needed"|truncatewords:24 }}</p>
+              </div>
+            </div>
+          {% empty %}
+            <p class="text-muted md:col-span-2">TODO: content needed — no attractions yet (seed data is a follow-up task).</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky CTA sidebar -->
+    <div class="md:col-span-4">
+      <div class="sticky top-24 bg-navy text-cream border border-gold/30 rounded-lg p-6">
+        <h3 class="font-serif text-[20px] text-gold mb-3">{% blocktrans with name=destination.name %}Build a private {{ name }} tour{% endblocktrans %}</h3>
+        <p class="text-[14px] text-cream/80 mb-6">
+          {% trans "Customise your own itinerary with private transport, entrance tickets and an English-speaking driver." %}
+        </p>
+        <a href="{% url 'catalog:tour_builder' %}?destination={{ destination.id }}"
+           class="w-full inline-flex items-center justify-center gap-2 rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
+          {% trans "Start building" %}
+        </a>
+        <a href="{% url 'bookings:booking_request' %}"
+           class="mt-3 w-full inline-flex items-center justify-center gap-2 rounded border border-gold/50 text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:bg-gold/10">
+          {% trans "Request a quote" %}
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}

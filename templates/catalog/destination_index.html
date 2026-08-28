@@ -4,24 +4,38 @@
 {% block meta_title %}{% trans "Destinations" %} — Abdulloh Tours{% endblock %}
 
 {% block content %}
-<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
-  {% block h1 %}
-  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Destinations" %}</h1>
-  {% endblock %}
-  <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-    {% for destination in destinations %}
-      <a href="{% url 'catalog:destination_detail' destination.slug %}" class="block border border-line rounded-lg overflow-hidden hover:border-gold">
-        {% if destination.hero_image %}
-          <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="lazy" class="w-full h-48 object-cover">
-        {% endif %}
-        <div class="p-4">
-          <h2 class="font-serif text-[20px] text-ink">{{ destination.name }}</h2>
-          <p class="text-[14px] text-muted mt-1">{{ destination.intro|truncatewords:20 }}</p>
-        </div>
-      </a>
-    {% empty %}
-      <p class="text-muted">TODO: content needed — no destinations yet (seed data is a follow-up task).</p>
-    {% endfor %}
+<section class="bg-navy text-cream py-lg">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+    {% block h1 %}
+    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Destinations" %}</h1>
+    {% endblock %}
+    <p class="mt-4 max-w-2xl text-cream/80">{% trans "From the ancient Silk Road cities to modern alpine resorts." %}</p>
+  </div>
+</section>
+
+<section class="bg-cream py-xl">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% for destination in destinations %}
+        <a href="{% url 'catalog:destination_detail' destination.slug %}"
+           class="group relative block h-64 rounded-lg overflow-hidden border border-line hover:border-gold transition-colors">
+          {% if destination.hero_image %}
+            <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="lazy"
+                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+          {% else %}
+            <div class="absolute inset-0 bg-navy"></div>
+          {% endif %}
+          <div class="absolute inset-0 bg-gradient-to-t from-navy to-transparent opacity-85"></div>
+          <div class="absolute bottom-0 left-0 p-4 w-full">
+            {% if destination.region %}<p class="text-[13px] text-gold mb-1">{{ destination.region }}</p>{% endif %}
+            <h2 class="font-serif text-[20px] text-white border-l-2 border-gold pl-2">{{ destination.name }}</h2>
+            <p class="text-[13px] text-cream/70 mt-1 pl-2">{{ destination.intro|truncatewords:16 }}</p>
+          </div>
+        </a>
+      {% empty %}
+        <p class="text-muted md:col-span-3">TODO: content needed — no destinations yet (seed data is a follow-up task).</p>
+      {% endfor %}
+    </div>
   </div>
 </section>
 {% endblock %}

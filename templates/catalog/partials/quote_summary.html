@@ -1,0 +1,53 @@
+{% load i18n %}
+{% comment %}
+Rendered by both the initial page load (with an empty/default quote) and the
+/build/quote/ HTMX endpoint on every step change (CLAUDE.md §5/§6) — this is
+the ONLY place the estimated total is computed for display; the number
+always comes from apps.catalog.pricing.calculate_quote(), never from JS.
+{% endcomment %}
+<div id="quote-summary" class="space-y-4">
+  <div class="space-y-2 text-[14px]">
+    <div class="flex justify-between gap-4">
+      <span class="text-cream/60">{% trans "Destinations" %}</span>
+      <span class="font-semibold text-right">
+        {% if quote.destinations %}{{ quote.destinations|join:", " }}{% else %}{% trans "None yet" %}{% endif %}
+      </span>
+    </div>
+    <div class="flex justify-between gap-4">
+      <span class="text-cream/60">{% trans "Travellers" %}</span>
+      <span class="font-semibold">
+        {% blocktrans count adults=quote.adults %}{{ adults }} adult{% plural %}{{ adults }} adults{% endblocktrans %}{% if quote.children %}, {% blocktrans count children=quote.children %}{{ children }} child{% plural %}{{ children }} children{% endblocktrans %}{% endif %}
+      </span>
+    </div>
+    <div class="flex justify-between gap-4">
+      <span class="text-cream/60">{% trans "Transport" %}</span>
+      <span class="font-semibold text-right">
+        {% if quote.vehicle_class %}{{ quote.vehicle_class.name }}{% if quote.vehicle_count > 1 %} &times;{{ quote.vehicle_count }}{% endif %}{% else %}&mdash;{% endif %}
+      </span>
+    </div>
+    {% if quote.availability.limited %}
+      <p class="mt-2 rounded border border-gold-bright/60 bg-gold-bright/10 px-3 py-2 text-[13px] text-gold-bright">
+        {% trans "Limited availability for these dates — we recommend requesting a quote soon." %}
+      </p>
+    {% endif %}
+  </div>
+
+  <div class="border-t border-gold/20 pt-3 space-y-1">
+    {% for item in quote.line_items %}
+      <div class="flex justify-between gap-4 text-[13px] text-cream/80">
+        <span>{{ item.label }} <span class="text-cream/50">&times;{{ item.qty|floatformat:2 }}</span></span>
+        <span>${{ item.subtotal|floatformat:2 }}</span>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="border-t border-gold/20 pt-3">
+    <div class="flex justify-between items-baseline">
+      <span class="text-[14px] text-cream/60">{% trans "Estimated total" %}</span>
+      <span class="font-serif text-[28px] text-gold-bright">${{ quote.total_usd|floatformat:2 }}</span>
+    </div>
+    <p class="text-[12px] text-cream/50 mt-1">
+      {% blocktrans with per_person=quote.per_person_usd|floatformat:2 %}~${{ per_person }} per person &middot; informational only{% endblocktrans %}
+    </p>
+  </div>
+</div>

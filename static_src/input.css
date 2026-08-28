@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Alpine.js convention: hide [x-cloak] elements until Alpine has initialized,
+   so mobile menus / step panels don't flash unstyled on first paint. */
+[x-cloak] {
+  display: none !important;
+}
+
 /* CLAUDE.md §3 type scale defines "label" as a reusable style
    (text-[13px] tracking-[0.08em] uppercase font-semibold), and templates
    apply it as `class="label"`. `text-label` (the fontSize entry below)

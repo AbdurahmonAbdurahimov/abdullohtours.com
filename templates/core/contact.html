@@ -4,22 +4,36 @@
 {% block meta_title %}{% trans "Contact" %} — Abdulloh Tours{% endblock %}
 
 {% block content %}
-<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
-  {% block h1 %}
-  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Get in touch" %}</h1>
-  {% endblock %}
-  <ul class="mt-6 space-y-2 text-[16px] text-ink">
-    <li>{% trans "Phone" %}: <a class="text-gold-bright" href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></li>
-    <li>{% trans "WhatsApp" %}: <a class="text-gold-bright" href="https://wa.me/{{ site_settings.whatsapp_number }}">{{ site_settings.whatsapp_number }}</a></li>
-    <li>{% trans "Telegram" %}: <a class="text-gold-bright" href="https://t.me/{{ site_settings.telegram_username }}">@{{ site_settings.telegram_username }}</a></li>
-    <li>{% trans "Email" %}: {{ site_settings.email }}</li>
-    <li>{% trans "Office" %}: {{ site_settings.office_address }}</li>
-    <li>{% trans "Working hours" %}: {{ site_settings.working_hours }}</li>
-  </ul>
-  <p class="mt-8">
-    <a href="{% url 'bookings:booking_request' %}" class="rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
-      {% trans "Request a Quote" %}
-    </a>
-  </p>
+<section class="bg-navy text-cream py-lg">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+    {% block h1 %}
+    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Get in touch" %}</h1>
+    {% endblock %}
+    <p class="mt-4 max-w-2xl text-cream/80">{{ site_settings.response_time_promise }}</p>
+  </div>
+</section>
+
+<section class="bg-cream py-xl">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 grid grid-cols-1 md:grid-cols-2 gap-lg">
+    <div class="rounded-lg border border-line p-6 bg-white">
+      <h2 class="font-serif text-[20px] text-ink mb-4">{% trans "Reach us directly" %}</h2>
+      <ul class="space-y-3 text-[16px] text-ink">
+        <li class="flex justify-between gap-4"><span class="label text-muted">{% trans "Phone" %}</span> <a class="text-gold-bright hover:underline" href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></li>
+        <li class="flex justify-between gap-4"><span class="label text-muted">{% trans "WhatsApp" %}</span> <a class="text-gold-bright hover:underline" href="https://wa.me/{{ site_settings.whatsapp_number }}">{{ site_settings.whatsapp_number }}</a></li>
+        <li class="flex justify-between gap-4"><span class="label text-muted">{% trans "Telegram" %}</span> <a class="text-gold-bright hover:underline" href="https://t.me/{{ site_settings.telegram_username }}">@{{ site_settings.telegram_username }}</a></li>
+        <li class="flex justify-between gap-4"><span class="label text-muted">{% trans "Email" %}</span> <span>{{ site_settings.email }}</span></li>
+        <li class="flex justify-between gap-4"><span class="label text-muted">{% trans "Office" %}</span> <span class="text-right">{{ site_settings.office_address }}</span></li>
+        <li class="flex justify-between gap-4"><span class="label text-muted">{% trans "Working hours" %}</span> <span class="text-right">{{ site_settings.working_hours }}</span></li>
+      </ul>
+      <a href="{% url 'bookings:booking_request' %}" class="mt-6 inline-flex items-center justify-center rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
+        {% trans "Request a Quote" %}
+      </a>
+    </div>
+    <div class="rounded-lg border border-line bg-navy p-6 flex flex-col justify-center text-cream">
+      <p class="label text-gold mb-2">{% trans "Response promise" %}</p>
+      <p class="font-serif text-[24px]">{{ site_settings.response_time_promise }}</p>
+      <p class="mt-4 text-[14px] text-cream/70">{% trans "Message us on WhatsApp or Telegram for the fastest reply." %}</p>
+    </div>
+  </div>
 </section>
 {% endblock %}

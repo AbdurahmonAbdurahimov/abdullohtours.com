@@ -5,18 +5,291 @@
 {% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
 
 {% block content %}
-<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
-  {% block h1 %}
-  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Build your tour" %}</h1>
-  {% endblock %}
-  <p class="mt-4 max-w-2xl text-muted">
-    {% comment %}
-      TODO: content needed — the full 5-step Alpine.js/HTMX builder
-      (dates+travellers, destinations, activities, add-ons, contact) is
-      Phase 2 scope per CLAUDE.md §13. This page renders the shell only so
-      the URL exists ahead of that work.
-    {% endcomment %}
-    TODO: content needed
-  </p>
+<section class="bg-navy text-cream py-lg">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8"
+       x-data="tourBuilder({{ initial_step }}, {{ builder_payload_json|safe }})">
+
+    {% block h1 %}
+    <h1 class="font-serif text-[28px] md:text-[44px] text-cream mb-2">{% trans "Build your tour" %}</h1>
+    {% endblock %}
+    <p class="max-w-2xl text-cream/70 mb-8">
+      {% trans "Choose your dates, destinations and add-ons — we'll send you a tailored, per-vehicle estimate. Nothing is charged online; a real quote follows from us on WhatsApp." %}
+    </p>
+
+    <div class="flex flex-col lg:flex-row gap-8 items-start">
+      <!-- Builder card -->
+      <div class="w-full lg:w-2/3 bg-cream text-ink rounded-xl p-6 md:p-8 shadow-lg">
+
+        <!-- Stepper -->
+        <div class="relative flex justify-between items-center mb-8">
+          <div class="absolute left-0 top-4 w-full h-[2px] bg-gold/20 -z-10"></div>
+          <div class="absolute left-0 top-4 h-[2px] bg-gold-bright -z-10 transition-all duration-300"
+               :style="'width: ' + ((Math.min(step, 5) - 1) / 4 * 100) + '%'"></div>
+
+          <button type="button" class="flex flex-col items-center gap-1" @click="goTo(1)">
+            <span class="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold"
+                  :class="step > 1 ? 'bg-gold-bright text-navy' : (step === 1 ? 'bg-gold-bright text-navy' : 'bg-cream border-2 border-gold/40 text-muted')"
+                  x-text="step > 1 ? '✓' : '1'"></span>
+            <span class="label hidden sm:block" :class="step === 1 ? 'text-navy' : 'text-muted'">{% trans "Dates" %}</span>
+          </button>
+          <button type="button" class="flex flex-col items-center gap-1" @click="goTo(2)">
+            <span class="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold"
+                  :class="step > 2 ? 'bg-gold-bright text-navy' : (step === 2 ? 'bg-gold-bright text-navy' : 'bg-cream border-2 border-gold/40 text-muted')"
+                  x-text="step > 2 ? '✓' : '2'"></span>
+            <span class="label hidden sm:block" :class="step === 2 ? 'text-navy' : 'text-muted'">{% trans "Destinations" %}</span>
+          </button>
+          <button type="button" class="flex flex-col items-center gap-1" @click="goTo(3)">
+            <span class="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold"
+                  :class="step > 3 ? 'bg-gold-bright text-navy' : (step === 3 ? 'bg-gold-bright text-navy' : 'bg-cream border-2 border-gold/40 text-muted')"
+                  x-text="step > 3 ? '✓' : '3'"></span>
+            <span class="label hidden sm:block" :class="step === 3 ? 'text-navy' : 'text-muted'">{% trans "Activities" %}</span>
+          </button>
+          <button type="button" class="flex flex-col items-center gap-1" @click="goTo(4)">
+            <span class="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold"
+                  :class="step > 4 ? 'bg-gold-bright text-navy' : (step === 4 ? 'bg-gold-bright text-navy' : 'bg-cream border-2 border-gold/40 text-muted')"
+                  x-text="step > 4 ? '✓' : '4'"></span>
+            <span class="label hidden sm:block" :class="step === 4 ? 'text-navy' : 'text-muted'">{% trans "Add-ons" %}</span>
+          </button>
+          <button type="button" class="flex flex-col items-center gap-1" @click="goTo(5)">
+            <span class="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold"
+                  :class="step === 5 ? 'bg-gold-bright text-navy' : 'bg-cream border-2 border-gold/40 text-muted'"
+                  x-text="'5'"></span>
+            <span class="label hidden sm:block" :class="step === 5 ? 'text-navy' : 'text-muted'">{% trans "Contact" %}</span>
+          </button>
+        </div>
+
+        <form x-ref="builderForm" hx-post="{% url 'catalog:build_quote' %}"
+              hx-trigger="change, refresh-quote" hx-target="#quote-summary-mount" hx-swap="innerHTML">
+          {% csrf_token %}
+          <input type="hidden" name="step" x-model.number="step">
+
+          <!-- Step 1: Dates + travellers -->
+          <div x-show="step === 1" x-cloak x-transition>
+            <h2 class="font-serif text-[20px] md:text-[24px] mb-4">{% trans "When are you travelling, and how many?" %}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="label text-muted block mb-1">{% trans "Start date" %}</label>
+                <input type="date" name="start_date" x-model="startDate" @change="refresh()"
+                       class="w-full border border-line rounded px-3 py-2 bg-white">
+              </div>
+              <div>
+                <label class="label text-muted block mb-1">{% trans "End date" %}</label>
+                <input type="date" name="end_date" x-model="endDate" @change="refresh()"
+                       class="w-full border border-line rounded px-3 py-2 bg-white">
+              </div>
+              <div>
+                <label class="label text-muted block mb-1">{% trans "Adults" %}</label>
+                <div class="flex items-center justify-between border border-line rounded px-2 py-1 bg-white">
+                  <button type="button" class="w-9 h-9 rounded hover:bg-cream-soft text-[18px]" @click="decAdults()" aria-label="{% trans 'Decrease adults' %}">&minus;</button>
+                  <input type="number" name="adults" min="1" x-model.number="adults" readonly
+                         class="w-12 text-center bg-transparent font-semibold" aria-label="{% trans 'Number of adults' %}">
+                  <button type="button" class="w-9 h-9 rounded hover:bg-cream-soft text-[18px]" @click="incAdults()" aria-label="{% trans 'Increase adults' %}">+</button>
+                </div>
+              </div>
+              <div>
+                <label class="label text-muted block mb-1">{% trans "Children (under 12)" %}</label>
+                <div class="flex items-center justify-between border border-line rounded px-2 py-1 bg-white">
+                  <button type="button" class="w-9 h-9 rounded hover:bg-cream-soft text-[18px]" @click="decChildren()" aria-label="{% trans 'Decrease children' %}">&minus;</button>
+                  <input type="number" name="children" min="0" x-model.number="children" readonly
+                         class="w-12 text-center bg-transparent font-semibold" aria-label="{% trans 'Number of children' %}">
+                  <button type="button" class="w-9 h-9 rounded hover:bg-cream-soft text-[18px]" @click="incChildren()" aria-label="{% trans 'Increase children' %}">+</button>
+                </div>
+              </div>
+            </div>
+
+            {% if vehicle_classes %}
+            <div class="mt-6 pt-4 border-t border-line">
+              <label class="label text-muted block mb-1">{% trans "Vehicle" %}</label>
+              <p class="text-[13px] text-muted mb-2">
+                {% trans "We assign the right vehicle for your group automatically — upgrade here if you'd like more space." %}
+              </p>
+              <select name="vehicle_class" x-model="manualVehicleClass" @change="refresh()"
+                      class="w-full md:w-72 border border-line rounded px-3 py-2 bg-white">
+                <option value="">{% trans "Auto (recommended)" %}</option>
+                {% for vc in vehicle_classes %}
+                  <option value="{{ vc.id }}">{{ vc.name }} ({{ vc.min_pax }}–{{ vc.max_pax }} {% trans "pax" %})</option>
+                {% endfor %}
+              </select>
+            </div>
+            {% endif %}
+          </div>
+
+          <!-- Step 2: Destinations -->
+          <div x-show="step === 2" x-cloak x-transition>
+            <h2 class="font-serif text-[20px] md:text-[24px] mb-4">{% trans "Where would you like to go?" %}</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {% for destination in destinations %}
+                <label class="relative cursor-pointer block h-40 rounded-lg overflow-hidden border-2 border-line hover:border-gold transition-colors">
+                  <input type="checkbox" name="destinations" value="{{ destination.id }}"
+                         x-model="destinations" @change="refresh()" class="sr-only">
+                  {% if destination.hero_image %}
+                    <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="lazy"
+                         class="absolute inset-0 w-full h-full object-cover">
+                  {% else %}
+                    <div class="absolute inset-0 bg-navy"></div>
+                  {% endif %}
+                  <div class="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/20 to-transparent"></div>
+                  <div class="absolute inset-0 rounded-lg ring-2 ring-gold-bright pointer-events-none opacity-0 transition-opacity"
+                       :class="destinations.includes('{{ destination.id }}') ? 'opacity-100' : ''"></div>
+                  <div class="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between">
+                    <span class="font-serif text-[18px] text-white">{{ destination.name }}</span>
+                    <svg x-show="destinations.includes('{{ destination.id }}')" x-cloak class="w-6 h-6 text-gold-bright shrink-0" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+                      <path fill-rule="evenodd" d="M16.7 5.3a1 1 0 010 1.4l-7.4 7.4a1 1 0 01-1.4 0L3.3 9.5a1 1 0 111.4-1.4l3.6 3.6 6.7-6.7a1 1 0 011.4 0z" clip-rule="evenodd"/>
+                    </svg>
+                  </div>
+                </label>
+              {% empty %}
+                <p class="text-muted">TODO: content needed — no destinations yet (seed data is a follow-up task).</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- Step 3: Activities -->
+          <div x-show="step === 3" x-cloak x-transition>
+            <h2 class="font-serif text-[20px] md:text-[24px] mb-4">{% trans "Add activities" %}</h2>
+            <template x-if="destinations.length === 0">
+              <p class="text-muted text-[14px] mb-4">{% trans "Select at least one destination in the previous step to see activities." %}</p>
+            </template>
+            {% regroup activities by destination as activity_groups %}
+            {% for group in activity_groups %}
+              <div x-show="destinations.includes('{{ group.grouper.id }}')" x-cloak class="mb-6">
+                <p class="label text-gold mb-2">{{ group.grouper.name }}</p>
+                <div class="space-y-2">
+                  {% for activity in group.list %}
+                    <label class="flex items-start justify-between gap-4 border border-line rounded p-3 cursor-pointer hover:border-gold">
+                      <span class="flex items-start gap-3">
+                        <input type="checkbox" name="activities" value="{{ activity.id }}"
+                               x-model="activities" @change="refresh()" class="mt-1">
+                        <span>
+                          <span class="block font-medium text-ink">{{ activity.title }}</span>
+                          <span class="block text-[13px] text-muted">{{ activity.short_desc }}</span>
+                        </span>
+                      </span>
+                      <span class="text-[13px] text-gold-bright whitespace-nowrap">
+                        ${{ activity.base_price_usd }}
+                        {% if activity.price_type == "PER_PERSON" %}{% trans "/ person" %}
+                        {% elif activity.price_type == "PER_DAY" %}{% trans "/ day" %}
+                        {% else %}{% trans "/ group" %}{% endif %}
+                      </span>
+                    </label>
+                  {% endfor %}
+                </div>
+              </div>
+            {% empty %}
+              <p class="text-muted">TODO: content needed — no activities yet (seed data is a follow-up task).</p>
+            {% endfor %}
+          </div>
+
+          <!-- Step 4: Add-ons -->
+          <div x-show="step === 4" x-cloak x-transition>
+            <h2 class="font-serif text-[20px] md:text-[24px] mb-4">{% trans "Add-ons" %}</h2>
+            <div class="space-y-2">
+              {% for addon in addons %}
+                <label class="flex items-start justify-between gap-4 border border-line rounded p-3 cursor-pointer hover:border-gold">
+                  <span class="flex items-start gap-3">
+                    <input type="checkbox" name="addons" value="{{ addon.id }}"
+                           x-model="addons" @change="refresh()" class="mt-1">
+                    <span>
+                      <span class="block font-medium text-ink">{{ addon.name }}</span>
+                      <span class="block text-[13px] text-muted">{{ addon.description }}</span>
+                    </span>
+                  </span>
+                  <span class="text-[13px] text-gold-bright whitespace-nowrap">${{ addon.price_usd }} / {{ addon.get_unit_display }}</span>
+                </label>
+              {% empty %}
+                <p class="text-muted">TODO: content needed — no add-ons yet (seed data is a follow-up task).</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="mt-8 flex justify-between border-t border-line pt-4" x-show="step < 5">
+            <button type="button" class="text-muted px-4 py-2 rounded hover:bg-cream-soft" :class="step === 1 ? 'invisible' : ''" @click="prev()">{% trans "Back" %}</button>
+            <button type="button" class="ml-auto rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90" @click="next()">{% trans "Next step" %}</button>
+          </div>
+        </form>
+
+        <!-- Step 5: Contact — a real POST, not HTMX (this is the one submission that must persist). -->
+        <div x-show="step === 5" x-cloak x-transition>
+          <h2 class="font-serif text-[20px] md:text-[24px] mb-4">{% trans "Your details" %}</h2>
+          <p class="text-[14px] text-muted mb-4">{{ site_settings.response_time_promise }}</p>
+          <form method="post" action="{% url 'catalog:build_submit' %}" class="space-y-4">
+            {% csrf_token %}
+            <div class="hidden" aria-hidden="true">{{ contact_form.website }}</div>
+            {% for field in contact_form %}
+              {% if field.name != "website" %}
+                <div>
+                  <label for="{{ field.id_for_label }}" class="label text-muted block mb-1">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.errors %}<p class="text-red-600 text-[13px] mt-1">{{ field.errors|striptags }}</p>{% endif %}
+                </div>
+              {% endif %}
+            {% endfor %}
+            <div class="flex justify-between border-t border-line pt-4">
+              <button type="button" class="text-muted px-4 py-2 rounded hover:bg-cream-soft" @click="prev()">{% trans "Back" %}</button>
+              <button type="submit" class="rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">{% trans "Send request" %}</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Sticky summary sidebar -->
+      <div class="w-full lg:w-1/3 lg:sticky lg:top-24">
+        <div class="bg-navy-soft border border-gold/30 rounded-xl p-6">
+          <h3 class="font-serif text-[20px] text-gold-bright border-b border-gold/20 pb-3 mb-4">{% trans "Tour summary" %}</h3>
+          <div id="quote-summary-mount">
+            {% include "catalog/partials/quote_summary.html" %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
+{% endblock %}
+
+{% block extra_body %}
+<script>
+  function tourBuilder(initialStep, payload) {
+    payload = payload || {};
+    return {
+      step: initialStep || 1,
+      startDate: payload.start_date || "",
+      endDate: payload.end_date || "",
+      adults: payload.adults || 1,
+      children: payload.children || 0,
+      destinations: payload.destinations || [],
+      activities: payload.activities || [],
+      addons: payload.addons || [],
+      manualVehicleClass: payload.manual_vehicle_class_id || "",
+      goTo(n) {
+        this.step = Math.min(Math.max(n, 1), 5);
+        this.refresh();
+      },
+      next() {
+        this.goTo(this.step + 1);
+      },
+      prev() {
+        this.goTo(this.step - 1);
+      },
+      incAdults() {
+        this.adults = Math.min(this.adults + 1, 20);
+        this.refresh();
+      },
+      decAdults() {
+        this.adults = Math.max(this.adults - 1, 1);
+        this.refresh();
+      },
+      incChildren() {
+        this.children = Math.min(this.children + 1, 20);
+        this.refresh();
+      },
+      decChildren() {
+        this.children = Math.max(this.children - 1, 0);
+        this.refresh();
+      },
+      refresh() {
+        this.$nextTick(() => htmx.trigger(this.$refs.builderForm, "refresh-quote"));
+      },
+    };
+  }
+</script>
 {% endblock %}
