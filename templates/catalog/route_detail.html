@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{{ route.meta_title|default:route.title }} — Abdulloh Tours{% endblock %}
+{% block meta_description %}{{ route.meta_description|default:route.title }}{% endblock %}
+{% block robots %}<meta name="robots" content="{% if route.noindex %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
+
+{% block hreflang %}
+<link rel="alternate" hreflang="en" href="{{ CANONICAL_HOST }}/en/routes/{{ route.slug }}/">
+{% if route.translation_complete_ru %}<link rel="alternate" hreflang="ru" href="{{ CANONICAL_HOST }}/ru/routes/{{ route.slug }}/">{% endif %}
+{% if route.translation_complete_de %}<link rel="alternate" hreflang="de" href="{{ CANONICAL_HOST }}/de/routes/{{ route.slug }}/">{% endif %}
+{% if route.translation_complete_fr %}<link rel="alternate" hreflang="fr" href="{{ CANONICAL_HOST }}/fr/routes/{{ route.slug }}/">{% endif %}
+{% if route.translation_complete_es %}<link rel="alternate" hreflang="es" href="{{ CANONICAL_HOST }}/es/routes/{{ route.slug }}/">{% endif %}
+<link rel="alternate" hreflang="x-default" href="{{ CANONICAL_HOST }}/en/routes/{{ route.slug }}/">
+{% endblock %}
+
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristTrip",
+  "name": "{{ route.title|escapejs }}",
+  "url": "{{ CANONICAL_HOST }}{{ request.path }}",
+  "itinerary": [
+    {"@type": "TouristAttraction", "name": "{{ route.destination_a.name|escapejs }}"},
+    {"@type": "TouristAttraction", "name": "{{ route.destination_b.name|escapejs }}"}
+  ]
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="bg-navy text-cream py-lg">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+    <p class="label text-gold mb-2">{% blocktrans with days=route.combined_min_days %}Suggested: {{ days }}+ days{% endblocktrans %}</p>
+    {% block h1 %}
+    <h1 class="font-serif text-[28px] md:text-[44px]">{{ route.title }}</h1>
+    {% endblock %}
+    <p class="mt-4 max-w-2xl text-cream/85">
+      {% blocktrans with a=route.destination_a.name b=route.destination_b.name %}Combine {{ a }} and {{ b }} into a single private itinerary, priced per vehicle rather than per person.{% endblocktrans %}
+    </p>
+  </div>
+</section>
+
+<section class="bg-cream py-xl">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="rounded-lg border border-line bg-white overflow-hidden">
+        {% if route.destination_a.hero_image %}
+          <img src="{{ route.destination_a.hero_image.url }}" alt="{{ route.destination_a.name }}" loading="lazy" class="w-full h-48 object-cover">
+        {% else %}
+          <div class="w-full h-48 bg-navy"></div>
+        {% endif %}
+        <div class="p-6">
+          <h2 class="font-serif text-[20px] text-ink mb-2">{{ route.destination_a.name }}</h2>
+          <p class="text-[14px] text-muted">{{ route.destination_a.intro }}</p>
+          <a href="{% url 'catalog:destination_detail' route.destination_a.slug %}" class="mt-4 inline-block text-[13px] text-gold-bright hover:underline">
+            {% trans "Full destination guide" %} &rarr;
+          </a>
+        </div>
+      </div>
+      <div class="rounded-lg border border-line bg-white overflow-hidden">
+        {% if route.destination_b.hero_image %}
+          <img src="{{ route.destination_b.hero_image.url }}" alt="{{ route.destination_b.name }}" loading="lazy" class="w-full h-48 object-cover">
+        {% else %}
+          <div class="w-full h-48 bg-navy"></div>
+        {% endif %}
+        <div class="p-6">
+          <h2 class="font-serif text-[20px] text-ink mb-2">{{ route.destination_b.name }}</h2>
+          <p class="text-[14px] text-muted">{{ route.destination_b.intro }}</p>
+          <a href="{% url 'catalog:destination_detail' route.destination_b.slug %}" class="mt-4 inline-block text-[13px] text-gold-bright hover:underline">
+            {% trans "Full destination guide" %} &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-lg rounded-lg border border-gold/40 bg-cream-soft p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-[14px] text-muted max-w-xl">
+        {% trans "Pricing is per private group (per vehicle), not per person. Choose your own dates and add-ons in the tour builder." %}
+      </p>
+      <a href="{% url 'catalog:tour_builder' %}?destination={{ route.destination_a.id }}&destination={{ route.destination_b.id }}"
+         class="shrink-0 inline-flex items-center justify-center rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
+        {% trans "Start building" %}
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

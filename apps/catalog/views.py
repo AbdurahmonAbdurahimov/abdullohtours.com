@@ -13,7 +13,15 @@ from apps.bookings.forms import BookingRequestForm
 from apps.bookings.models import BookingItem, BookingRequest, BuilderSession
 
 from . import pricing
-from .models import Activity, AddOn, Destination, Package, SeasonalRate, VehicleClass
+from .models import (
+    Activity,
+    AddOn,
+    Destination,
+    Package,
+    RoutePage,
+    SeasonalRate,
+    VehicleClass,
+)
 
 
 def destination_index(request: HttpRequest) -> HttpResponse:
@@ -34,6 +42,24 @@ def package_index(request: HttpRequest) -> HttpResponse:
 def package_detail(request: HttpRequest, slug: str) -> HttpResponse:
     package = get_object_or_404(Package, slug=slug, is_active=True)
     return render(request, "catalog/package_detail.html", {"package": package})
+
+
+def route_index(request: HttpRequest) -> HttpResponse:
+    """Programmatic SEO landing pages (CLAUDE.md §13 Phase 3) — one per
+    destination pair, e.g. "Samarkand & Bukhara Tour"."""
+    routes = RoutePage.objects.filter(is_active=True).select_related(
+        "destination_a", "destination_b"
+    )
+    return render(request, "catalog/route_index.html", {"routes": routes})
+
+
+def route_detail(request: HttpRequest, slug: str) -> HttpResponse:
+    route = get_object_or_404(
+        RoutePage.objects.select_related("destination_a", "destination_b"),
+        slug=slug,
+        is_active=True,
+    )
+    return render(request, "catalog/route_detail.html", {"route": route})
 
 
 def tour_builder(
@@ -63,9 +89,10 @@ def tour_builder(
     addons = AddOn.objects.filter(is_active=True)
     vehicle_classes = VehicleClass.objects.all()
     payload = builder_payload or {}
-    if not payload and request.GET.get("destination"):
-        # "Build a private tour" CTA from a destination detail page — preselect it.
-        payload = {"destinations": [request.GET["destination"]]}
+    if not payload and request.GET.getlist("destination"):
+        # "Build a private tour" CTA from a destination or route landing page
+        # — preselect one or more destinations (?destination=1&destination=2).
+        payload = {"destinations": request.GET.getlist("destination")}
 
     return render(
         request,

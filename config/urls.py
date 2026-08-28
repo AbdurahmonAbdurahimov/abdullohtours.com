@@ -15,7 +15,7 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 from apps.blog.sitemaps import BlogPostSitemap
-from apps.catalog.sitemaps import DestinationSitemap, PackageSitemap
+from apps.catalog.sitemaps import DestinationSitemap, PackageSitemap, RoutePageSitemap
 from apps.core.sitemaps import StaticViewSitemap
 from apps.core.views import robots_txt
 
@@ -26,6 +26,7 @@ sitemaps = {
     "static": StaticViewSitemap,
     "destinations": DestinationSitemap,
     "packages": PackageSitemap,
+    "routes": RoutePageSitemap,
     "blog": BlogPostSitemap,
 }
 
@@ -46,5 +47,8 @@ urlpatterns += i18n_patterns(
 )
 
 if settings.DEBUG:
+    # Static (css/js/fonts) is served in dev by django.contrib.staticfiles'
+    # own runserver override via STATICFILES_DIRS — no manual route needed
+    # (and BASE_DIR / "static" doesn't exist; the compiled build lives in
+    # static_src/css/, which IS a STATICFILES_DIRS entry).
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    urlpatterns += static(settings.STATIC_URL, document_root=settings.BASE_DIR / "static")

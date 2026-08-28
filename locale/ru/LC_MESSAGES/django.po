@@ -1,0 +1,425 @@
+# Russian translation for abdullohtours.com.
+msgid ""
+msgstr ""
+"Project-Id-Version: abdullohtours.com\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-28 22:32+0500\n"
+"PO-Revision-Date: 2026-08-28 22:11+0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
+
+msgid "full name"
+msgstr "полное имя"
+
+msgid "email"
+msgstr "эл. почта"
+
+msgid "phone"
+msgstr "телефон"
+
+msgid "WhatsApp"
+msgstr "WhatsApp"
+
+msgid "country"
+msgstr "страна"
+
+msgid "message"
+msgstr "сообщение"
+
+#. Translators: %(a)s and %(b)s are destination names, e.g. "Samarkand"
+#. and "Bukhara" — resolved per-language via modeltranslation already,
+#. so only the surrounding phrase needs translating here.
+#, python-format
+msgid "%(a)s & %(b)s Tour"
+msgstr "Тур: %(a)s и %(b)s"
+
+msgid "Blog"
+msgstr "Блог"
+
+msgid "Request a Quote"
+msgstr "Оставить заявку"
+
+msgid "Request a quote"
+msgstr "Оставить заявку"
+
+msgid "Send Request"
+msgstr "Отправить заявку"
+
+msgid "Prefer to chat?"
+msgstr "Удобнее в чате?"
+
+msgid "Message us directly and we'll reply just as fast."
+msgstr "Напишите нам напрямую — ответим так же быстро."
+
+msgid "Telegram"
+msgstr "Telegram"
+
+msgid "Request received"
+msgstr "Заявка получена"
+
+msgid "Thank you!"
+msgstr "Спасибо!"
+
+#, python-format
+msgid "Your request <strong>#%(ref_code)s</strong> has been received."
+msgstr "Ваша заявка <strong>№%(ref_code)s</strong> получена."
+
+msgid "Back to home"
+msgstr "На главную"
+
+msgid "About"
+msgstr "О направлении"
+
+msgid "Top attractions"
+msgstr "Главные достопримечательности"
+
+#, python-format
+msgid "Build a private %(name)s tour"
+msgstr "Собрать частный тур — %(name)s"
+
+msgid ""
+"Customise your own itinerary with private transport, entrance tickets and an"
+" English-speaking driver."
+msgstr ""
+"Соберите маршрут сами: частный транспорт, входные билеты и англоговорящий "
+"водитель."
+
+msgid "Start building"
+msgstr "Начать сборку"
+
+msgid "Destinations"
+msgstr "Направления"
+
+msgid "From the ancient Silk Road cities to modern alpine resorts."
+msgstr "От древних городов Шёлкового пути до современных горных курортов."
+
+msgid "days"
+msgstr "дней"
+
+msgid "Itinerary"
+msgstr "Маршрут"
+
+msgid "Day"
+msgstr "День"
+
+msgid ""
+"Pricing is per private group (per vehicle), not per person. Entrance "
+"tickets, guide and meals are extras."
+msgstr ""
+"Цена указана за группу (за автомобиль), а не за человека. Входные билеты, "
+"гид и питание — отдельно."
+
+msgid "Customise this tour"
+msgstr "Настроить этот тур"
+
+msgid "Request a Quote for this Tour"
+msgstr "Запросить цену на этот тур"
+
+msgid "Tours"
+msgstr "Туры"
+
+msgid "Tour packages"
+msgstr "Турпакеты"
+
+msgid ""
+"Ready-made itineraries, priced per private vehicle — or start from scratch "
+"in the tour builder."
+msgstr ""
+"Готовые маршруты с ценой за автомобиль — или соберите тур с нуля в "
+"конструкторе."
+
+msgid "None yet"
+msgstr "Пока не выбрано"
+
+msgid "Travellers"
+msgstr "Путешественники"
+
+#, python-format
+msgid "%(adults)s adult"
+msgid_plural "%(adults)s adults"
+msgstr[0] "%(adults)s взрослый"
+msgstr[1] "%(adults)s взрослых"
+msgstr[2] "%(adults)s взрослых"
+msgstr[3] "%(adults)s взрослых"
+
+#, python-format
+msgid "%(children)s child"
+msgid_plural "%(children)s children"
+msgstr[0] "%(children)s ребёнок"
+msgstr[1] "%(children)s ребёнка"
+msgstr[2] "%(children)s детей"
+msgstr[3] "%(children)s детей"
+
+msgid "Transport"
+msgstr "Транспорт"
+
+msgid ""
+"Limited availability for these dates — we recommend requesting a quote soon."
+msgstr "На эти даты осталось мало мест — рекомендуем оставить заявку заранее."
+
+msgid "Estimated total"
+msgstr "Примерная стоимость"
+
+#, python-format
+msgid "~$%(per_person)s per person &middot; informational only"
+msgstr "~$%(per_person)s на человека &middot; только для справки"
+
+#, python-format
+msgid "Suggested: %(days)s+ days"
+msgstr "Рекомендуется: от %(days)s дней"
+
+#, python-format
+msgid ""
+"Combine %(a)s and %(b)s into a single private itinerary, priced per vehicle "
+"rather than per person."
+msgstr ""
+"Объедините %(a)s и %(b)s в единый частный маршрут с оплатой за автомобиль, а"
+" не за человека."
+
+msgid "Full destination guide"
+msgstr "Полный гид по направлению"
+
+msgid ""
+"Pricing is per private group (per vehicle), not per person. Choose your own "
+"dates and add-ons in the tour builder."
+msgstr ""
+"Цена указана за группу (за автомобиль), а не за человека. Даты и доп. услуги"
+" вы выбираете сами в конструкторе тура."
+
+msgid "Multi-City Tour Ideas"
+msgstr "Идеи туров по нескольким городам"
+
+msgid ""
+"Popular destination pairings for a private Uzbekistan tour, with a suggested"
+" number of days for each."
+msgstr ""
+"Популярные сочетания направлений для частного тура по Узбекистану с "
+"рекомендованным числом дней для каждого."
+
+msgid "Multi-city tour ideas"
+msgstr "Идеи туров по нескольким городам"
+
+msgid ""
+"Popular destination pairings, each with a suggested length of stay — a "
+"starting point for the tour builder, not a fixed package."
+msgstr ""
+"Популярные сочетания направлений с рекомендованной длительностью — отправная"
+" точка для конструктора тура, а не готовый пакет."
+
+#, python-format
+msgid "From %(days)s days"
+msgstr "От %(days)s дней"
+
+msgid "Build Your Tour"
+msgstr "Собрать тур"
+
+msgid "Build your tour"
+msgstr "Соберите свой тур"
+
+msgid ""
+"Choose your dates, destinations and add-ons — we'll send you a tailored, "
+"per-vehicle estimate. Nothing is charged online; a real quote follows from "
+"us on WhatsApp."
+msgstr ""
+"Выберите даты, направления и дополнительные услуги — мы пришлём расчёт за "
+"автомобиль. Онлайн-оплаты нет: точную цену пришлём в WhatsApp."
+
+msgid "Dates"
+msgstr "Даты"
+
+msgid "Activities"
+msgstr "Активности"
+
+msgid "Add-ons"
+msgstr "Доп. услуги"
+
+msgid "Contact"
+msgstr "Контакты"
+
+msgid "When are you travelling, and how many?"
+msgstr "Когда вы едете и сколько вас?"
+
+msgid "Start date"
+msgstr "Дата начала"
+
+msgid "End date"
+msgstr "Дата окончания"
+
+msgid "Adults"
+msgstr "Взрослые"
+
+msgid "Decrease adults"
+msgstr "Уменьшить число взрослых"
+
+msgid "Number of adults"
+msgstr "Количество взрослых"
+
+msgid "Increase adults"
+msgstr "Увеличить число взрослых"
+
+msgid "Children (under 12)"
+msgstr "Дети (до 12 лет)"
+
+msgid "Decrease children"
+msgstr "Уменьшить число детей"
+
+msgid "Number of children"
+msgstr "Количество детей"
+
+msgid "Increase children"
+msgstr "Увеличить число детей"
+
+msgid "Vehicle"
+msgstr "Автомобиль"
+
+msgid ""
+"We assign the right vehicle for your group automatically — upgrade here if "
+"you'd like more space."
+msgstr ""
+"Мы автоматически подбираем автомобиль под вашу группу — здесь можно выбрать "
+"более просторный."
+
+msgid "Auto (recommended)"
+msgstr "Автоматически (рекомендуется)"
+
+msgid "pax"
+msgstr "чел."
+
+msgid "Where would you like to go?"
+msgstr "Куда вы хотите поехать?"
+
+msgid "Add activities"
+msgstr "Добавить активности"
+
+msgid ""
+"Select at least one destination in the previous step to see activities."
+msgstr ""
+"Выберите хотя бы одно направление на предыдущем шаге, чтобы увидеть "
+"активности."
+
+msgid "/ person"
+msgstr "/ чел."
+
+msgid "/ day"
+msgstr "/ день"
+
+msgid "/ group"
+msgstr "/ группа"
+
+msgid "Back"
+msgstr "Назад"
+
+msgid "Next step"
+msgstr "Далее"
+
+msgid "Your details"
+msgstr "Ваши данные"
+
+msgid "Send request"
+msgstr "Отправить заявку"
+
+msgid "Tour summary"
+msgstr "Итог по туру"
+
+msgid "About Abdulloh Tours"
+msgstr "Об Abdulloh Tours"
+
+msgid "Meet Abdulloh"
+msgstr "Знакомьтесь — Абдулло"
+
+msgid "Get in touch"
+msgstr "Связаться с нами"
+
+msgid "Reach us directly"
+msgstr "Свяжитесь напрямую"
+
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Email"
+msgstr "Эл. почта"
+
+msgid "Office"
+msgstr "Офис"
+
+msgid "Working hours"
+msgstr "Часы работы"
+
+msgid "Response promise"
+msgstr "Обещание по скорости ответа"
+
+msgid "Message us on WhatsApp or Telegram for the fastest reply."
+msgstr "Напишите нам в WhatsApp или Telegram — так мы ответим быстрее всего."
+
+msgid "FAQ"
+msgstr "Частые вопросы"
+
+msgid "Frequently asked questions"
+msgstr "Часто задаваемые вопросы"
+
+msgid "Private tours · Uzbekistan"
+msgstr "Частные туры · Узбекистан"
+
+msgid "See the real Uzbekistan, in your own private vehicle."
+msgstr "Настоящий Узбекистан — на личном автомобиле с водителем."
+
+msgid "Browse Tours"
+msgstr "Смотреть туры"
+
+msgid "Private Tours"
+msgstr "Частные туры"
+
+msgid ""
+"Exclusive experiences priced per vehicle, tailored entirely to your pace."
+msgstr ""
+"Эксклюзивные впечатления с оплатой за автомобиль, в вашем собственном темпе."
+
+msgid "Local Experts"
+msgstr "Местные эксперты"
+
+msgid "English-speaking drivers who know the Silk Road cities inside out."
+msgstr "Англоговорящие водители, отлично знающие города Шёлкового пути."
+
+msgid "Flexible Itineraries"
+msgstr "Гибкие маршруты"
+
+msgid ""
+"No online payment, no rigid packages — we agree the plan with you on "
+"WhatsApp."
+msgstr ""
+"Без онлайн-оплаты и жёстких пакетов — план согласовываем с вами в WhatsApp."
+
+msgid "Explore Uzbekistan"
+msgstr "Исследуйте Узбекистан"
+
+msgid "View all destinations"
+msgstr "Все направления"
+
+msgid "Ready to plan your trip?"
+msgstr "Готовы спланировать поездку?"
+
+msgid "Reviews"
+msgstr "Отзывы"
+
+msgid "What our travellers say"
+msgstr "Что говорят наши путешественники"
+
+msgid "Private tours across Uzbekistan with an English-speaking driver."
+msgstr "Частные туры по Узбекистану с англоговорящим водителем."
+
+msgid "All rights reserved."
+msgstr "Все права защищены."
+
+msgid "Toggle menu"
+msgstr "Открыть меню"
+
+msgid "Language"
+msgstr "Язык"
+
+msgid "Chat with us on WhatsApp"
+msgstr "Написать нам в WhatsApp"

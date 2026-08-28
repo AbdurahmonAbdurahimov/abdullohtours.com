@@ -13,6 +13,7 @@ model that isn't specified. Revisit if a real gallery/ordering UI is needed.
 """
 
 from django.db import models
+from django.utils.translation import gettext
 
 from apps.core.models import SEOMixin
 
@@ -241,6 +242,53 @@ class Driver(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class RoutePage(SEOMixin):
+    """Programmatic SEO landing page (CLAUDE.md §13 Phase 3) for a pair of
+    destinations, e.g. "Samarkand & Bukhara Tour" — targets long-tail
+    searches that a single-destination page doesn't rank for.
+
+    Deliberately has no free-text body field: the page is composed at render
+    time from destination_a/destination_b's own (already-translated) intro
+    copy and attractions, so it scales by adding Destination rows rather than
+    needing hand-written content per pair. `title`/`meta_title` are likewise
+    derived properties, not stored fields — this keeps the model "spec-free"
+    (CLAUDE.md §4 doesn't define this model) but still fully translated,
+    since `destination.name` already resolves per-language via
+    modeltranslation.
+    """
+
+    slug = models.SlugField(max_length=255, unique=True)
+    destination_a = models.ForeignKey(
+        Destination, on_delete=models.CASCADE, related_name="route_pages_as_a"
+    )
+    destination_b = models.ForeignKey(
+        Destination, on_delete=models.CASCADE, related_name="route_pages_as_b"
+    )
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "slug"]
+        unique_together = ("destination_a", "destination_b")
+
+    def __str__(self) -> str:
+        return f"{self.destination_a.name} & {self.destination_b.name}"
+
+    @property
+    def title(self) -> str:
+        # Translators: %(a)s and %(b)s are destination names, e.g. "Samarkand"
+        # and "Bukhara" — resolved per-language via modeltranslation already,
+        # so only the surrounding phrase needs translating here.
+        return gettext("%(a)s & %(b)s Tour") % {
+            "a": self.destination_a.name,
+            "b": self.destination_b.name,
+        }
+
+    @property
+    def combined_min_days(self) -> int:
+        return self.destination_a.min_recommended_days + self.destination_b.min_recommended_days
 
 
 class BlackoutDate(models.Model):

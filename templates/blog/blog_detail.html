@@ -5,6 +5,17 @@
 {% block meta_description %}{{ post.meta_description|default:post.excerpt }}{% endblock %}
 {% block robots %}<meta name="robots" content="{% if post.noindex %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
 
+{% block hreflang %}
+{% comment %}
+Blog is EN + RU only at launch (CLAUDE.md §12) — DE/FR/ES intentionally
+don't get hreflang entries here (see apps/blog/sitemaps.py for the same
+restriction on the sitemap).
+{% endcomment %}
+<link rel="alternate" hreflang="en" href="{{ CANONICAL_HOST }}/en/blog/{{ post.slug }}/">
+{% if post.translation_complete_ru %}<link rel="alternate" hreflang="ru" href="{{ CANONICAL_HOST }}/ru/blog/{{ post.slug }}/">{% endif %}
+<link rel="alternate" hreflang="x-default" href="{{ CANONICAL_HOST }}/en/blog/{{ post.slug }}/">
+{% endblock %}
+
 {% block json_ld %}
 <script type="application/ld+json">
 {

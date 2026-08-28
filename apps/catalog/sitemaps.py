@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.sitemaps import Sitemap
 from django.utils import translation
 
-from .models import Destination, Package
+from .models import Destination, Package, RoutePage
 
 
 class _I18nModelSitemap(Sitemap):
@@ -49,3 +49,19 @@ class PackageSitemap(_I18nModelSitemap):
         from django.urls import reverse
 
         return reverse("catalog:package_detail", kwargs={"slug": obj.slug})
+
+
+class RoutePageSitemap(_I18nModelSitemap):
+    changefreq = "monthly"
+    priority = 0.6  # programmatic long-tail pages — useful, not primary
+
+    def items(self):
+        return RoutePage.objects.filter(is_active=True)
+
+    def lastmod(self, obj):
+        return None
+
+    def location(self, obj):
+        from django.urls import reverse
+
+        return reverse("catalog:route_detail", kwargs={"slug": obj.slug})

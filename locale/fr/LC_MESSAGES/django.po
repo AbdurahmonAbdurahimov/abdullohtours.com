@@ -1,0 +1,404 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-08-28 22:32+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "full name"
+msgstr ""
+
+msgid "email"
+msgstr ""
+
+msgid "phone"
+msgstr ""
+
+msgid "WhatsApp"
+msgstr ""
+
+msgid "country"
+msgstr ""
+
+msgid "message"
+msgstr ""
+
+#. Translators: %(a)s and %(b)s are destination names, e.g. "Samarkand"
+#. and "Bukhara" — resolved per-language via modeltranslation already,
+#. so only the surrounding phrase needs translating here.
+#, python-format
+msgid "%(a)s & %(b)s Tour"
+msgstr "Circuit %(a)s et %(b)s"
+
+msgid "Blog"
+msgstr ""
+
+msgid "Request a Quote"
+msgstr ""
+
+msgid "Request a quote"
+msgstr ""
+
+msgid "Send Request"
+msgstr ""
+
+msgid "Prefer to chat?"
+msgstr ""
+
+msgid "Message us directly and we'll reply just as fast."
+msgstr ""
+
+msgid "Telegram"
+msgstr ""
+
+msgid "Request received"
+msgstr ""
+
+msgid "Thank you!"
+msgstr ""
+
+#, python-format
+msgid "Your request <strong>#%(ref_code)s</strong> has been received."
+msgstr ""
+
+msgid "Back to home"
+msgstr ""
+
+msgid "About"
+msgstr ""
+
+msgid "Top attractions"
+msgstr ""
+
+#, python-format
+msgid "Build a private %(name)s tour"
+msgstr ""
+
+msgid ""
+"Customise your own itinerary with private transport, entrance tickets and an"
+" English-speaking driver."
+msgstr ""
+
+msgid "Start building"
+msgstr ""
+
+msgid "Destinations"
+msgstr ""
+
+msgid "From the ancient Silk Road cities to modern alpine resorts."
+msgstr ""
+
+msgid "days"
+msgstr ""
+
+msgid "Itinerary"
+msgstr ""
+
+msgid "Day"
+msgstr ""
+
+msgid ""
+"Pricing is per private group (per vehicle), not per person. Entrance "
+"tickets, guide and meals are extras."
+msgstr ""
+
+msgid "Customise this tour"
+msgstr ""
+
+msgid "Request a Quote for this Tour"
+msgstr ""
+
+msgid "Tours"
+msgstr ""
+
+msgid "Tour packages"
+msgstr ""
+
+msgid ""
+"Ready-made itineraries, priced per private vehicle — or start from scratch "
+"in the tour builder."
+msgstr ""
+
+msgid "None yet"
+msgstr ""
+
+msgid "Travellers"
+msgstr ""
+
+#, python-format
+msgid "%(adults)s adult"
+msgid_plural "%(adults)s adults"
+msgstr[0] ""
+msgstr[1] ""
+
+#, python-format
+msgid "%(children)s child"
+msgid_plural "%(children)s children"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Transport"
+msgstr ""
+
+msgid ""
+"Limited availability for these dates — we recommend requesting a quote soon."
+msgstr ""
+
+msgid "Estimated total"
+msgstr ""
+
+#, python-format
+msgid "~$%(per_person)s per person &middot; informational only"
+msgstr ""
+
+#, python-format
+msgid "Suggested: %(days)s+ days"
+msgstr ""
+
+#, python-format
+msgid ""
+"Combine %(a)s and %(b)s into a single private itinerary, priced per vehicle "
+"rather than per person."
+msgstr ""
+
+msgid "Full destination guide"
+msgstr ""
+
+msgid ""
+"Pricing is per private group (per vehicle), not per person. Choose your own "
+"dates and add-ons in the tour builder."
+msgstr ""
+
+msgid "Multi-City Tour Ideas"
+msgstr ""
+
+msgid ""
+"Popular destination pairings for a private Uzbekistan tour, with a suggested"
+" number of days for each."
+msgstr ""
+
+msgid "Multi-city tour ideas"
+msgstr ""
+
+msgid ""
+"Popular destination pairings, each with a suggested length of stay — a "
+"starting point for the tour builder, not a fixed package."
+msgstr ""
+
+#, python-format
+msgid "From %(days)s days"
+msgstr ""
+
+msgid "Build Your Tour"
+msgstr ""
+
+msgid "Build your tour"
+msgstr ""
+
+msgid ""
+"Choose your dates, destinations and add-ons — we'll send you a tailored, "
+"per-vehicle estimate. Nothing is charged online; a real quote follows from "
+"us on WhatsApp."
+msgstr ""
+
+msgid "Dates"
+msgstr ""
+
+msgid "Activities"
+msgstr ""
+
+msgid "Add-ons"
+msgstr ""
+
+msgid "Contact"
+msgstr ""
+
+msgid "When are you travelling, and how many?"
+msgstr ""
+
+msgid "Start date"
+msgstr ""
+
+msgid "End date"
+msgstr ""
+
+msgid "Adults"
+msgstr ""
+
+msgid "Decrease adults"
+msgstr ""
+
+msgid "Number of adults"
+msgstr ""
+
+msgid "Increase adults"
+msgstr ""
+
+msgid "Children (under 12)"
+msgstr ""
+
+msgid "Decrease children"
+msgstr ""
+
+msgid "Number of children"
+msgstr ""
+
+msgid "Increase children"
+msgstr ""
+
+msgid "Vehicle"
+msgstr ""
+
+msgid ""
+"We assign the right vehicle for your group automatically — upgrade here if "
+"you'd like more space."
+msgstr ""
+
+msgid "Auto (recommended)"
+msgstr ""
+
+msgid "pax"
+msgstr ""
+
+msgid "Where would you like to go?"
+msgstr ""
+
+msgid "Add activities"
+msgstr ""
+
+msgid ""
+"Select at least one destination in the previous step to see activities."
+msgstr ""
+
+msgid "/ person"
+msgstr ""
+
+msgid "/ day"
+msgstr ""
+
+msgid "/ group"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Next step"
+msgstr ""
+
+msgid "Your details"
+msgstr ""
+
+msgid "Send request"
+msgstr ""
+
+msgid "Tour summary"
+msgstr ""
+
+msgid "About Abdulloh Tours"
+msgstr ""
+
+msgid "Meet Abdulloh"
+msgstr ""
+
+msgid "Get in touch"
+msgstr ""
+
+msgid "Reach us directly"
+msgstr ""
+
+msgid "Phone"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Office"
+msgstr ""
+
+msgid "Working hours"
+msgstr ""
+
+msgid "Response promise"
+msgstr ""
+
+msgid "Message us on WhatsApp or Telegram for the fastest reply."
+msgstr ""
+
+msgid "FAQ"
+msgstr ""
+
+msgid "Frequently asked questions"
+msgstr ""
+
+msgid "Private tours · Uzbekistan"
+msgstr ""
+
+msgid "See the real Uzbekistan, in your own private vehicle."
+msgstr ""
+
+msgid "Browse Tours"
+msgstr ""
+
+msgid "Private Tours"
+msgstr ""
+
+msgid ""
+"Exclusive experiences priced per vehicle, tailored entirely to your pace."
+msgstr ""
+
+msgid "Local Experts"
+msgstr ""
+
+msgid "English-speaking drivers who know the Silk Road cities inside out."
+msgstr ""
+
+msgid "Flexible Itineraries"
+msgstr ""
+
+msgid ""
+"No online payment, no rigid packages — we agree the plan with you on "
+"WhatsApp."
+msgstr ""
+
+msgid "Explore Uzbekistan"
+msgstr ""
+
+msgid "View all destinations"
+msgstr ""
+
+msgid "Ready to plan your trip?"
+msgstr ""
+
+msgid "Reviews"
+msgstr ""
+
+msgid "What our travellers say"
+msgstr ""
+
+msgid "Private tours across Uzbekistan with an English-speaking driver."
+msgstr ""
+
+msgid "All rights reserved."
+msgstr ""
+
+msgid "Toggle menu"
+msgstr ""
+
+msgid "Language"
+msgstr ""
+
+msgid "Chat with us on WhatsApp"
+msgstr ""

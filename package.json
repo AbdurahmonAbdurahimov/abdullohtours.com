@@ -4,8 +4,8 @@
   "private": true,
   "description": "Tailwind CLI build for abdullohtours.com (no cdn.tailwindcss.com — CLAUDE.md §2).",
   "scripts": {
-    "build:css": "tailwindcss -c static_src/tailwind.config.js -i static_src/input.css -o static/css/main.css --minify",
-    "watch:css": "tailwindcss -c static_src/tailwind.config.js -i static_src/input.css -o static/css/main.css --watch"
+    "build:css": "tailwindcss -c static_src/tailwind.config.js -i static_src/input.css -o static_src/css/main.css --minify",
+    "watch:css": "tailwindcss -c static_src/tailwind.config.js -i static_src/input.css -o static_src/css/main.css --watch"
   },
   "devDependencies": {
     "alpinejs": "^3.16.3",

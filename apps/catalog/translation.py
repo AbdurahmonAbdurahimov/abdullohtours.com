@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import Activity, Destination, Package
+from .models import Activity, Destination, Package, PackageDay, RoutePage
 
 
 @register(Destination)
@@ -24,3 +24,16 @@ class ActivityTranslationOptions(TranslationOptions):
 @register(Package)
 class PackageTranslationOptions(TranslationOptions):
     fields = ("title", "summary", "body", "meta_title", "meta_description")
+
+
+@register(PackageDay)
+class PackageDayTranslationOptions(TranslationOptions):
+    fields = ("title", "description")
+
+
+@register(RoutePage)
+class RoutePageTranslationOptions(TranslationOptions):
+    # No free-text fields to translate — title is a derived property built
+    # from the (already translated) destination names. Only the SEO meta
+    # fields are real stored fields here.
+    fields = ("meta_title", "meta_description")

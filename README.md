@@ -28,15 +28,29 @@ docker compose up -d db
 # 5. Django
 python manage.py migrate
 python manage.py createsuperuser
+python manage.py compilemessages  # requires GNU gettext (brew install gettext)
 python manage.py runserver
 
-# 6. Tests
+# 6. Sample content (5 destinations, packages, blog posts, route pages)
+python manage.py seed_catalog
+python manage.py seed_blog
+python manage.py seed_routes
+
+# 7. Tests
 pytest
 ```
 
 Local dev uses `config.settings.dev` (the `manage.py` default). Admin is at
 `/admin/` (django-unfold theme). Site pages are language-prefixed, e.g.
 `/en/`, `/ru/`.
+
+`.po` translation sources live under `locale/` and are committed; the
+compiled `.mo` catalogs Django actually loads are gitignored and generated
+by `compilemessages` — locally via the command above, in production by the
+Dockerfile at image build time (same pattern as the Tailwind CSS build).
+After editing any `{% trans %}`/`{% blocktrans %}` string or model
+`verbose_name`, re-run `python manage.py makemessages -l ru -l de -l fr -l es`
+before translating and recompiling.
 
 ### Running the pricing tests only
 

@@ -2,6 +2,7 @@ import random
 import string
 
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from apps.catalog.models import Package, VehicleClass
 
@@ -61,12 +62,12 @@ class BookingRequest(models.Model):
         related_name="booking_requests",
     )
 
-    full_name = models.CharField(max_length=255)
-    email = models.EmailField()
-    phone = models.CharField(max_length=32, blank=True)
-    whatsapp = models.CharField(max_length=32, blank=True)
-    country = models.CharField(max_length=100, blank=True)
-    message = models.TextField(blank=True)
+    full_name = models.CharField(_("full name"), max_length=255)
+    email = models.EmailField(_("email"))
+    phone = models.CharField(_("phone"), max_length=32, blank=True)
+    whatsapp = models.CharField(_("WhatsApp"), max_length=32, blank=True)
+    country = models.CharField(_("country"), max_length=100, blank=True)
+    message = models.TextField(_("message"), blank=True)
     preferred_language = models.CharField(max_length=8, default="en")
 
     status = models.CharField(max_length=20, choices=Status.choices, default=Status.NEW)

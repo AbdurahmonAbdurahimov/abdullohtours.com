@@ -454,7 +454,7 @@ Ship a live, indexable site before adding the builder. Google needs time to trus
 - English only in the UI (but i18n plumbing in place)
 - Seed data: 5 destinations (Tashkent, Samarkand, Bukhara, Khiva, Amirsoy/Chimgan), 3 vehicle classes, 3 packages, ~15 activities
 
-**Phase 2 (do not start yet):** Tour Builder, Russian translation, reviews.
+**Phase 2:** Tour Builder, Russian translation, reviews.
 **Phase 3:** blog, remaining languages, programmatic SEO landing pages.
 
 ---

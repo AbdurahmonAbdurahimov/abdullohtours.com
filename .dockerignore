@@ -15,3 +15,7 @@ db_backups/
 .ruff_cache/
 .idea/
 .DS_Store
+# Compiled gettext catalogs — always rebuilt from the committed .po sources
+# by `RUN python manage.py compilemessages` in the Dockerfile, so a stale
+# local .mo (e.g. forgotten after editing a .po) can never leak into the image.
+*.mo

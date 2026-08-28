@@ -12,6 +12,7 @@ from .models import (
     Package,
     PackageDay,
     PackageItem,
+    RoutePage,
     SeasonalRate,
     Vehicle,
     VehicleClass,
@@ -131,6 +132,13 @@ class DriverAdmin(ModelAdmin):
     list_display = ("name", "phone", "languages", "is_active")
     list_filter = ("is_active",)
     search_fields = ("name",)
+
+
+@admin.register(RoutePage)
+class RoutePageAdmin(TranslationAdmin, ModelAdmin):
+    list_display = ("__str__", "slug", "is_active", "order")
+    list_filter = ("is_active",)
+    autocomplete_fields = ("destination_a", "destination_b")
 
 
 @admin.register(BlackoutDate)
