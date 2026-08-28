@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Contact" %} — Abdulloh Tours{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+  {% block h1 %}
+  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Get in touch" %}</h1>
+  {% endblock %}
+  <ul class="mt-6 space-y-2 text-[16px] text-ink">
+    <li>{% trans "Phone" %}: <a class="text-gold-bright" href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></li>
+    <li>{% trans "WhatsApp" %}: <a class="text-gold-bright" href="https://wa.me/{{ site_settings.whatsapp_number }}">{{ site_settings.whatsapp_number }}</a></li>
+    <li>{% trans "Telegram" %}: <a class="text-gold-bright" href="https://t.me/{{ site_settings.telegram_username }}">@{{ site_settings.telegram_username }}</a></li>
+    <li>{% trans "Email" %}: {{ site_settings.email }}</li>
+    <li>{% trans "Office" %}: {{ site_settings.office_address }}</li>
+    <li>{% trans "Working hours" %}: {{ site_settings.working_hours }}</li>
+  </ul>
+  <p class="mt-8">
+    <a href="{% url 'bookings:booking_request' %}" class="rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
+      {% trans "Request a Quote" %}
+    </a>
+  </p>
+</section>
+{% endblock %}

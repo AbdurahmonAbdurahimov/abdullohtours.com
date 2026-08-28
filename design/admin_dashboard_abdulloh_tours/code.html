@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Dashboard | ABDULLOH TOURS</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&amp;family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-error-container": "#93000a",
+                        "surface-variant": "#e3e2e8",
+                        "secondary-container": "#e5e2da",
+                        "outline": "#757682",
+                        "surface-container": "#efedf3",
+                        "on-background": "#1a1b20",
+                        "primary-fixed": "#dbe1ff",
+                        "on-surface": "#1a1b20",
+                        "surface-container-high": "#e9e7ee",
+                        "surface-container-lowest": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#f1f0f6",
+                        "on-tertiary-fixed-variant": "#004d63",
+                        "tertiary-fixed-dim": "#6fd3fa",
+                        "secondary-fixed-dim": "#c9c6bf",
+                        "on-primary-fixed": "#00174a",
+                        "on-secondary-container": "#65645e",
+                        "surface-container-low": "#f4f3f9",
+                        "secondary": "#5f5e58",
+                        "secondary-fixed": "#e5e2da",
+                        "outline-variant": "#c5c6d2",
+                        "primary-fixed-dim": "#b3c5ff",
+                        "tertiary-container": "#002d3b",
+                        "surface-bright": "#faf8ff",
+                        "tertiary-fixed": "#bce9ff",
+                        "surface-tint": "#435b9f",
+                        "tertiary": "#001720",
+                        "inverse-primary": "#b3c5ff",
+                        "on-error": "#ffffff",
+                        "primary": "#00113a",
+                        "surface": "#faf8ff",
+                        "error": "#ba1a1a",
+                        "background": "#faf8ff",
+                        "on-tertiary-fixed": "#001f29",
+                        "on-secondary-fixed": "#1c1c17",
+                        "surface-dim": "#dad9e0",
+                        "inverse-surface": "#2f3035",
+                        "primary-container": "#002366",
+                        "on-tertiary-container": "#2a9bc1",
+                        "on-primary": "#ffffff",
+                        "on-primary-container": "#758dd5",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#2a4386",
+                        "on-surface-variant": "#444650",
+                        "surface-container-highest": "#e3e2e8",
+                        "on-secondary-fixed-variant": "#474741",
+                        "on-tertiary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "sm": "12px",
+                        "md": "24px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "container-max": "1280px",
+                        "lg": "48px",
+                        "xs": "4px",
+                        "xl": "80px"
+                    },
+                    "fontFamily": {
+                        "caption": ["Inter"],
+                        "display-md": ["Libre Caslon Text"],
+                        "display-lg": ["Libre Caslon Text"],
+                        "label-md": ["Inter"],
+                        "headline-lg-mobile": ["Libre Caslon Text"],
+                        "body-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg": ["Libre Caslon Text"],
+                        "headline-md": ["Libre Caslon Text"]
+                    },
+                    "fontSize": {
+                        "caption": ["12px", { "lineHeight": "1.4", "fontWeight": "400" }],
+                        "display-md": ["36px", { "lineHeight": "1.2", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "400" }],
+                        "label-md": ["14px", { "lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "1.3", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "1.3", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.4", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .ambient-shadow {
+            box-shadow: 0 20px 40px -10px rgba(0, 17, 58, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md text-body-md h-screen flex overflow-hidden">
+<!-- SideNavBar (Admin) -->
+<aside class="hidden md:flex flex-col h-full bg-surface-container-lowest dark:bg-surface-container-high docked left-0 w-64 border-r border-outline-variant/20 flat no shadows p-sm space-y-base z-20">
+<!-- Header -->
+<div class="mb-lg px-md pt-md">
+<div class="flex items-center space-x-sm mb-xs">
+<img alt="Admin Profile" class="w-10 h-10 rounded-full object-cover border border-outline-variant" data-alt="A small, professional portrait of a distinguished travel admin in a crisp white shirt, softly lit against a neutral backdrop, conveying trust and competence in a high-end corporate style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVtVU0KPDgtdWjNeLBjZ8zsLjf5bd5HabmrQ2C40yzyCdV8wkOiefP5B3BjiTSwWR9i3Gb0SjSCfyZGcPZ1kqvAbVuH31hbToX-1C1jlxZN2tiMEjcJ7WtO63-7vyTePgnQhztqJSfojlWTcUuOWWeNVe8TxQ_G7eYAnhYpB4-ofpeFhbf-LWBeZgxkB5sRdJYV9mRrxCpe1NnWz7fSdTJQU-ZweTrTPf0j-3e5w-zT-gC2tjHirSP"/>
+<div>
+<h2 class="font-headline-md text-headline-md text-primary dark:text-primary-fixed-dim m-0 leading-tight">Admin Panel</h2>
+</div>
+</div>
+<p class="font-caption text-caption text-on-surface-variant m-0 pl-1">Abdulloh Tours Management</p>
+</div>
+<!-- Navigation -->
+<nav class="flex-1 space-y-xs">
+<a class="flex items-center px-md py-sm rounded-lg bg-secondary-container dark:bg-secondary text-primary dark:text-on-secondary font-label-md text-label-md transition-transform active:scale-95 group" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px]" style="font-variation-settings: 'FILL' 1;">dashboard</span>
+                Dashboard
+            </a>
+<a class="flex items-center px-md py-sm rounded-lg text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-variant dark:hover:bg-inverse-surface transition-colors group" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px] group-hover:text-primary">event_available</span>
+                Bookings
+            </a>
+<a class="flex items-center px-md py-sm rounded-lg text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-variant dark:hover:bg-inverse-surface transition-colors group" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px] group-hover:text-primary">explore</span>
+                Tours
+            </a>
+<a class="flex items-center px-md py-sm rounded-lg text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-variant dark:hover:bg-inverse-surface transition-colors group" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px] group-hover:text-primary">directions_car</span>
+                Vehicles
+            </a>
+<a class="flex items-center px-md py-sm rounded-lg text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-variant dark:hover:bg-inverse-surface transition-colors group" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px] group-hover:text-primary">payments</span>
+                Pricing
+            </a>
+</nav>
+<!-- Footer Actions -->
+<div class="mt-auto space-y-xs pb-sm">
+<a class="flex items-center px-md py-sm rounded-lg text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-variant dark:hover:bg-inverse-surface transition-colors group" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px] group-hover:text-primary">settings</span>
+                Settings
+            </a>
+<a class="flex items-center px-md py-sm rounded-lg text-on-surface-variant dark:text-surface-variant font-label-md text-label-md hover:bg-surface-variant dark:hover:bg-inverse-surface transition-colors group" href="#">
+<span class="material-symbols-outlined mr-sm text-[20px] group-hover:text-error">logout</span>
+                Logout
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-1 flex flex-col min-w-0 bg-surface">
+<!-- TopNavBar (Admin) -->
+<header class="bg-surface dark:bg-on-background docked top-0 full-width border-b border-outline-variant flat no shadows flex justify-between items-center w-full px-md h-16 z-10 sticky">
+<!-- Mobile Menu & Title (Left) -->
+<div class="flex items-center space-x-md">
+<button class="md:hidden text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-headline-md font-headline-md font-bold text-primary dark:text-primary-fixed m-0 tracking-tight hidden md:block">Admin Console</h1>
+</div>
+<!-- Search (Center-ish/Left) -->
+<div class="flex-1 max-w-md ml-md mr-auto hidden md:block relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[20px]">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant/30 text-on-surface rounded-full py-2 pl-10 pr-4 font-label-md text-label-md focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all placeholder:text-outline-variant" placeholder="Search bookings, tours..." type="text"/>
+</div>
+<!-- Actions (Right) -->
+<div class="flex items-center space-x-sm">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors relative Standard clickable feedback">
+<span class="material-symbols-outlined text-[24px]">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors Standard clickable feedback">
+<span class="material-symbols-outlined text-[24px]">help</span>
+</button>
+<div class="ml-sm w-8 h-8 rounded-full overflow-hidden border border-outline-variant/50 hidden sm:block">
+<img alt="Manager" class="w-full h-full object-cover" data-alt="A small circular avatar placeholder showing a generic user icon in soft corporate lighting, suitable for a high-end admin dashboard interface." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBeJ0UqazsI5sySX81kaS48nl5AFapJxKFiuiSqcMIX-jz1-jb3ufTT0y47EeBK3i3NkKhTAgRDhKL61ZYpJoE3V7500HOx1AmoQVv4sBeTjIWZzRiNou8USR2bnpDYupnPbtjAO5CykZYL94KeLMafFSnBpxdMyj8flctQKaChw2h9hLhp9sEXQWuOHvXc2-zUmE9ndUl7Jmn8yrtq-eH1_-IyaT-508PxUiNih_nYnrQVHFwJ1STC"/>
+</div>
+</div>
+</header>
+<!-- Scrollable Canvas -->
+<main class="flex-1 overflow-y-auto p-md md:p-lg">
+<div class="max-w-container-max mx-auto space-y-xl pb-xl">
+<!-- Page Header -->
+<div>
+<h2 class="font-headline-lg text-headline-lg md:font-display-md md:text-display-md text-primary mb-xs">Dashboard Overview</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Live metrics and recent activity for Abdulloh Tours.</p>
+</div>
+<!-- Bento Grid: Stats -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Stat 1 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-primary/10 ambient-shadow">
+<div class="flex justify-between items-start mb-md">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Today's Requests</h3>
+<span class="material-symbols-outlined text-primary-container">contact_mail</span>
+</div>
+<div class="flex items-end space-x-sm">
+<span class="font-display-md text-display-md text-primary leading-none">14</span>
+<span class="font-caption text-caption text-outline mb-1">+2 from yesterday</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-primary/10 ambient-shadow">
+<div class="flex justify-between items-start mb-md">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Pending Bookings</h3>
+<span class="material-symbols-outlined text-on-surface-variant">pending_actions</span>
+</div>
+<div class="flex items-end space-x-sm">
+<span class="font-display-md text-display-md text-primary leading-none">28</span>
+<span class="font-caption text-caption text-error mb-1">Needs attention</span>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-primary/10 ambient-shadow">
+<div class="flex justify-between items-start mb-md">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Confirmed (Month)</h3>
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="flex items-end space-x-sm">
+<span class="font-display-md text-display-md text-primary leading-none">142</span>
+<span class="font-caption text-caption text-outline mb-1">+12% vs last mo</span>
+</div>
+</div>
+<!-- Stat 4 -->
+<div class="bg-surface-container-lowest p-md rounded-xl border border-primary/10 ambient-shadow bg-secondary-container/10">
+<div class="flex justify-between items-start mb-md">
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Monthly Revenue</h3>
+<span class="material-symbols-outlined text-primary-container">payments</span>
+</div>
+<div class="flex items-end space-x-sm">
+<span class="font-display-md text-display-md text-primary leading-none">$42k</span>
+<span class="font-caption text-caption text-outline mb-1">Est. Gross</span>
+</div>
+</div>
+</section>
+<!-- Complex Section: Charts & Data -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
+<!-- Chart Placeholder 1 (Wider) -->
+<div class="lg:col-span-2 bg-surface-container-lowest rounded-xl border border-primary/10 ambient-shadow p-md flex flex-col h-96">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-headline-md text-primary">Booking Trends</h3>
+<button class="font-label-md text-label-md text-on-primary-container hover:underline">View Full Report</button>
+</div>
+<div class="flex-1 bg-surface-container-low/30 rounded-lg flex items-center justify-center border border-outline-variant/20 relative overflow-hidden">
+<!-- Abstract Representation of Chart -->
+<div class="absolute inset-0 opacity-10 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-container via-surface to-surface"></div>
+<span class="font-label-md text-label-md text-outline">Chart Component (Trends)</span>
+</div>
+</div>
+<!-- Chart Placeholder 2 -->
+<div class="bg-surface-container-lowest rounded-xl border border-primary/10 ambient-shadow p-md flex flex-col h-96">
+<div class="flex justify-between items-center mb-md">
+<h3 class="font-headline-md text-headline-md text-primary">Destinations</h3>
+<span class="material-symbols-outlined text-outline">map</span>
+</div>
+<div class="flex-1 bg-surface-container-low/30 rounded-lg flex items-center justify-center border border-outline-variant/20 relative overflow-hidden">
+<!-- Abstract Representation of Chart -->
+<div class="absolute inset-0 bg-secondary-container/10"></div>
+<span class="font-label-md text-label-md text-outline">Chart (Distribution)</span>
+</div>
+</div>
+</section>
+<!-- Data Table: Recent Bookings -->
+<section>
+<div class="flex justify-between items-end mb-md">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Recent Booking Requests</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mt-1">Latest inquiries requiring review or confirmation.</p>
+</div>
+<button class="bg-primary text-on-primary px-4 py-2 rounded font-label-md text-label-md hover:bg-primary-container transition-colors">
+                            View All
+                        </button>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-primary/10 overflow-hidden ambient-shadow">
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-secondary-container/30 border-b border-primary/10">
+<th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-widest whitespace-nowrap">ID</th>
+<th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Customer</th>
+<th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Tour / Route</th>
+<th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Pax</th>
+<th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Vehicle</th>
+<th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-right">Total</th>
+<th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-widest text-center">Status</th>
+<th class="py-sm px-md font-label-md text-label-md text-on-surface-variant uppercase tracking-widest"></th>
+</tr>
+</thead>
+<tbody class="divide-y divide-primary/5">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-md px-md font-caption text-caption text-outline">#AB-892</td>
+<td class="py-md px-md">
+<div class="font-body-md text-body-md text-on-background font-medium">Elena Rostova</div>
+<div class="font-caption text-caption text-outline">elena.r@example.com</div>
+</td>
+<td class="py-md px-md">
+<div class="font-body-md text-body-md text-on-background">Silk Road Highlights</div>
+<div class="font-caption text-caption text-outline">Oct 12 - Oct 18</div>
+</td>
+<td class="py-md px-md font-body-md text-body-md text-on-surface-variant">2</td>
+<td class="py-md px-md font-body-md text-body-md text-on-surface-variant">Sedan (Standard)</td>
+<td class="py-md px-md font-body-md text-body-md text-on-background text-right font-medium">$1,250</td>
+<td class="py-md px-md text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-variant text-primary font-caption text-caption uppercase tracking-wider">
+                                                Pending
+                                            </span>
+</td>
+<td class="py-md px-md text-right">
+<button class="text-on-primary-container font-label-md text-label-md underline opacity-0 group-hover:opacity-100 transition-opacity">Review</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-md px-md font-caption text-caption text-outline">#AB-891</td>
+<td class="py-md px-md">
+<div class="font-body-md text-body-md text-on-background font-medium">David Chen</div>
+<div class="font-caption text-caption text-outline">d.chen@business.co</div>
+</td>
+<td class="py-md px-md">
+<div class="font-body-md text-body-md text-on-background">Samarkand Express</div>
+<div class="font-caption text-caption text-outline">Sep 28 - Sep 30</div>
+</td>
+<td class="py-md px-md font-body-md text-body-md text-on-surface-variant">4</td>
+<td class="py-md px-md font-body-md text-body-md text-on-surface-variant">Minivan (Premium)</td>
+<td class="py-md px-md font-body-md text-body-md text-on-background text-right font-medium">$840</td>
+<td class="py-md px-md text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-primary-fixed-dim/30 text-primary-container font-caption text-caption uppercase tracking-wider">
+                                                Confirmed
+                                            </span>
+</td>
+<td class="py-md px-md text-right">
+<button class="text-on-primary-container font-label-md text-label-md underline opacity-0 group-hover:opacity-100 transition-opacity">Details</button>
+</td>
+</tr>
+<!-- Row 3 -->
+<tr class="hover:bg-surface-container-low/50 transition-colors group">
+<td class="py-md px-md font-caption text-caption text-outline">#AB-890</td>
+<td class="py-md px-md">
+<div class="font-body-md text-body-md text-on-background font-medium">Sarah Jenkins</div>
+<div class="font-caption text-caption text-outline">sarah.j@traveler.net</div>
+</td>
+<td class="py-md px-md">
+<div class="font-body-md text-body-md text-on-background">Bukhara Heritage</div>
+<div class="font-caption text-caption text-outline">Nov 02 - Nov 05</div>
+</td>
+<td class="py-md px-md font-body-md text-body-md text-on-surface-variant">1</td>
+<td class="py-md px-md font-body-md text-body-md text-on-surface-variant">Sedan (Economy)</td>
+<td class="py-md px-md font-body-md text-body-md text-on-background text-right font-medium">$320</td>
+<td class="py-md px-md text-center">
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-variant text-primary font-caption text-caption uppercase tracking-wider">
+                                                Pending
+                                            </span>
+</td>
+<td class="py-md px-md text-right">
+<button class="text-on-primary-container font-label-md text-label-md underline opacity-0 group-hover:opacity-100 transition-opacity">Review</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

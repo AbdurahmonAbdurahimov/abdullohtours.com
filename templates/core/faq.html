@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "FAQ" %} — Abdulloh Tours{% endblock %}
+
+{% block json_ld %}
+{% comment %} TODO: content needed — populate FAQPage JSON-LD once real Q&A copy exists. {% endcomment %}
+{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+  {% block h1 %}
+  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Frequently asked questions" %}</h1>
+  {% endblock %}
+  <div class="mt-6 max-w-2xl text-[16px] leading-relaxed text-muted">
+    TODO: content needed
+  </div>
+</section>
+{% endblock %}

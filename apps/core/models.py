@@ -1,0 +1,112 @@
+from django.db import models
+
+
+class SiteSettings(models.Model):
+    """Singleton row holding site-wide contact details and defaults.
+
+    Templates must always read contact details from this model via the
+    `apps.core.context_processors.site_settings` context processor —
+    never hardcode a phone number / WhatsApp link / social handle.
+    """
+
+    phone = models.CharField(max_length=32)
+    whatsapp_number = models.CharField(
+        max_length=32, help_text="Digits only, no '+', e.g. 998953336000"
+    )
+    telegram_username = models.CharField(max_length=64)
+    instagram_username = models.CharField(max_length=64)
+    email = models.EmailField()
+    office_address = models.CharField(max_length=255)
+    working_hours = models.CharField(max_length=255)
+    response_time_promise = models.CharField(
+        max_length=255,
+        help_text="e.g. 'We reply within 1 hour' — shown near booking CTAs.",
+    )
+    default_og_image = models.ImageField(upload_to="site/", blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Site settings"
+        verbose_name_plural = "Site settings"
+
+    def __str__(self) -> str:
+        return "Site settings"
+
+    def save(self, *args, **kwargs):
+        # Enforce singleton: always the same row.
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    def delete(self, *args, **kwargs):
+        # Singleton row must not be deleted from the admin.
+        pass
+
+    @classmethod
+    def load(cls) -> "SiteSettings":
+        obj, _created = cls.objects.get_or_create(
+            pk=1,
+            defaults={
+                "phone": "+998953336000",
+                "whatsapp_number": "998953336000",
+                "telegram_username": "abdulloh_talibdjanov",
+                "instagram_username": "abdulloh_tours",
+                "email": "TODO: confirm with Abdulloh",
+                "office_address": "TODO: confirm with Abdulloh",
+                "working_hours": "TODO: confirm with Abdulloh",
+                "response_time_promise": "TODO: confirm with Abdulloh",
+            },
+        )
+        return obj
+
+
+class ExchangeRate(models.Model):
+    """Daily-cached USD -> currency conversion rate, refreshed by
+    `update_exchange_rates` (cron, CLAUDE.md §9). Prices are always stored
+    and quoted in USD (CLAUDE.md §12); EUR/GBP/UZS are an informational
+    display-only conversion computed from these cached rows — never the
+    source of truth for a price.
+
+    Lives on `apps.core` (rather than a new app) since it's a small,
+    site-wide utility table with no natural home in catalog/bookings/blog/
+    notifications.
+    """
+
+    currency = models.CharField(
+        max_length=3, unique=True, help_text="ISO 4217, e.g. EUR, GBP, UZS."
+    )
+    rate_from_usd = models.DecimalField(
+        max_digits=14, decimal_places=6, help_text="1 USD = this many units of `currency`."
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["currency"]
+
+    def __str__(self) -> str:
+        return f"1 USD = {self.rate_from_usd} {self.currency}"
+
+
+class SEOMixin(models.Model):
+    """Abstract mixin adding standard SEO fields to translatable content models.
+
+    `translation_complete_ru/de/fr/es` gate hreflang emission per CLAUDE.md §7
+    ("a language variant must only emit hreflang when its translation is
+    actually complete"). We use one boolean flag per language on this mixin
+    rather than inspecting individual modeltranslation fields for blankness —
+    it's simpler to reason about and consistent across every translatable
+    content type (Destination, Activity, Package, BlogPost), instead of each
+    model needing its own bespoke "is this fully translated" check.
+    """
+
+    meta_title = models.CharField(max_length=255, blank=True)
+    meta_description = models.CharField(max_length=320, blank=True)
+    focus_keyword = models.CharField(max_length=255, blank=True)
+    og_image = models.ImageField(upload_to="seo/", blank=True, null=True)
+    noindex = models.BooleanField(default=False)
+
+    translation_complete_ru = models.BooleanField(default=False)
+    translation_complete_de = models.BooleanField(default=False)
+    translation_complete_fr = models.BooleanField(default=False)
+    translation_complete_es = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True

@@ -1,0 +1,12 @@
+# Production-only overrides. Usage: see deploy.sh.
+services:
+  web:
+    restart: unless-stopped
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.prod
+
+  db:
+    restart: unless-stopped
+
+  caddy:
+    restart: unless-stopped

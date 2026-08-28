@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}Abdulloh Tours — Private Uzbekistan Tours{% endblock %}
+{% block meta_description %}Private group tours across Uzbekistan — Samarkand, Bukhara, Khiva, Tashkent — in our own vehicles with an English-speaking driver. Request a free quote.{% endblock %}
+
+{% block content %}
+<section class="bg-navy text-cream min-h-[80dvh] flex items-center">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+    <p class="label text-gold mb-4">{% trans "Private tours · Uzbekistan" %}</p>
+    {% block h1 %}
+    <h1 class="font-serif text-[32px] md:text-[52px] leading-tight max-w-3xl">
+      {% trans "See the real Uzbekistan, in your own private vehicle." %}
+    </h1>
+    {% endblock %}
+    <p class="mt-6 max-w-xl text-[16px] leading-relaxed text-cream/85">
+      {% comment %} TODO: content needed — real hero copy from Abdulloh, not paraphrased from a third-party source. {% endcomment %}
+      TODO: content needed
+    </p>
+    <div class="mt-8 flex gap-4">
+      <a href="{% url 'catalog:package_index' %}" class="rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
+        {% trans "Browse Tours" %}
+      </a>
+      <a href="{% url 'bookings:booking_request' %}" class="rounded border border-gold text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
+        {% trans "Request a Quote" %}
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="bg-cream py-lg">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+    <h2 class="font-serif text-[24px] md:text-[32px] text-ink mb-6">{% trans "Popular destinations" %}</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% comment %} TODO: content needed — loop over Destination queryset once seed data exists. {% endcomment %}
+      <p class="text-muted">TODO: content needed</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

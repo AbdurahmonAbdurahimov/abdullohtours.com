@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Build Your Tour" %} — Abdulloh Tours{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+  {% block h1 %}
+  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Build your tour" %}</h1>
+  {% endblock %}
+  <p class="mt-4 max-w-2xl text-muted">
+    {% comment %}
+      TODO: content needed — the full 5-step Alpine.js/HTMX builder
+      (dates+travellers, destinations, activities, add-ons, contact) is
+      Phase 2 scope per CLAUDE.md §13. This page renders the shell only so
+      the URL exists ahead of that work.
+    {% endcomment %}
+    TODO: content needed
+  </p>
+</section>
+{% endblock %}

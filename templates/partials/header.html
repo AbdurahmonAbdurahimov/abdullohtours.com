@@ -1,0 +1,22 @@
+{% load i18n %}
+<header class="bg-navy text-cream border-b border-gold/30">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 flex items-center justify-between h-16 md:h-20">
+    <a href="{% url 'core:home' %}" class="font-serif text-[20px] md:text-[24px] tracking-wide text-gold">
+      Abdulloh Tours
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-[14px] font-medium">
+      <a href="{% url 'catalog:destination_index' %}" class="hover:text-gold-bright">{% trans "Destinations" %}</a>
+      <a href="{% url 'catalog:package_index' %}" class="hover:text-gold-bright">{% trans "Tours" %}</a>
+      <a href="{% url 'core:about' %}" class="hover:text-gold-bright">{% trans "About" %}</a>
+      <a href="{% url 'core:faq' %}" class="hover:text-gold-bright">{% trans "FAQ" %}</a>
+      <a href="{% url 'core:contact' %}" class="hover:text-gold-bright">{% trans "Contact" %}</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      {% include "partials/lang_switcher.html" %}
+      <a href="{% url 'bookings:booking_request' %}"
+         class="hidden md:inline-block rounded bg-gold-bright text-navy text-[13px] font-semibold tracking-[0.08em] uppercase px-4 py-2 hover:opacity-90">
+        {% trans "Request a Quote" %}
+      </a>
+    </div>
+  </div>
+</header>

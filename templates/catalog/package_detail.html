@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{{ package.meta_title|default:package.title }} — Abdulloh Tours{% endblock %}
+{% block meta_description %}{{ package.meta_description|default:package.summary }}{% endblock %}
+{% block robots %}<meta name="robots" content="{% if package.noindex %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
+
+{% block hreflang %}
+<link rel="alternate" hreflang="en" href="{{ CANONICAL_HOST }}/en/tours/{{ package.slug }}/">
+{% if package.translation_complete_ru %}<link rel="alternate" hreflang="ru" href="{{ CANONICAL_HOST }}/ru/tours/{{ package.slug }}/">{% endif %}
+{% if package.translation_complete_de %}<link rel="alternate" hreflang="de" href="{{ CANONICAL_HOST }}/de/tours/{{ package.slug }}/">{% endif %}
+{% if package.translation_complete_fr %}<link rel="alternate" hreflang="fr" href="{{ CANONICAL_HOST }}/fr/tours/{{ package.slug }}/">{% endif %}
+{% if package.translation_complete_es %}<link rel="alternate" hreflang="es" href="{{ CANONICAL_HOST }}/es/tours/{{ package.slug }}/">{% endif %}
+<link rel="alternate" hreflang="x-default" href="{{ CANONICAL_HOST }}/en/tours/{{ package.slug }}/">
+{% endblock %}
+
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristTrip",
+  "name": "{{ package.title|escapejs }}",
+  "description": "{{ package.summary|escapejs }}",
+  "url": "{{ CANONICAL_HOST }}{{ request.path }}",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "USD",
+    "availability": "https://schema.org/InStock"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="bg-navy text-cream">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+    <p class="label text-gold">{{ package.get_tier_display }} · {{ package.total_days }} {% trans "days" %}</p>
+    {% block h1 %}
+    <h1 class="font-serif text-[28px] md:text-[44px] mt-2">{{ package.title }}</h1>
+    {% endblock %}
+    <p class="mt-4 max-w-2xl text-cream/85">{{ package.summary|default:"TODO: content needed" }}</p>
+  </div>
+</section>
+
+<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+  <div class="prose max-w-2xl text-[16px] leading-relaxed text-ink">
+    {{ package.body|default:"TODO: content needed"|linebreaks }}
+  </div>
+
+  <h2 class="font-serif text-[24px] md:text-[32px] text-ink mt-lg mb-4">{% trans "Itinerary" %}</h2>
+  <ol class="space-y-4">
+    {% for day in package.days.all %}
+      <li class="border-l-2 border-gold pl-4">
+        <p class="label text-gold">{% trans "Day" %} {{ day.day_number }}</p>
+        <h3 class="font-serif text-[20px] text-ink">{{ day.title }}</h3>
+        <p class="text-[14px] text-muted mt-1">{{ day.description }}</p>
+      </li>
+    {% empty %}
+      <p class="text-muted">TODO: content needed</p>
+    {% endfor %}
+  </ol>
+
+  <div class="mt-lg border border-gold/40 rounded-lg p-6 bg-cream-soft">
+    <p class="text-[14px] text-muted">{% trans "Pricing is per private group (per vehicle), not per person. Entrance tickets, guide and meals are extras." %}</p>
+    <a href="{% url 'bookings:booking_request' %}" class="mt-4 inline-block rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
+      {% trans "Request a Quote for this Tour" %}
+    </a>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,39 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# Django
+/static/
+/media/
+staticfiles/
+*.sqlite3
+db.sqlite3
+db_backups/
+
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Node
+node_modules/
+npm-debug.log*
+
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+
+# Claude Code local settings (machine/session-specific, not project config)
+.claude/settings.local.json
+
+# Docker
+*.log

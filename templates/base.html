@@ -1,0 +1,52 @@
+{% load i18n static %}<!doctype html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# --- SEO blocks: every child template should override these. --- #}
+  <title>{% block meta_title %}Abdulloh Tours — Private Tours in Uzbekistan{% endblock %}</title>
+  <meta name="description" content="{% block meta_description %}Private, English-speaking-driver tours across Uzbekistan — Samarkand, Bukhara, Khiva, Tashkent. Request a quote, no online payment required.{% endblock %}">
+  {% block canonical %}<link rel="canonical" href="{{ CANONICAL_HOST }}{{ request.path }}">{% endblock %}
+  {% block hreflang %}{% endblock %}
+  {% block robots %}<meta name="robots" content="index, follow">{% endblock %}
+
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  {% block extra_head %}{% endblock %}
+
+  {% comment %}
+  Site-wide TravelAgency JSON-LD (CLAUDE.md §7) — on every page, contact
+  details sourced from the SiteSettings context processor, never hardcoded.
+  {% endcomment %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TravelAgency",
+    "name": "Abdulloh Tours",
+    "url": "{{ CANONICAL_HOST }}/",
+    "telephone": "{{ site_settings.phone|escapejs }}",
+    "sameAs": [
+      "https://instagram.com/{{ site_settings.instagram_username }}",
+      "https://t.me/{{ site_settings.telegram_username }}"
+    ]
+  }
+  </script>
+  {% block json_ld %}{% endblock %}
+</head>
+{% comment %}
+SINGLE-H1 CONVENTION: every page template must define exactly one h1 block
+(named "h1") inside its content, rendered by exactly one element with
+responsive Tailwind classes (per the type scale in CLAUDE.md section 3).
+Never duplicate a heading and hide one copy with a "hidden md:block" class —
+that is a defect the design/ mockups are known to contain (see CLAUDE.md
+section 3's "Reference mockups" note) and must not reach production templates.
+{% endcomment %}
+<body class="bg-cream text-ink font-sans">
+  {% include "partials/header.html" %}
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+  {% include "partials/footer.html" %}
+  {% include "partials/whatsapp_button.html" %}
+  {% block extra_body %}{% endblock %}
+</body>
+</html>

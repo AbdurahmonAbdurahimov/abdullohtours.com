@@ -1,0 +1,25 @@
+{% load i18n %}
+<footer class="bg-navy text-cream mt-lg border-t border-gold/30">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg grid grid-cols-1 md:grid-cols-3 gap-8 text-[14px]">
+    <div>
+      <div class="font-serif text-[20px] text-gold mb-2">Abdulloh Tours</div>
+      <p class="text-cream/80">{% trans "Private tours across Uzbekistan with an English-speaking driver." %}</p>
+    </div>
+    <div>
+      <div class="label text-gold mb-2">{% trans "Contact" %}</div>
+      <ul class="space-y-1 text-cream/80">
+        <li><a href="tel:{{ site_settings.phone }}" class="hover:text-gold-bright">{{ site_settings.phone }}</a></li>
+        <li><a href="https://wa.me/{{ site_settings.whatsapp_number }}" class="hover:text-gold-bright">WhatsApp</a></li>
+        <li><a href="https://t.me/{{ site_settings.telegram_username }}" class="hover:text-gold-bright">Telegram</a></li>
+        <li><a href="https://instagram.com/{{ site_settings.instagram_username }}" class="hover:text-gold-bright">Instagram</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="label text-gold mb-2">{% trans "Response promise" %}</div>
+      <p class="text-cream/80">{{ site_settings.response_time_promise }}</p>
+    </div>
+  </div>
+  <div class="border-t border-gold/20 text-center text-[13px] text-cream/60 py-4">
+    &copy; {% now "Y" %} Abdulloh Tours. {% trans "All rights reserved." %}
+  </div>
+</footer>

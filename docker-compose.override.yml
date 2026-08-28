@@ -1,0 +1,10 @@
+# Local development only. `docker compose up` auto-loads this file
+# alongside docker-compose.yml, but deploy.sh invokes compose with explicit
+# `-f docker-compose.yml -f docker-compose.prod.yml`, which does NOT
+# auto-include an override file — so this never reaches the Hostinger VPS
+# and the "no published Postgres port" rule from CLAUDE.md's deployment
+# spec still holds in production.
+services:
+  db:
+    ports:
+      - "5434:5432"

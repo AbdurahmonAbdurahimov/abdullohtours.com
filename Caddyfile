@@ -1,0 +1,24 @@
+# Point abdullohtours.com's DNS A/AAAA records at this VPS before the first
+# deploy — Caddy requests a Let's Encrypt cert automatically on first
+# request and will fail to obtain it if DNS isn't live yet.
+
+abdullohtours.com {
+	encode gzip zstd
+
+	handle /static/* {
+		root * /srv
+		file_server
+	}
+
+	handle /media/* {
+		root * /srv
+		file_server
+	}
+
+	reverse_proxy web:8000
+}
+
+# Canonical host has no www (CLAUDE.md deployment target) — redirect it.
+www.abdullohtours.com {
+	redir https://abdullohtours.com{uri} permanent
+}

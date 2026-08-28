@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /tg/webhook/
+
+Sitemap: {{ CANONICAL_HOST }}/sitemap.xml

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Request a Quote" %} — Abdulloh Tours{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-[640px] px-4 md:px-8 py-lg">
+  {% block h1 %}
+  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Request a quote" %}</h1>
+  {% endblock %}
+  <p class="mt-2 text-[14px] text-muted">{{ site_settings.response_time_promise }}</p>
+
+  <form method="post" class="mt-8 space-y-4">
+    {% csrf_token %}
+    {# Honeypot: hidden from real visitors via CSS, left empty by humans. #}
+    <div class="hidden" aria-hidden="true">{{ form.website }}</div>
+
+    {% for field in form %}
+      {% if field.name != "website" %}
+        <div>
+          <label for="{{ field.id_for_label }}" class="label text-muted block mb-1">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <p class="text-red-600 text-[13px] mt-1">{{ field.errors|striptags }}</p>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    <button type="submit" class="w-full rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3">
+      {% trans "Send Request" %}
+    </button>
+  </form>
+</section>
+{% endblock %}

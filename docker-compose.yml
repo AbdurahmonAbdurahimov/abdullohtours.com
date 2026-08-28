@@ -1,0 +1,58 @@
+# Base compose file — Hetzner/Hostinger single-VPS deployment (CLAUDE.md §2).
+# `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`
+# is the real production invocation (see deploy.sh); this file alone is also
+# usable for `docker compose up -d db` during local development.
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    env_file:
+      - .env
+    depends_on:
+      - db
+    volumes:
+      - media_data:/app/media
+      - static_data:/app/staticfiles
+    mem_limit: 1g
+    expose:
+      - "8000"
+
+  db:
+    image: postgres:16-alpine
+    # shared_buffers/max_connections sized for a 2vCPU/4GB VPS shared with
+    # web + caddy (CLAUDE.md deployment target).
+    command: postgres -c shared_buffers=256MB -c max_connections=50
+    env_file:
+      - .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    # No `ports:` — Postgres is reachable only on the internal compose
+    # network, never published to the host.
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    mem_limit: 768m
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - media_data:/srv/media:ro
+      - static_data:/srv/static:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  media_data:
+  static_data:
+  caddy_data:
+  caddy_config:

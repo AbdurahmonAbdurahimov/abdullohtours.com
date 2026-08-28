@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Request received" %} — Abdulloh Tours{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-[640px] px-4 md:px-8 py-lg text-center">
+  {% block h1 %}
+  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Thank you!" %}</h1>
+  {% endblock %}
+  <p class="mt-4 text-[16px] text-muted">
+    {% blocktrans with ref_code=booking.ref_code %}Your request <strong>#{{ ref_code }}</strong> has been received. {% endblocktrans %}
+    {{ site_settings.response_time_promise }}
+  </p>
+</section>
+{% endblock %}

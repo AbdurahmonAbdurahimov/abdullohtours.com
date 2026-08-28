@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CLAUDE.md §3 type scale defines "label" as a reusable style
+   (text-[13px] tracking-[0.08em] uppercase font-semibold), and templates
+   apply it as `class="label"`. `text-label` (the fontSize entry below)
+   only covers size/leading/tracking, so wire up the rest here. */
+@layer components {
+  .label {
+    @apply text-label uppercase font-semibold;
+  }
+}
+
+/* Minimal rich-text styling for rendered body content (blog posts, package
+   and destination descriptions) that templates mark with `class="prose"`.
+   No typography plugin per CLAUDE.md §2 (fixed tech stack) — hand-styled
+   with the site's own design tokens instead. */
+@layer components {
+  .prose > * + * {
+    @apply mt-4;
+  }
+  .prose h2 {
+    @apply font-serif text-h2 md:text-h2-md text-navy mt-8 mb-2;
+  }
+  .prose h3 {
+    @apply font-serif text-h3 md:text-h3-md text-navy mt-6 mb-2;
+  }
+  .prose ul,
+  .prose ol {
+    @apply space-y-2 pl-4;
+  }
+  .prose ul {
+    @apply list-disc;
+  }
+  .prose ol {
+    @apply list-decimal;
+  }
+  .prose a {
+    @apply text-gold-bright underline;
+  }
+  .prose a:hover {
+    @apply opacity-90;
+  }
+  .prose strong {
+    @apply font-semibold;
+  }
+}
+
+/* Self-hosted fonts (WOFF2, font-display: swap) — both families must cover
+   Cyrillic for the Russian version of the site (CLAUDE.md §3). Do not
+   hotlink Google Fonts. Binary .woff2 files are NOT included in this
+   scaffold — see static_src/fonts/README.md. */
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("./fonts/playfair-display-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Playfair Display";
+  src: url("./fonts/playfair-display-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("./fonts/inter-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("./fonts/inter-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter";
+  src: url("./fonts/inter-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}

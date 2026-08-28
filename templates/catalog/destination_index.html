@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Destinations" %} — Abdulloh Tours{% endblock %}
+
+{% block content %}
+<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+  {% block h1 %}
+  <h1 class="font-serif text-[28px] md:text-[44px] text-ink">{% trans "Destinations" %}</h1>
+  {% endblock %}
+  <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+    {% for destination in destinations %}
+      <a href="{% url 'catalog:destination_detail' destination.slug %}" class="block border border-line rounded-lg overflow-hidden hover:border-gold">
+        {% if destination.hero_image %}
+          <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="lazy" class="w-full h-48 object-cover">
+        {% endif %}
+        <div class="p-4">
+          <h2 class="font-serif text-[20px] text-ink">{{ destination.name }}</h2>
+          <p class="text-[14px] text-muted mt-1">{{ destination.intro|truncatewords:20 }}</p>
+        </div>
+      </a>
+    {% empty %}
+      <p class="text-muted">TODO: content needed — no destinations yet (seed data is a follow-up task).</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

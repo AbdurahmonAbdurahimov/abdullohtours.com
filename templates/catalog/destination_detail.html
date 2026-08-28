@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{{ destination.meta_title|default:destination.name }} — Abdulloh Tours{% endblock %}
+{% block meta_description %}{{ destination.meta_description|default:destination.intro|truncatewords:30 }}{% endblock %}
+{% block robots %}<meta name="robots" content="{% if destination.noindex %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
+
+{% block hreflang %}
+{% comment %}
+Only emit hreflang for languages whose translation is actually complete
+(CLAUDE.md section 7) — English is the base language and is always
+considered complete; others gate on Destination.translation_complete_<lang>.
+{% endcomment %}
+<link rel="alternate" hreflang="en" href="{{ CANONICAL_HOST }}/en/destinations/{{ destination.slug }}/">
+{% if destination.translation_complete_ru %}<link rel="alternate" hreflang="ru" href="{{ CANONICAL_HOST }}/ru/destinations/{{ destination.slug }}/">{% endif %}
+{% if destination.translation_complete_de %}<link rel="alternate" hreflang="de" href="{{ CANONICAL_HOST }}/de/destinations/{{ destination.slug }}/">{% endif %}
+{% if destination.translation_complete_fr %}<link rel="alternate" hreflang="fr" href="{{ CANONICAL_HOST }}/fr/destinations/{{ destination.slug }}/">{% endif %}
+{% if destination.translation_complete_es %}<link rel="alternate" hreflang="es" href="{{ CANONICAL_HOST }}/es/destinations/{{ destination.slug }}/">{% endif %}
+<link rel="alternate" hreflang="x-default" href="{{ CANONICAL_HOST }}/en/destinations/{{ destination.slug }}/">
+{% endblock %}
+
+{% block json_ld %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "TouristAttraction",
+  "name": "{{ destination.name|escapejs }}",
+  "description": "{{ destination.intro|escapejs }}",
+  "url": "{{ CANONICAL_HOST }}{{ request.path }}"
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<section class="bg-navy text-cream">
+  <div class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+    {% block h1 %}
+    <h1 class="font-serif text-[28px] md:text-[44px]">{{ destination.name }}</h1>
+    {% endblock %}
+    <p class="mt-4 max-w-2xl text-cream/85">{{ destination.intro|default:"TODO: content needed" }}</p>
+  </div>
+</section>
+<section class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg">
+  <div class="prose max-w-2xl text-[16px] leading-relaxed text-ink">
+    {{ destination.body|default:"TODO: content needed"|linebreaks }}
+  </div>
+
+  <h2 class="font-serif text-[24px] md:text-[32px] text-ink mt-lg mb-4">{% trans "Attractions" %}</h2>
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    {% for attraction in destination.attractions.all %}
+      <div class="border border-line rounded-lg p-4">
+        <h3 class="font-serif text-[20px] text-ink">{{ attraction.name }}</h3>
+        <p class="text-[14px] text-muted mt-1">{{ attraction.description|truncatewords:20 }}</p>
+      </div>
+    {% empty %}
+      <p class="text-muted">TODO: content needed</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}
