@@ -1,28 +1,54 @@
 {% load i18n %}
-<footer class="bg-navy text-cream mt-lg border-t border-gold/30">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 py-lg grid grid-cols-1 md:grid-cols-3 gap-8 text-[14px]">
-    <div>
-      <div class="font-serif text-[20px] text-gold mb-2">Abdulloh Tours</div>
-      <p class="text-cream/80">{% trans "Private tours across Uzbekistan with an English-speaking driver." %}</p>
-      <a href="{% url 'catalog:route_index' %}" class="inline-block mt-3 text-cream/60 hover:text-gold-bright">{% trans "Multi-city tour ideas" %}</a>
+{% comment %}
+Like the header, the footer is fixed navy brand chrome in both themes
+(design/*_gold_navy), so it uses raw palette names, not the semantic aliases.
+{% endcomment %}
+<footer class="bg-navy text-cream mt-auto border-t border-gold/30">
+  <div class="mx-auto max-w-container px-4 md:px-8 py-lg grid grid-cols-1 md:grid-cols-4 gap-8 text-[14px]">
+    <div class="md:col-span-2">
+      <div class="font-serif text-[22px] text-gold mb-3">Abdulloh Tours</div>
+      <p class="text-cream/70 max-w-sm leading-relaxed">
+        {% trans "Private tours across Uzbekistan in our own vehicles, with an English-speaking driver. Priced per vehicle, never per person." %}
+      </p>
+      {% if site_settings.response_time_promise %}
+      <p class="mt-4 inline-flex items-center gap-2 text-gold text-[13px]">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4 shrink-0" aria-hidden="true">
+          <circle cx="12" cy="12" r="9"/><path stroke-linecap="round" d="M12 7v5l3 2"/>
+        </svg>
+        {{ site_settings.response_time_promise }}
+      </p>
+      {% endif %}
     </div>
+
     <div>
-      <div class="label text-gold mb-2">{% trans "Contact" %}</div>
-      <ul class="space-y-1 text-cream/80">
-        <li><a href="tel:{{ site_settings.phone }}" class="hover:text-gold-bright">{{ site_settings.phone }}</a></li>
-        <li><a href="https://wa.me/{{ site_settings.whatsapp_number }}" class="hover:text-gold-bright">WhatsApp</a></li>
-        <li><a href="https://t.me/{{ site_settings.telegram_username }}" class="hover:text-gold-bright">Telegram</a></li>
-        <li><a href="https://instagram.com/{{ site_settings.instagram_username }}" class="hover:text-gold-bright">Instagram</a></li>
+      <h2 class="label text-gold mb-3">{% trans "Explore" %}</h2>
+      <ul class="space-y-2 text-cream/80">
+        <li><a href="{% url 'catalog:destination_index' %}" class="hover:text-gold-bright transition-colors">{% trans "Destinations" %}</a></li>
+        <li><a href="{% url 'catalog:package_index' %}" class="hover:text-gold-bright transition-colors">{% trans "Tours" %}</a></li>
+        <li><a href="{% url 'catalog:route_index' %}" class="hover:text-gold-bright transition-colors">{% trans "Multi-city tour ideas" %}</a></li>
+        <li><a href="{% url 'blog:blog_index' %}" class="hover:text-gold-bright transition-colors">{% trans "Blog" %}</a></li>
+        <li><a href="{% url 'core:reviews' %}" class="hover:text-gold-bright transition-colors">{% trans "Reviews" %}</a></li>
+        <li><a href="{% url 'core:faq' %}" class="hover:text-gold-bright transition-colors">{% trans "FAQ" %}</a></li>
       </ul>
     </div>
-    {% if site_settings.response_time_promise %}
+
     <div>
-      <div class="label text-gold mb-2">{% trans "Response promise" %}</div>
-      <p class="text-cream/80">{{ site_settings.response_time_promise }}</p>
+      <h2 class="label text-gold mb-3">{% trans "Connect" %}</h2>
+      <ul class="space-y-2 text-cream/80">
+        <li><a href="tel:{{ site_settings.phone }}" class="hover:text-gold-bright transition-colors">{{ site_settings.phone }}</a></li>
+        <li><a href="https://wa.me/{{ site_settings.whatsapp_number }}" rel="noopener" class="hover:text-gold-bright transition-colors">{% trans "WhatsApp Support" %}</a></li>
+        <li><a href="https://t.me/{{ site_settings.telegram_username }}" rel="noopener" class="hover:text-gold-bright transition-colors">{% trans "Telegram Channel" %}</a></li>
+        <li><a href="https://instagram.com/{{ site_settings.instagram_username }}" rel="noopener" class="hover:text-gold-bright transition-colors">Instagram</a></li>
+        {% if site_settings.email %}<li><a href="mailto:{{ site_settings.email }}" class="hover:text-gold-bright transition-colors">{{ site_settings.email }}</a></li>{% endif %}
+        <li><a href="{% url 'core:contact' %}" class="hover:text-gold-bright transition-colors">{% trans "Contact" %}</a></li>
+      </ul>
     </div>
-    {% endif %}
   </div>
-  <div class="border-t border-gold/20 text-center text-[13px] text-cream/60 py-4">
-    &copy; {% now "Y" %} Abdulloh Tours. {% trans "All rights reserved." %}
+
+  <div class="border-t border-gold/20">
+    <div class="mx-auto max-w-container px-4 md:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-[13px] text-cream/60">
+      <p>&copy; {% now "Y" %} Abdulloh Tours. {% trans "All rights reserved." %}</p>
+      <p>{% trans "No online payment — every booking is a request we confirm with you personally." %}</p>
+    </div>
   </div>
 </footer>

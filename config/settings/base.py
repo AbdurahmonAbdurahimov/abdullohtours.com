@@ -87,6 +87,9 @@ TEMPLATES = [
                 # Exposes the singleton SiteSettings + CANONICAL_HOST to every
                 # template so contact details are never hardcoded (CLAUDE.md).
                 "apps.core.context_processors.site_settings",
+                # Visitor's light/dark choice, read from a cookie so the
+                # correct theme is already applied in the first paint.
+                "apps.core.context_processors.theme",
             ],
         },
     },
@@ -127,6 +130,11 @@ LANGUAGES = [
     ("de", "Deutsch"),
     ("fr", "Français"),
     ("es", "Español"),
+    # Arabic is right-to-left; Django knows this via LANGUAGE_BIDI, which
+    # base.html uses to set <html dir>. Templates must therefore use CSS
+    # logical properties (ms-/me-/ps-/pe-/start-/end-/text-start/text-end)
+    # rather than physical left/right ones, so the whole layout mirrors.
+    ("ar", "العربية"),
 ]
 
 # modeltranslation needs to know every language it should generate

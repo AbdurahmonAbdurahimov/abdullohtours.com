@@ -132,6 +132,7 @@ class SEOMixin(models.Model):
     translation_complete_de = models.BooleanField(default=False)
     translation_complete_fr = models.BooleanField(default=False)
     translation_complete_es = models.BooleanField(default=False)
+    translation_complete_ar = models.BooleanField(default=False)
 
     class Meta:
         abstract = True

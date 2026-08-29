@@ -2,6 +2,69 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------------------------------------------------------------------------
+   Light/dark theming.
+
+   Every value below is one of CLAUDE.md §3's palette colours — this layer
+   only decides *which* palette colour each semantic role resolves to per
+   theme, it never introduces a new brand colour. Values are space-separated
+   RGB channels (not hex) so Tailwind's `<alpha-value>` opacity modifiers
+   work against them (see static_src/tailwind.config.js).
+
+   Resolution order deliberately mirrors the three states the toggle can be
+   in, so an explicit choice always beats the OS preference in both
+   directions:
+     1. no [data-theme]      -> follow prefers-color-scheme (default)
+     2. [data-theme="light"] -> force light, even if the OS is dark
+     3. [data-theme="dark"]  -> force dark, even if the OS is light
+
+   The attribute is rendered server-side from the `theme` cookie
+   (apps/core/context_processors.py), so a returning visitor's choice is
+   already applied in the first paint — no flash of the wrong theme, and no
+   localStorage, which CLAUDE.md §2 forbids outright.
+   --------------------------------------------------------------------------- */
+:root {
+  --c-surface: 255 248 241; /* cream */
+  --c-surface-alt: 252 242 228; /* cream-soft */
+  --c-surface-raised: 255 255 255; /* white */
+  --c-content: 31 27 19; /* ink */
+  --c-content-muted: 67 71 76; /* muted */
+  --c-hairline: 196 198 204; /* line */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-surface: 7 26 42; /* navy */
+    --c-surface-alt: 10 29 45; /* navy-soft */
+    --c-surface-raised: 10 29 45; /* navy-soft */
+    --c-content: 255 248 241; /* cream */
+    --c-content-muted: 201 166 107; /* gold */
+    --c-hairline: 201 166 107; /* gold (used at low opacity on dark) */
+  }
+}
+
+:root[data-theme="dark"] {
+  --c-surface: 7 26 42;
+  --c-surface-alt: 10 29 45;
+  --c-surface-raised: 10 29 45;
+  --c-content: 255 248 241;
+  --c-content-muted: 201 166 107;
+  --c-hairline: 201 166 107;
+}
+
+/* Let the browser theme form controls, scrollbars and the like to match. */
+:root {
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
 /* Alpine.js convention: hide [x-cloak] elements until Alpine has initialized,
    so mobile menus / step panels don't flash unstyled on first paint. */
 [x-cloak] {
@@ -131,4 +194,29 @@
   font-display: swap;
   src: url("/static/fonts/inter-cyrillic-ext.woff2") format("woff2");
   unicode-range: U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+}
+
+/* Arabic. Playfair Display and Inter have no Arabic glyphs at all, so these
+   two Noto faces sit directly behind them in the `serif`/`sans` stacks
+   (static_src/tailwind.config.js): the browser falls through per-glyph, so
+   Arabic picks these up while Latin/Cyrillic still renders in the brand
+   faces — no per-language font-family switching needed. Naskh backs the
+   serif (display/headline) role, Sans Arabic the sans (UI/body) role. */
+
+@font-face {
+  font-family: "Noto Naskh Arabic";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("/static/fonts/noto-naskh-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+
+@font-face {
+  font-family: "Noto Sans Arabic";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/static/fonts/noto-sans-arabic.woff2") format("woff2");
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1, U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41, U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
 }

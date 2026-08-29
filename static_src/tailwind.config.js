@@ -2,7 +2,15 @@
  * Tailwind CLI config (NOT the CDN script — CLAUDE.md §2/§3).
  * Color tokens, type scale, spacing and radius below are copied verbatim
  * from CLAUDE.md §3 "Design system". Do not add Material Design tokens or
- * extra colors — this is the complete palette.
+ * extra colors — the `colors` block is the complete palette.
+ *
+ * The `semantic` colors underneath it are NOT new brand colours: each one
+ * resolves at runtime to one of the palette values above via a CSS custom
+ * property (see static_src/input.css), so the same template markup renders
+ * correctly in both light and dark mode without doubling every colour class
+ * into a `x dark:y` pair. Use these in templates; reach for a raw palette
+ * name only when an element is deliberately one fixed colour in both themes
+ * (e.g. gold CTAs, or the permanently-navy hero overlay).
  */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -25,10 +33,25 @@ module.exports = {
         ink: "#1F1B13",
         muted: "#43474C",
         line: "#C4C6CC",
+
+        // Theme-aware aliases. `<alpha-value>` keeps Tailwind's opacity
+        // modifiers working (e.g. `bg-surface/60`), which plain
+        // `var(--x)` colours would silently break.
+        surface: "rgb(var(--c-surface) / <alpha-value>)",
+        "surface-alt": "rgb(var(--c-surface-alt) / <alpha-value>)",
+        "surface-raised": "rgb(var(--c-surface-raised) / <alpha-value>)",
+        content: "rgb(var(--c-content) / <alpha-value>)",
+        "content-muted": "rgb(var(--c-content-muted) / <alpha-value>)",
+        hairline: "rgb(var(--c-hairline) / <alpha-value>)",
       },
       fontFamily: {
-        serif: ["Playfair Display", "Georgia", "serif"],
-        sans: ["Inter", "system-ui", "sans-serif"],
+        // Playfair Display and Inter have no Arabic coverage, so the Noto
+        // Arabic faces sit directly behind them in each stack: the browser
+        // falls through per-glyph, meaning Arabic text picks up Noto while
+        // Latin/Cyrillic still renders in the brand faces. No conditional
+        // font-family per language needed.
+        serif: ["Playfair Display", "Noto Naskh Arabic", "Georgia", "serif"],
+        sans: ["Inter", "Noto Sans Arabic", "system-ui", "sans-serif"],
       },
       fontSize: {
         display: ["32px", { lineHeight: "1.2" }],

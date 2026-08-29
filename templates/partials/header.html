@@ -1,29 +1,38 @@
 {% load i18n %}
+{% comment %}
+The header is deliberately navy in BOTH themes (raw palette names, not the
+semantic aliases): per design/*_gold_navy, the navy bar + gold wordmark is
+fixed brand chrome framing a theme-able page, the same way the footer and
+the admin sidebar are.
+{% endcomment %}
 <header class="bg-navy text-cream border-b border-gold/30 sticky top-0 z-40" x-data="{ mobileNavOpen: false }">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 flex items-center justify-between h-16 md:h-20">
-    <a href="{% url 'core:home' %}" class="font-serif text-[20px] md:text-[24px] tracking-wide text-gold">
+  <div class="mx-auto max-w-container px-4 md:px-8 flex items-center justify-between h-16 md:h-20 gap-4">
+    <a href="{% url 'core:home' %}"
+       class="font-serif text-[20px] md:text-[24px] tracking-wide text-gold hover:text-gold-bright transition-colors shrink-0">
       Abdulloh Tours
     </a>
-    <nav class="hidden md:flex items-center gap-8 text-[14px] font-medium">
-      <a href="{% url 'catalog:destination_index' %}" class="hover:text-gold-bright">{% trans "Destinations" %}</a>
-      <a href="{% url 'catalog:package_index' %}" class="hover:text-gold-bright">{% trans "Tours" %}</a>
-      <a href="{% url 'catalog:tour_builder' %}" class="hover:text-gold-bright">{% trans "Build Your Tour" %}</a>
-      <a href="{% url 'core:about' %}" class="hover:text-gold-bright">{% trans "About" %}</a>
-      <a href="{% url 'core:faq' %}" class="hover:text-gold-bright">{% trans "FAQ" %}</a>
-      <a href="{% url 'core:contact' %}" class="hover:text-gold-bright">{% trans "Contact" %}</a>
+
+    <nav class="hidden lg:flex items-center gap-7 text-[14px] font-medium" aria-label="{% trans 'Main' %}">
+      <a href="{% url 'catalog:destination_index' %}" class="hover:text-gold-bright transition-colors">{% trans "Destinations" %}</a>
+      <a href="{% url 'catalog:package_index' %}" class="hover:text-gold-bright transition-colors">{% trans "Tours" %}</a>
+      <a href="{% url 'catalog:tour_builder' %}" class="hover:text-gold-bright transition-colors">{% trans "Build Your Tour" %}</a>
+      <a href="{% url 'core:about' %}" class="hover:text-gold-bright transition-colors">{% trans "About" %}</a>
+      <a href="{% url 'core:faq' %}" class="hover:text-gold-bright transition-colors">{% trans "FAQ" %}</a>
+      <a href="{% url 'core:contact' %}" class="hover:text-gold-bright transition-colors">{% trans "Contact" %}</a>
     </nav>
-    <div class="flex items-center gap-4">
-      <div class="hidden md:block">
-        {% include "partials/lang_switcher.html" %}
-      </div>
+
+    <div class="flex items-center gap-3">
+      <div class="hidden md:block">{% include "partials/theme_toggle.html" %}</div>
+      <div class="hidden md:block">{% include "partials/lang_switcher.html" %}</div>
       <a href="{% url 'bookings:booking_request' %}"
-         class="hidden md:inline-block rounded bg-gold-bright text-navy text-[13px] font-semibold tracking-[0.08em] uppercase px-4 py-2 hover:opacity-90">
+         class="hidden md:inline-flex items-center rounded bg-gold-bright text-navy text-[13px] font-semibold tracking-[0.08em] uppercase px-4 py-2 hover:bg-gold transition-colors">
         {% trans "Request a Quote" %}
       </a>
       <button type="button"
-              class="md:hidden p-2 -mr-2"
+              class="lg:hidden p-2 -me-2"
               @click="mobileNavOpen = !mobileNavOpen"
-              :aria-expanded="mobileNavOpen"
+              :aria-expanded="mobileNavOpen ? 'true' : 'false'"
+              aria-controls="mobile-nav"
               aria-label="{% trans 'Toggle menu' %}">
         <svg x-show="!mobileNavOpen" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6" aria-hidden="true">
           <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/>
@@ -34,8 +43,10 @@
       </button>
     </div>
   </div>
-  <nav x-show="mobileNavOpen" x-cloak x-transition
-       class="md:hidden border-t border-gold/20 px-4 py-4 flex flex-col gap-4 text-[14px] font-medium bg-navy">
+
+  <nav id="mobile-nav" x-show="mobileNavOpen" x-cloak x-transition
+       class="lg:hidden border-t border-gold/20 px-4 py-4 flex flex-col gap-4 text-[14px] font-medium bg-navy"
+       aria-label="{% trans 'Main' %}">
     <a href="{% url 'catalog:destination_index' %}" class="hover:text-gold-bright">{% trans "Destinations" %}</a>
     <a href="{% url 'catalog:package_index' %}" class="hover:text-gold-bright">{% trans "Tours" %}</a>
     <a href="{% url 'catalog:tour_builder' %}" class="hover:text-gold-bright">{% trans "Build Your Tour" %}</a>
@@ -45,6 +56,9 @@
     <a href="{% url 'bookings:booking_request' %}" class="rounded bg-gold-bright text-navy text-[13px] font-semibold tracking-[0.08em] uppercase px-4 py-2 text-center">
       {% trans "Request a Quote" %}
     </a>
-    {% include "partials/lang_switcher.html" %}
+    <div class="flex items-center gap-3 pt-2 border-t border-gold/20">
+      {% include "partials/theme_toggle.html" %}
+      {% include "partials/lang_switcher.html" %}
+    </div>
   </nav>
 </header>

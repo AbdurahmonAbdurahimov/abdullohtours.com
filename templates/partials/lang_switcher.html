@@ -1,14 +1,24 @@
 {% load i18n %}
-<form action="{% url 'set_language' %}" method="post" class="inline">
+{% comment %}
+Shows each language endonym (Русский, العربية, ...) rather than an uppercase
+code: a visitor looking for their own language recognises it written the way
+they write it, not as a two-letter abbreviation they'd have to decode.
+
+Posts to Django's set_language view, which persists the choice and redirects
+back to `next` — translated into the newly-chosen language when the URL is
+under i18n_patterns, which every page here is.
+{% endcomment %}
+<form action="{% url 'set_language' %}" method="post" class="inline-block">
   {% csrf_token %}
   <input name="next" type="hidden" value="{{ request.path }}">
   {% get_current_language as CURRENT_LANGUAGE %}
   {% get_available_languages as AVAILABLE_LANGUAGES %}
   <select name="language" onchange="this.form.submit()"
           aria-label="{% trans 'Language' %}"
-          class="bg-transparent text-cream text-[13px] border border-gold/40 rounded px-2 py-1">
+          class="bg-navy text-cream text-[13px] border border-gold/40 rounded ps-2 pe-6 py-1 h-8 hover:border-gold-bright focus:border-gold-bright focus:outline-none transition-colors cursor-pointer">
     {% for code, name in AVAILABLE_LANGUAGES %}
-      <option value="{{ code }}" {% if code == CURRENT_LANGUAGE %}selected{% endif %}>{{ code|upper }}</option>
+      <option value="{{ code }}" {% if code == CURRENT_LANGUAGE %}selected{% endif %}>{{ name }}</option>
     {% endfor %}
   </select>
+  <noscript><button type="submit" class="ms-1 text-[13px] underline">{% trans "Go" %}</button></noscript>
 </form>

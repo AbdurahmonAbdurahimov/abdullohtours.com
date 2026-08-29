@@ -1,0 +1,55 @@
+{% load i18n %}
+{% comment %}
+Light/dark toggle.
+
+Writes a `theme` cookie rather than localStorage (CLAUDE.md §2 forbids
+localStorage/sessionStorage) — which also means the server can read it and
+stamp <html data-theme> during the initial render, so a returning visitor
+never sees a flash of the wrong theme. Alpine flips the attribute in place
+for instant feedback; the cookie only matters on the next navigation.
+
+Three states, cycled in order: follow the OS -> light -> dark -> follow the
+OS. "Follow the OS" is the absence of the attribute, letting the
+prefers-color-scheme media query in static_src/input.css decide.
+{% endcomment %}
+<div x-data="{
+       theme: document.documentElement.dataset.theme || '',
+       cycle() {
+         this.theme = this.theme === '' ? 'light' : this.theme === 'light' ? 'dark' : '';
+         if (this.theme) {
+           document.documentElement.dataset.theme = this.theme;
+         } else {
+           delete document.documentElement.dataset.theme;
+         }
+         // 1 year, Lax: this is a display preference, never sent cross-site.
+         document.cookie = 'theme=' + this.theme + ';path=/;max-age=' + (this.theme ? 31536000 : 0) + ';SameSite=Lax';
+       },
+       get label() {
+         return this.theme === 'light' ? '{% trans "Theme: light" %}'
+              : this.theme === 'dark'  ? '{% trans "Theme: dark" %}'
+              : '{% trans "Theme: follow system" %}';
+       }
+     }">
+  <button type="button"
+          @click="cycle()"
+          class="flex items-center justify-center rounded border border-gold/40 text-cream w-8 h-8 hover:border-gold-bright hover:text-gold-bright transition-colors"
+          :aria-label="label"
+          :title="label">
+    {# Sun: shown when forced light. #}
+    <svg x-show="theme === 'light'" x-cloak xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"/>
+      <path stroke-linecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+    </svg>
+    {# Moon: shown when forced dark. #}
+    <svg x-show="theme === 'dark'" x-cloak xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/>
+    </svg>
+    {# Half-filled circle: shown when following the OS. Also the server-rendered
+       default, so it must not be x-cloak'd — otherwise the control renders
+       empty until Alpine boots. #}
+    <svg x-show="theme === ''" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-4 h-4" aria-hidden="true">
+      <circle cx="12" cy="12" r="9"/>
+      <path d="M12 3a9 9 0 0 1 0 18Z" fill="currentColor" stroke="none"/>
+    </svg>
+  </button>
+</div>

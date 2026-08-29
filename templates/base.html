@@ -1,5 +1,6 @@
 {% load i18n static %}<!doctype html>
-<html lang="{{ LANGUAGE_CODE }}">
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"{% if theme %} data-theme="{{ theme }}"{% endif %}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -9,6 +10,11 @@
   {% block canonical %}<link rel="canonical" href="{{ CANONICAL_HOST }}{{ request.path }}">{% endblock %}
   {% block hreflang %}{% endblock %}
   {% block robots %}<meta name="robots" content="index, follow">{% endblock %}
+
+  {# Matches the themed page background so the browser chrome (and any
+     overscroll area) doesn't flash the opposite theme. #}
+  <meta name="theme-color" content="#FFF8F1" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#071A2A" media="(prefers-color-scheme: dark)">
 
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
   {% block extra_head %}{% endblock %}
@@ -43,10 +49,25 @@ responsive Tailwind classes (per the type scale in CLAUDE.md section 3).
 Never duplicate a heading and hide one copy with a "hidden md:block" class —
 that is a defect the design/ mockups are known to contain (see CLAUDE.md
 section 3's "Reference mockups" note) and must not reach production templates.
+
+THEMING: use the semantic colour aliases (bg-surface, text-content,
+border-hairline, ...) rather than raw palette names, so markup renders
+correctly in both light and dark mode without `x dark:y` pairs. Raw palette
+names (navy/cream/gold/...) are still correct for elements that are
+deliberately one fixed colour in both themes, e.g. gold CTAs or text sitting
+on a photographic hero overlay.
+
+RTL: Arabic is an active language, so use CSS *logical* properties
+(ms-/me-/ps-/pe-/start-/end-, text-start/text-end) instead of physical
+left/right ones anywhere the layout should mirror.
 {% endcomment %}
-<body class="bg-cream text-ink font-sans">
+<body class="bg-surface text-content font-sans antialiased">
+  <a href="#main-content"
+     class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:start-2 focus:rounded focus:bg-gold-bright focus:px-4 focus:py-2 focus:text-navy focus:font-semibold">
+    {% trans "Skip to content" %}
+  </a>
   {% include "partials/header.html" %}
-  <main>
+  <main id="main-content">
     {% block content %}{% endblock %}
   </main>
   {% include "partials/footer.html" %}

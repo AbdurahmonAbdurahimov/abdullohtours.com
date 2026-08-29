@@ -18,5 +18,6 @@ class TranslationStatusMixin:
             "DE": obj.translation_complete_de,
             "FR": obj.translation_complete_fr,
             "ES": obj.translation_complete_es,
+            "AR": obj.translation_complete_ar,
         }
         return ", ".join(f"{code}✓" if done else f"{code}✗" for code, done in flags.items())
