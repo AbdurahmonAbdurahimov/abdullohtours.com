@@ -109,7 +109,9 @@
   <div class="mx-auto max-w-[1280px] px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
     <div>
       <h2 class="font-serif text-[24px] md:text-[32px]">{% trans "Ready to plan your trip?" %}</h2>
+      {% if site_settings.response_time_promise %}
       <p class="mt-2 text-cream/70 max-w-xl">{{ site_settings.response_time_promise }}</p>
+      {% endif %}
     </div>
     <a href="{% url 'bookings:booking_request' %}" class="shrink-0 rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
       {% trans "Request a Quote" %}

@@ -9,7 +9,9 @@
     {% block h1 %}
     <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Request a quote" %}</h1>
     {% endblock %}
+    {% if site_settings.response_time_promise %}
     <p class="mt-2 text-cream/80">{{ site_settings.response_time_promise }}</p>
+    {% endif %}
   </div>
 </section>
 

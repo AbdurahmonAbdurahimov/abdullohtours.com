@@ -15,10 +15,12 @@
         <li><a href="https://instagram.com/{{ site_settings.instagram_username }}" class="hover:text-gold-bright">Instagram</a></li>
       </ul>
     </div>
+    {% if site_settings.response_time_promise %}
     <div>
       <div class="label text-gold mb-2">{% trans "Response promise" %}</div>
       <p class="text-cream/80">{{ site_settings.response_time_promise }}</p>
     </div>
+    {% endif %}
   </div>
   <div class="border-t border-gold/20 text-center text-[13px] text-cream/60 py-4">
     &copy; {% now "Y" %} Abdulloh Tours. {% trans "All rights reserved." %}

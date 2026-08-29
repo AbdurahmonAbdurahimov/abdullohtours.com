@@ -211,7 +211,9 @@
         <!-- Step 5: Contact — a real POST, not HTMX (this is the one submission that must persist). -->
         <div x-show="step === 5" x-cloak x-transition>
           <h2 class="font-serif text-[20px] md:text-[24px] mb-4">{% trans "Your details" %}</h2>
+          {% if site_settings.response_time_promise %}
           <p class="text-[14px] text-muted mb-4">{{ site_settings.response_time_promise }}</p>
+          {% endif %}
           <form method="post" action="{% url 'catalog:build_submit' %}" class="space-y-4">
             {% csrf_token %}
             <div class="hidden" aria-hidden="true">{{ contact_form.website }}</div>

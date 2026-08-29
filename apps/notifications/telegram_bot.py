@@ -248,9 +248,8 @@ def telegram_webhook(request: HttpRequest, secret: str) -> HttpResponse:
         return HttpResponse(status=400)
 
     bot = get_bot()
-    update = Update.de_json(data, bot)
-
     try:
+        update = Update.de_json(data, bot)
         asyncio.run(_handle_update(update, bot))
     except Exception:  # noqa: BLE001 - never let a bot-handling bug break the webhook 200
         logger.exception("Error handling Telegram update")

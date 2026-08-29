@@ -15,11 +15,12 @@ class SiteSettings(models.Model):
     )
     telegram_username = models.CharField(max_length=64)
     instagram_username = models.CharField(max_length=64)
-    email = models.EmailField()
-    office_address = models.CharField(max_length=255)
-    working_hours = models.CharField(max_length=255)
+    email = models.EmailField(blank=True)
+    office_address = models.CharField(max_length=255, blank=True)
+    working_hours = models.CharField(max_length=255, blank=True)
     response_time_promise = models.CharField(
         max_length=255,
+        blank=True,
         help_text="e.g. 'We reply within 1 hour' — shown near booking CTAs.",
     )
     default_og_image = models.ImageField(upload_to="site/", blank=True, null=True)
@@ -49,10 +50,16 @@ class SiteSettings(models.Model):
                 "whatsapp_number": "998953336000",
                 "telegram_username": "abdulloh_talibdjanov",
                 "instagram_username": "abdulloh_tours",
-                "email": "TODO: confirm with Abdulloh",
-                "office_address": "TODO: confirm with Abdulloh",
-                "working_hours": "TODO: confirm with Abdulloh",
-                "response_time_promise": "TODO: confirm with Abdulloh",
+                # Left blank rather than a fake placeholder string: these are
+                # typed/validated fields (EmailField) and get rendered raw in
+                # public templates (footer, contact page) — an invalid or
+                # junk value would either break admin saves or leak onto the
+                # live site. Templates hide each field's UI when it's empty;
+                # fill in the real values in the admin once known.
+                "email": "",
+                "office_address": "",
+                "working_hours": "",
+                "response_time_promise": "",
             },
         )
         return obj

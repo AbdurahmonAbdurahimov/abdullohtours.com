@@ -13,7 +13,7 @@
     {% endblock %}
     <p class="mt-4 text-[16px] text-cream/85">
       {% blocktrans with ref_code=booking.ref_code %}Your request <strong>#{{ ref_code }}</strong> has been received.{% endblocktrans %}
-      {{ site_settings.response_time_promise }}
+      {% if site_settings.response_time_promise %}{{ site_settings.response_time_promise }}{% endif %}
     </p>
     <a href="{% url 'core:home' %}" class="mt-8 inline-flex items-center justify-center rounded border border-gold text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:bg-gold/10">
       {% trans "Back to home" %}
