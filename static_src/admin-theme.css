@@ -1,0 +1,60 @@
+/*
+ * Abdulloh Tours admin theme (CLAUDE.md §3 Gold & Navy), matching
+ * design/admin_dashboard_abdulloh_tours_gold_navy and
+ * design/admin_booking_requests_gold_navy.
+ *
+ * The accent (gold) and neutral (navy/cream) colour scales themselves are
+ * set via UNFOLD["COLORS"] in config/settings/base.py, which covers most
+ * of the admin automatically — this file handles the one thing that can't
+ * be done with a colour scale alone: the sidebar is meant to stay navy
+ * chrome permanently (the same fixed frame the public site's header/footer
+ * use), independent of the light/dark toggle, whereas Unfold's sidebar
+ * otherwise just follows the page's own light/dark background.
+ *
+ * Approach: force the sidebar's background + default text colour, then
+ * re-point the *-light font variables it inherits at their *-dark
+ * counterparts, scoped to the sidebar only. Every element inside that
+ * already carries its own explicit colour utility (active item, hover
+ * states, icons) is unaffected — only text relying on the inherited
+ * default picks up the correction. This is intentionally CSS-variable-based
+ * rather than a list of hardcoded class overrides, so it keeps working
+ * across any Unfold class that reads these same variables.
+ *
+ * Lives directly under static_src/ (not static_src/css/, which .gitignore
+ * excludes wholesale as Tailwind CLI's generated output) since this is
+ * hand-written source, not something `npm run build:css` produces.
+ */
+
+#nav-sidebar,
+#nav-sidebar-inner {
+  background-color: var(--color-base-950);
+}
+
+#nav-sidebar-inner {
+  color: var(--color-font-default-dark);
+  --color-font-important-light: var(--color-font-important-dark);
+  --color-font-default-light: var(--color-font-default-dark);
+  --color-font-subtle-light: var(--color-font-subtle-dark);
+}
+
+/* Dashboard KPI cards (templates/admin/index.html) — navy card, gold
+   title/value, matching design/admin_dashboard_abdulloh_tours_gold_navy.
+   Unfold's card.html hardcodes bg-white itself; overriding that requires
+   more than passing a Tailwind class (see the comment in index.html), so
+   this targets the card's own root element directly. */
+.kpi-card {
+  background-color: var(--color-base-950) !important;
+  border-color: var(--color-base-950) !important;
+}
+
+.kpi-card-title {
+  border-color: var(--color-base-800) !important;
+}
+
+/* title_class lands on card.html's wrapper <div>, not the <h2> inside it
+   (which carries its own hardcoded .text-important) — target that h2
+   directly rather than relying on inheritance from the wrapper. */
+.kpi-card-title h2,
+.kpi-card-value {
+  color: var(--color-primary-500) !important;
+}

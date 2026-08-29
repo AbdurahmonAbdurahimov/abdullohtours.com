@@ -10,6 +10,7 @@ and override what they need.
 from pathlib import Path
 
 import environ
+from django.templatetags.static import static
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -159,12 +160,60 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 # ---------------------------------------------------------------------------
 # django-unfold admin theme
 # ---------------------------------------------------------------------------
+# Gold & Navy (CLAUDE.md §3), per the design/*_gold_navy admin mockups.
+# Unfold themes itself entirely off two 11-step colour scales exposed as
+# CSS custom properties (--color-primary-*, --color-base-*) — every stop
+# below is derived only from CLAUDE.md's own named tokens (gold/gold-bright/
+# navy/navy-soft/cream/cream-soft/muted/line), never from the mockups' own
+# colours, which are auto-generated Material Design noise CLAUDE.md §3
+# explicitly calls out as a defect to ignore. "base" doubles as the
+# app-wide neutral scale (backgrounds, borders, body text in both light and
+# dark mode) and "primary" as the accent (links, buttons, active nav item,
+# focus rings) — deep-merged with unfold's own defaults (e.g. the "font"
+# sub-map, which just references these scales by name), so only these two
+# need overriding.
 UNFOLD = {
     "SITE_TITLE": "Abdulloh Tours Admin",
     "SITE_HEADER": "Abdulloh Tours",
     "SITE_SYMBOL": "map",
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
+    "BORDER_RADIUS": "4px",
+    "COLORS": {
+        "primary": {
+            "50": "#FCF2E4",
+            "100": "#F5E6CC",
+            "200": "#EBD3A3",
+            "300": "#DFBD78",
+            "400": "#D2AD58",
+            "500": "#C9A66B",  # gold
+            "600": "#D9A02E",  # gold-bright — CTAs, hover, active nav item
+            "700": "#A97F1E",
+            "800": "#7D5E16",
+            "900": "#52400F",
+            "950": "#2E2308",
+        },
+        "base": {
+            "50": "#FFF8F1",  # cream
+            "100": "#FCF2E4",  # cream-soft
+            "200": "#EDE1D0",
+            "300": "#C4C6CC",  # line
+            "400": "#9A9CA3",
+            "500": "#6E7178",
+            "600": "#43474C",  # muted
+            "700": "#2E3138",
+            "800": "#1B2430",
+            "900": "#0A1D2D",  # navy-soft
+            "950": "#071A2A",  # navy
+        },
+    },
+    # Forces the sidebar to stay navy chrome regardless of the light/dark
+    # toggle (the brand's fixed frame around a theme-able content area,
+    # matching the header/footer treatment on the public site) — see
+    # static_src/css/admin-theme.css.
+    "STYLES": [
+        lambda request: static("admin-theme.css"),
+    ],
     # Custom dashboard (CLAUDE.md §11) — see apps/core/admin_dashboard.py +
     # templates/admin/index.html.
     "DASHBOARD_CALLBACK": "apps.core.admin_dashboard.dashboard_callback",

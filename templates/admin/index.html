@@ -17,21 +17,22 @@ here rather than inherited.
 {% endblock %}
 
 {% block content %}
+  {# KPI cards forced navy with gold numbers, matching design/admin_dashboard_abdulloh_tours_gold_navy — the one spot on this page worth pulling out of Unfold's default white card look, since these are the headline stats. Styled via .kpi-card/.kpi-card-title/.kpi-card-value in static_src/css/admin-theme.css — Unfold ships a precompiled utility stylesheet, so an arbitrary new class+modifier combo (e.g. "bg-base-950!") that isn't already used somewhere in Unfold's own templates has no matching CSS rule and is a silent no-op. #}
   <div class="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-5">
-    {% component "unfold/components/card.html" with title="Today's requests" %}
-      <div class="text-2xl font-semibold text-important">{{ kpi_today }}</div>
+    {% component "unfold/components/card.html" with title="Today's requests" class="kpi-card" title_class="kpi-card-title" %}
+      <div class="text-2xl font-semibold kpi-card-value">{{ kpi_today }}</div>
     {% endcomponent %}
-    {% component "unfold/components/card.html" with title="Pending" %}
-      <div class="text-2xl font-semibold text-important">{{ kpi_pending }}</div>
+    {% component "unfold/components/card.html" with title="Pending" class="kpi-card" title_class="kpi-card-title" %}
+      <div class="text-2xl font-semibold kpi-card-value">{{ kpi_pending }}</div>
     {% endcomponent %}
-    {% component "unfold/components/card.html" with title="Confirmed this month" %}
-      <div class="text-2xl font-semibold text-important">{{ kpi_confirmed_month }}</div>
+    {% component "unfold/components/card.html" with title="Confirmed this month" class="kpi-card" title_class="kpi-card-title" %}
+      <div class="text-2xl font-semibold kpi-card-value">{{ kpi_confirmed_month }}</div>
     {% endcomponent %}
-    {% component "unfold/components/card.html" with title="Estimated revenue (month)" %}
-      <div class="text-2xl font-semibold text-important">${{ kpi_revenue_month|floatformat:0 }}</div>
+    {% component "unfold/components/card.html" with title="Estimated revenue (month)" class="kpi-card" title_class="kpi-card-title" %}
+      <div class="text-2xl font-semibold kpi-card-value">${{ kpi_revenue_month|floatformat:0 }}</div>
     {% endcomponent %}
-    {% component "unfold/components/card.html" with title="Abandoned builders" %}
-      <div class="text-2xl font-semibold text-important">{{ kpi_abandoned_builders }}</div>
+    {% component "unfold/components/card.html" with title="Abandoned builders" class="kpi-card" title_class="kpi-card-title" %}
+      <div class="text-2xl font-semibold kpi-card-value">{{ kpi_abandoned_builders }}</div>
     {% endcomponent %}
   </div>
 
