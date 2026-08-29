@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n responsive_image %}
 
 {% block meta_title %}{{ destination.meta_title|default:destination.name }} — Abdulloh Tours{% endblock %}
 {% block meta_description %}{{ destination.meta_description|default:destination.intro|truncatewords:30 }}{% endblock %}
@@ -34,10 +34,7 @@ considered complete; others gate on Destination.translation_complete_<lang>.
 {% block content %}
 <!-- Hero -->
 <section class="relative min-h-[60dvh] flex items-end overflow-hidden bg-navy text-cream">
-  {% if destination.hero_image %}
-    <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="eager"
-         class="absolute inset-0 w-full h-full object-cover">
-  {% endif %}
+  {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="100vw" loading="eager" %}
   <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/30"></div>
   <div class="relative mx-auto max-w-[1280px] px-4 md:px-8 py-lg w-full">
     {% if destination.region %}<p class="label text-gold mb-2">{{ destination.region }}</p>{% endif %}

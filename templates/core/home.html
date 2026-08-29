@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n responsive_image %}
 
 {% block meta_title %}Abdulloh Tours — Private Uzbekistan Tours{% endblock %}
 {% block meta_description %}Private group tours across Uzbekistan — Samarkand, Bukhara, Khiva, Tashkent — in our own vehicles with an English-speaking driver. Request a free quote.{% endblock %}
@@ -82,8 +82,9 @@
         <a href="{% url 'catalog:destination_detail' destination.slug %}"
            class="group relative overflow-hidden rounded-lg border border-gold/20 block h-[200px] {% if forloop.first %}md:col-span-8 md:h-[400px]{% else %}md:col-span-4{% endif %}">
           {% if destination.hero_image %}
-            <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}"
-                 class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
+            {% with loading_attr=forloop.first|yesno:"eager,lazy" %}
+            {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" sizes="(min-width: 768px) 66vw, 100vw" loading=loading_attr %}
+            {% endwith %}
           {% else %}
             <div class="absolute inset-0 bg-navy"></div>
           {% endif %}

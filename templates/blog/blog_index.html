@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n responsive_image %}
 
 {% block meta_title %}{% trans "Blog" %} — Abdulloh Tours{% endblock %}
 
@@ -17,7 +17,7 @@
       {% for post in posts %}
         <a href="{% url 'blog:blog_detail' post.slug %}" class="block border border-line rounded-lg overflow-hidden hover:border-gold bg-white">
           {% if post.cover_image %}
-            <img src="{{ post.cover_image.url }}" alt="{{ post.title }}" loading="lazy" class="w-full h-48 object-cover">
+            {% responsive_image post.cover_image post.title width=post.cover_image_width height=post.cover_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" %}
           {% else %}
             <div class="w-full h-48 bg-navy"></div>
           {% endif %}

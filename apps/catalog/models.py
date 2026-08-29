@@ -7,14 +7,17 @@ NOTE on "images"/"gallery" fields: CLAUDE.md §4 lists these as plain fields
 without specifying a gallery model. Rather than invent a separate Image model
 in this scaffold pass, we use a JSONField storing a list of media paths/URLs
 (`images`/`gallery`) alongside a single primary ImageField (`hero_image` /
-`cover_image`) for the "hero" shot. This keeps §7's WebP/srcset/lazy-load
-pipeline free to operate on the primary image without over-building a media
-model that isn't specified. Revisit if a real gallery/ordering UI is needed.
+`cover_image`) for the "hero" shot. The primary ImageField is a
+`WebPImageField` (apps/core/fields.py) — §7's WebP conversion/responsive
+srcset pipeline runs on it automatically; the JSONField gallery entries are
+out of scope for that pipeline since they aren't real ImageFields. Revisit
+if a real gallery/ordering UI is needed.
 """
 
 from django.db import models
 from django.utils.translation import gettext
 
+from apps.core.fields import WebPImageField
 from apps.core.models import SEOMixin
 
 
@@ -22,7 +25,15 @@ class Destination(SEOMixin):
     slug = models.SlugField(max_length=255, unique=True)
     name = models.CharField(max_length=255)
     region = models.CharField(max_length=255, blank=True)
-    hero_image = models.ImageField(upload_to="destinations/", blank=True, null=True)
+    hero_image = WebPImageField(
+        upload_to="destinations/",
+        blank=True,
+        null=True,
+        width_field="hero_image_width",
+        height_field="hero_image_height",
+    )
+    hero_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    hero_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     intro = models.TextField(blank=True)
     body = models.TextField(blank=True)
     min_recommended_days = models.PositiveSmallIntegerField(default=1)
@@ -63,7 +74,15 @@ class VehicleClass(models.Model):
     min_pax = models.PositiveSmallIntegerField()
     max_pax = models.PositiveSmallIntegerField()
     daily_rate_usd = models.DecimalField(max_digits=8, decimal_places=2)
-    image = models.ImageField(upload_to="vehicle_classes/", blank=True, null=True)
+    image = WebPImageField(
+        upload_to="vehicle_classes/",
+        blank=True,
+        null=True,
+        width_field="image_width",
+        height_field="image_height",
+    )
+    image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     order = models.PositiveIntegerField(default=0)
 
     class Meta:
@@ -134,7 +153,15 @@ class Package(SEOMixin):
     total_days = models.PositiveSmallIntegerField()
     summary = models.CharField(max_length=320, blank=True)
     body = models.TextField(blank=True)
-    hero_image = models.ImageField(upload_to="packages/", blank=True, null=True)
+    hero_image = WebPImageField(
+        upload_to="packages/",
+        blank=True,
+        null=True,
+        width_field="hero_image_width",
+        height_field="hero_image_height",
+    )
+    hero_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    hero_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     gallery = models.JSONField(default=list, blank=True)
     base_vehicle_class = models.ForeignKey(
         VehicleClass, on_delete=models.PROTECT, related_name="packages"

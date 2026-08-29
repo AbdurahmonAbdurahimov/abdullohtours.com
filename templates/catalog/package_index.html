@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n responsive_image %}
 
 {% block meta_title %}{% trans "Tours" %} — Abdulloh Tours{% endblock %}
 
@@ -22,7 +22,7 @@
         <a href="{% url 'catalog:package_detail' package.slug %}"
            class="block rounded-lg overflow-hidden border border-line hover:border-gold transition-colors bg-white">
           {% if package.hero_image %}
-            <img src="{{ package.hero_image.url }}" alt="{{ package.title }}" loading="lazy" class="w-full h-48 object-cover">
+            {% responsive_image package.hero_image package.title width=package.hero_image_width height=package.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" %}
           {% else %}
             <div class="w-full h-48 bg-navy"></div>
           {% endif %}

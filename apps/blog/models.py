@@ -1,6 +1,7 @@
 from django.db import models
 
 from apps.catalog.models import Destination, Package
+from apps.core.fields import WebPImageField
 from apps.core.models import SEOMixin
 
 
@@ -14,7 +15,15 @@ class BlogPost(SEOMixin):
     title = models.CharField(max_length=255)
     excerpt = models.CharField(max_length=320, blank=True)
     body = models.TextField(blank=True, help_text="Rich text body (HTML).")
-    cover_image = models.ImageField(upload_to="blog/", blank=True, null=True)
+    cover_image = WebPImageField(
+        upload_to="blog/",
+        blank=True,
+        null=True,
+        width_field="cover_image_width",
+        height_field="cover_image_height",
+    )
+    cover_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    cover_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     author = models.CharField(max_length=255, blank=True)
     category = models.CharField(max_length=100, blank=True)
     related_destinations = models.ManyToManyField(

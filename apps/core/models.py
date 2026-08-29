@@ -1,5 +1,7 @@
 from django.db import models
 
+from .fields import WebPImageField
+
 
 class SiteSettings(models.Model):
     """Singleton row holding site-wide contact details and defaults.
@@ -23,7 +25,15 @@ class SiteSettings(models.Model):
         blank=True,
         help_text="e.g. 'We reply within 1 hour' — shown near booking CTAs.",
     )
-    default_og_image = models.ImageField(upload_to="site/", blank=True, null=True)
+    default_og_image = WebPImageField(
+        upload_to="site/",
+        blank=True,
+        null=True,
+        width_field="default_og_image_width",
+        height_field="default_og_image_height",
+    )
+    default_og_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    default_og_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
 
     class Meta:
         verbose_name = "Site settings"
@@ -107,7 +117,15 @@ class SEOMixin(models.Model):
     meta_title = models.CharField(max_length=255, blank=True)
     meta_description = models.CharField(max_length=320, blank=True)
     focus_keyword = models.CharField(max_length=255, blank=True)
-    og_image = models.ImageField(upload_to="seo/", blank=True, null=True)
+    og_image = WebPImageField(
+        upload_to="seo/",
+        blank=True,
+        null=True,
+        width_field="og_image_width",
+        height_field="og_image_height",
+    )
+    og_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    og_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
     noindex = models.BooleanField(default=False)
 
     translation_complete_ru = models.BooleanField(default=False)

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n responsive_image %}
 
 {% block meta_title %}{% trans "Multi-City Tour Ideas" %} — Abdulloh Tours{% endblock %}
 {% block meta_description %}{% trans "Popular destination pairings for a private Uzbekistan tour, with a suggested number of days for each." %}{% endblock %}
@@ -24,12 +24,12 @@
            class="block rounded-lg border border-line hover:border-gold transition-colors bg-white overflow-hidden">
           <div class="grid grid-cols-2 h-32">
             {% if route.destination_a.hero_image %}
-              <img src="{{ route.destination_a.hero_image.url }}" alt="{{ route.destination_a.name }}" loading="lazy" class="w-full h-full object-cover">
+              {% responsive_image route.destination_a.hero_image route.destination_a.name width=route.destination_a.hero_image_width height=route.destination_a.hero_image_height css_class="w-full h-full object-cover" sizes="(min-width: 768px) 17vw, 50vw" loading="lazy" %}
             {% else %}
               <div class="w-full h-full bg-navy"></div>
             {% endif %}
             {% if route.destination_b.hero_image %}
-              <img src="{{ route.destination_b.hero_image.url }}" alt="{{ route.destination_b.name }}" loading="lazy" class="w-full h-full object-cover">
+              {% responsive_image route.destination_b.hero_image route.destination_b.name width=route.destination_b.hero_image_width height=route.destination_b.hero_image_height css_class="w-full h-full object-cover" sizes="(min-width: 768px) 17vw, 50vw" loading="lazy" %}
             {% else %}
               <div class="w-full h-full bg-navy-soft"></div>
             {% endif %}

@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n responsive_image %}
 
 {% block meta_title %}{{ package.meta_title|default:package.title }} — Abdulloh Tours{% endblock %}
 {% block meta_description %}{{ package.meta_description|default:package.summary }}{% endblock %}
@@ -34,7 +34,7 @@
 {% block content %}
 <section class="relative bg-navy text-cream overflow-hidden">
   {% if package.hero_image %}
-    <img src="{{ package.hero_image.url }}" alt="{{ package.title }}" loading="eager" class="absolute inset-0 w-full h-full object-cover">
+    {% responsive_image package.hero_image package.title width=package.hero_image_width height=package.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="100vw" loading="eager" %}
     <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/80 to-navy/40"></div>
   {% endif %}
   <div class="relative mx-auto max-w-[1280px] px-4 md:px-8 py-lg">

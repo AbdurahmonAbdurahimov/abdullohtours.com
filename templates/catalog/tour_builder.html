@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n responsive_image %}
 
 {% block meta_title %}{% trans "Build Your Tour" %} — Abdulloh Tours{% endblock %}
 {% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
@@ -123,8 +123,7 @@
                   <input type="checkbox" name="destinations" value="{{ destination.id }}"
                          x-model="destinations" @change="refresh()" class="sr-only">
                   {% if destination.hero_image %}
-                    <img src="{{ destination.hero_image.url }}" alt="{{ destination.name }}" loading="lazy"
-                         class="absolute inset-0 w-full h-full object-cover">
+                    {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="(min-width: 768px) 50vw, 100vw" loading="lazy" %}
                   {% else %}
                     <div class="absolute inset-0 bg-navy"></div>
                   {% endif %}
