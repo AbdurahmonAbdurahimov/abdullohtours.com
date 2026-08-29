@@ -15,6 +15,8 @@ if a real gallery/ordering UI is needed.
 """
 
 from django.db import models
+from django.urls import reverse
+from django.utils import translation
 from django.utils.translation import gettext
 
 from apps.core.fields import WebPImageField
@@ -45,6 +47,12 @@ class Destination(SEOMixin):
 
     def __str__(self) -> str:
         return self.name
+
+    def get_absolute_url(self) -> str:
+        # Always the canonical EN URL (drives the admin's "View on site"
+        # link) regardless of the current admin user's active locale.
+        with translation.override("en"):
+            return reverse("catalog:destination_detail", kwargs={"slug": self.slug})
 
 
 class Attraction(models.Model):
@@ -175,6 +183,10 @@ class Package(SEOMixin):
     def __str__(self) -> str:
         return self.title
 
+    def get_absolute_url(self) -> str:
+        with translation.override("en"):
+            return reverse("catalog:package_detail", kwargs={"slug": self.slug})
+
 
 class PackageDay(models.Model):
     package = models.ForeignKey(Package, on_delete=models.CASCADE, related_name="days")
@@ -302,6 +314,10 @@ class RoutePage(SEOMixin):
 
     def __str__(self) -> str:
         return f"{self.destination_a.name} & {self.destination_b.name}"
+
+    def get_absolute_url(self) -> str:
+        with translation.override("en"):
+            return reverse("catalog:route_detail", kwargs={"slug": self.slug})
 
     @property
     def title(self) -> str:

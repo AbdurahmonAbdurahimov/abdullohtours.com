@@ -9,7 +9,9 @@ render and renders whatever we add here through templates/admin/index.html.
 from __future__ import annotations
 
 from django.db.models import Sum
+from django.urls import reverse
 from django.utils import timezone
+from django.utils.html import format_html
 
 from apps.bookings.models import BookingRequest, BuilderSession
 
@@ -29,7 +31,17 @@ def dashboard_callback(request, context: dict) -> dict:
         "headers": ["Ref", "Name", "Status", "Dates", "Est. total", "Created"],
         "rows": [
             [
-                booking.ref_code,
+                # Every other cell is a plain string (rendered as-is by
+                # unfold's table component); this one is a dict with
+                # `content` so the ref code is a real link to the booking's
+                # admin change page, not just static text.
+                {
+                    "content": format_html(
+                        '<a href="{}" class="text-primary-600 hover:underline">{}</a>',
+                        reverse("admin:bookings_bookingrequest_change", args=[booking.pk]),
+                        booking.ref_code,
+                    )
+                },
                 booking.full_name,
                 booking.get_status_display(),
                 (

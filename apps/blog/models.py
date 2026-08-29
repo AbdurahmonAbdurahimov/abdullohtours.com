@@ -1,4 +1,6 @@
 from django.db import models
+from django.urls import reverse
+from django.utils import translation
 
 from apps.catalog.models import Destination, Package
 from apps.core.fields import WebPImageField
@@ -38,3 +40,7 @@ class BlogPost(SEOMixin):
 
     def __str__(self) -> str:
         return self.title
+
+    def get_absolute_url(self) -> str:
+        with translation.override("en"):
+            return reverse("blog:blog_detail", kwargs={"slug": self.slug})

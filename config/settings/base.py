@@ -10,6 +10,7 @@ and override what they need.
 from pathlib import Path
 
 import environ
+from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -178,17 +179,17 @@ UNFOLD = {
                     {
                         "title": "Booking requests",
                         "icon": "receipt_long",
-                        "link": "admin:bookings_bookingrequest_changelist",
+                        "link": reverse_lazy("admin:bookings_bookingrequest_changelist"),
                     },
                     {
                         "title": "Booking items",
                         "icon": "list_alt",
-                        "link": "admin:bookings_bookingitem_changelist",
+                        "link": reverse_lazy("admin:bookings_bookingitem_changelist"),
                     },
                     {
                         "title": "Builder sessions",
                         "icon": "construction",
-                        "link": "admin:bookings_buildersession_changelist",
+                        "link": reverse_lazy("admin:bookings_buildersession_changelist"),
                     },
                 ],
             },
@@ -199,52 +200,52 @@ UNFOLD = {
                     {
                         "title": "Destinations",
                         "icon": "place",
-                        "link": "admin:catalog_destination_changelist",
+                        "link": reverse_lazy("admin:catalog_destination_changelist"),
                     },
                     {
                         "title": "Attractions",
                         "icon": "photo_camera",
-                        "link": "admin:catalog_attraction_changelist",
+                        "link": reverse_lazy("admin:catalog_attraction_changelist"),
                     },
                     {
                         "title": "Packages",
                         "icon": "card_travel",
-                        "link": "admin:catalog_package_changelist",
+                        "link": reverse_lazy("admin:catalog_package_changelist"),
                     },
                     {
                         "title": "Package days",
                         "icon": "event_note",
-                        "link": "admin:catalog_packageday_changelist",
+                        "link": reverse_lazy("admin:catalog_packageday_changelist"),
                     },
                     {
                         "title": "Package items",
                         "icon": "checklist",
-                        "link": "admin:catalog_packageitem_changelist",
+                        "link": reverse_lazy("admin:catalog_packageitem_changelist"),
                     },
                     {
                         "title": "Activities",
                         "icon": "hiking",
-                        "link": "admin:catalog_activity_changelist",
+                        "link": reverse_lazy("admin:catalog_activity_changelist"),
                     },
                     {
                         "title": "Add-ons",
                         "icon": "add_circle",
-                        "link": "admin:catalog_addon_changelist",
+                        "link": reverse_lazy("admin:catalog_addon_changelist"),
                     },
                     {
                         "title": "Seasonal rates",
                         "icon": "calendar_month",
-                        "link": "admin:catalog_seasonalrate_changelist",
+                        "link": reverse_lazy("admin:catalog_seasonalrate_changelist"),
                     },
                     {
                         "title": "Vehicle classes",
                         "icon": "directions_car",
-                        "link": "admin:catalog_vehicleclass_changelist",
+                        "link": reverse_lazy("admin:catalog_vehicleclass_changelist"),
                     },
                     {
                         "title": "Route pages (SEO)",
                         "icon": "alt_route",
-                        "link": "admin:catalog_routepage_changelist",
+                        "link": reverse_lazy("admin:catalog_routepage_changelist"),
                     },
                 ],
             },
@@ -255,12 +256,12 @@ UNFOLD = {
                     {
                         "title": "Blog posts",
                         "icon": "article",
-                        "link": "admin:blog_blogpost_changelist",
+                        "link": reverse_lazy("admin:blog_blogpost_changelist"),
                     },
                     {
                         "title": "Reviews",
                         "icon": "reviews",
-                        "link": "admin:core_review_changelist",
+                        "link": reverse_lazy("admin:core_review_changelist"),
                     },
                 ],
             },
@@ -271,17 +272,17 @@ UNFOLD = {
                     {
                         "title": "Vehicles",
                         "icon": "airport_shuttle",
-                        "link": "admin:catalog_vehicle_changelist",
+                        "link": reverse_lazy("admin:catalog_vehicle_changelist"),
                     },
                     {
                         "title": "Drivers",
                         "icon": "badge",
-                        "link": "admin:catalog_driver_changelist",
+                        "link": reverse_lazy("admin:catalog_driver_changelist"),
                     },
                     {
                         "title": "Blackout dates",
                         "icon": "event_busy",
-                        "link": "admin:catalog_blackoutdate_changelist",
+                        "link": reverse_lazy("admin:catalog_blackoutdate_changelist"),
                     },
                 ],
             },
@@ -292,17 +293,17 @@ UNFOLD = {
                     {
                         "title": "Site settings",
                         "icon": "settings",
-                        "link": "admin:core_sitesettings_changelist",
+                        "link": reverse_lazy("admin:core_sitesettings_changelist"),
                     },
                     {
                         "title": "Telegram admins",
                         "icon": "send",
-                        "link": "admin:notifications_telegramadmin_changelist",
+                        "link": reverse_lazy("admin:notifications_telegramadmin_changelist"),
                     },
                     {
                         "title": "Notifications",
                         "icon": "notifications",
-                        "link": "admin:notifications_notification_changelist",
+                        "link": reverse_lazy("admin:notifications_notification_changelist"),
                     },
                 ],
             },
