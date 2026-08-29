@@ -95,3 +95,23 @@ def generate_variants(
         if storage.exists(name):
             storage.delete(name)
         storage.save(name, ContentFile(resize_webp(webp_bytes, width)))
+
+
+def delete_with_variants(storage: Storage, name: str, width: int | None = None) -> None:
+    """Delete `name` and every responsive variant next to it from `storage`.
+
+    Used to clean up orphaned files: the original this field pointed to
+    before a replacement upload, or everything once the owning row itself
+    is deleted. `width` narrows which variant widths to look for (from the
+    field's paired width_field, when known); without it, every entry in
+    `RESPONSIVE_WIDTHS` is checked — each check is a cheap `storage.exists()`
+    guard, so a wider search than necessary is harmless, just a few extra
+    existence checks.
+    """
+    if storage.exists(name):
+        storage.delete(name)
+    widths = responsive_widths_for(width) if width else RESPONSIVE_WIDTHS
+    for w in widths:
+        variant = variant_name(name, w)
+        if storage.exists(variant):
+            storage.delete(variant)

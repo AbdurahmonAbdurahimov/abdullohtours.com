@@ -146,3 +146,71 @@ def test_responsive_image_tag_renders_nothing_for_empty_field():
     template = Template("{% load responsive_image %}{% responsive_image d.hero_image d.name %}")
     html = template.render(Context({"d": destination}))
     assert html == ""
+
+
+def test_replacing_image_deletes_old_file_and_variants():
+    destination = Destination.objects.create(slug="test-dest-5", name="Test 5", is_active=True)
+    destination.hero_image = SimpleUploadedFile(
+        "old.jpg", _jpeg_bytes(1600, 800).read(), content_type="image/jpeg"
+    )
+    destination.save()
+    destination.refresh_from_db()
+
+    storage = destination.hero_image.storage
+    old_name = destination.hero_image.name
+    old_variants = [variant_name(old_name, w) for w in responsive_widths_for(1600)]
+    assert storage.exists(old_name)
+    assert all(storage.exists(v) for v in old_variants)
+
+    destination.hero_image = SimpleUploadedFile(
+        "new.jpg", _jpeg_bytes(900, 450).read(), content_type="image/jpeg"
+    )
+    destination.save()
+    destination.refresh_from_db()
+
+    assert not storage.exists(old_name)
+    assert not any(storage.exists(v) for v in old_variants)
+    assert storage.exists(destination.hero_image.name)
+
+    storage.delete(destination.hero_image.name)
+    for width in responsive_widths_for(900):
+        storage.delete(variant_name(destination.hero_image.name, width))
+
+
+def test_clearing_image_deletes_old_file_and_variants():
+    destination = Destination.objects.create(slug="test-dest-6", name="Test 6", is_active=True)
+    destination.hero_image = SimpleUploadedFile(
+        "clearme.jpg", _jpeg_bytes(1000, 500).read(), content_type="image/jpeg"
+    )
+    destination.save()
+    destination.refresh_from_db()
+
+    storage = destination.hero_image.storage
+    old_name = destination.hero_image.name
+    old_variants = [variant_name(old_name, w) for w in responsive_widths_for(1000)]
+
+    destination.hero_image = None
+    destination.save()
+
+    assert not storage.exists(old_name)
+    assert not any(storage.exists(v) for v in old_variants)
+
+
+def test_deleting_instance_deletes_current_file_and_variants():
+    destination = Destination.objects.create(slug="test-dest-7", name="Test 7", is_active=True)
+    destination.hero_image = SimpleUploadedFile(
+        "deleteme.jpg", _jpeg_bytes(1100, 550).read(), content_type="image/jpeg"
+    )
+    destination.save()
+    destination.refresh_from_db()
+
+    storage = destination.hero_image.storage
+    name = destination.hero_image.name
+    variants = [variant_name(name, w) for w in responsive_widths_for(1100)]
+    assert storage.exists(name)
+    assert all(storage.exists(v) for v in variants)
+
+    destination.delete()
+
+    assert not storage.exists(name)
+    assert not any(storage.exists(v) for v in variants)
