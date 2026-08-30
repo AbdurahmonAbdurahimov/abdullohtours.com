@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: abdullohtours.com\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-28 22:32+0500\n"
+"POT-Creation-Date: 2026-08-30 09:28+0500\n"
 "PO-Revision-Date: 2026-08-28 22:11+0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -13,75 +13,120 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
+#: apps/bookings/models.py:65
 msgid "full name"
 msgstr "полное имя"
 
+#: apps/bookings/models.py:66
 msgid "email"
 msgstr "эл. почта"
 
+#: apps/bookings/models.py:67
 msgid "phone"
 msgstr "телефон"
 
+#: apps/bookings/models.py:68 templates/bookings/booking_request.html:49
+#: templates/core/contact.html:24
 msgid "WhatsApp"
 msgstr "WhatsApp"
 
+#: apps/bookings/models.py:69
 msgid "country"
 msgstr "страна"
 
+#: apps/bookings/models.py:70
 msgid "message"
 msgstr "сообщение"
 
 #. Translators: %(a)s and %(b)s are destination names, e.g. "Samarkand"
 #. and "Bukhara" — resolved per-language via modeltranslation already,
 #. so only the surrounding phrase needs translating here.
+#: apps/catalog/models.py:327
 #, python-format
 msgid "%(a)s & %(b)s Tour"
 msgstr "Тур: %(a)s и %(b)s"
 
+#: templates/base.html:71
+msgid "Skip to content"
+msgstr "Перейти к содержимому"
+
+#: templates/blog/blog_index.html:4 templates/blog/blog_index.html:10
+#: templates/partials/footer.html:29
 msgid "Blog"
 msgstr "Блог"
 
+#: templates/bookings/booking_request.html:4 templates/core/contact.html:37
+#: templates/core/home.html:137 templates/partials/header.html:29
+#: templates/partials/header.html:57
 msgid "Request a Quote"
 msgstr "Оставить заявку"
 
+#: templates/bookings/booking_request.html:10
+#: templates/catalog/destination_detail.html:111
 msgid "Request a quote"
 msgstr "Оставить заявку"
 
+#: templates/bookings/booking_request.html:38
 msgid "Send Request"
 msgstr "Отправить заявку"
 
+#: templates/bookings/booking_request.html:44
 msgid "Prefer to chat?"
 msgstr "Удобнее в чате?"
 
+#: templates/bookings/booking_request.html:46
 msgid "Message us directly and we'll reply just as fast."
 msgstr "Напишите нам напрямую — ответим так же быстро."
 
+#: templates/bookings/booking_request.html:52 templates/core/contact.html:25
 msgid "Telegram"
 msgstr "Telegram"
 
+#: templates/bookings/thanks.html:4 templates/bookings/thanks.html:10
 msgid "Request received"
 msgstr "Заявка получена"
 
+#: templates/bookings/thanks.html:12
 msgid "Thank you!"
 msgstr "Спасибо!"
 
+#: templates/bookings/thanks.html:15
 #, python-format
 msgid "Your request <strong>#%(ref_code)s</strong> has been received."
 msgstr "Ваша заявка <strong>№%(ref_code)s</strong> получена."
 
+#: templates/bookings/thanks.html:19
 msgid "Back to home"
 msgstr "На главную"
 
+#: templates/catalog/destination_detail.html:58
+#: templates/partials/header.html:19 templates/partials/header.html:53
 msgid "About"
 msgstr "О направлении"
 
+#: templates/catalog/destination_detail.html:65
 msgid "Top attractions"
 msgstr "Главные достопримечательности"
 
+#: templates/catalog/destination_detail.html:80
+msgid "Entry fee"
+msgstr "Входной билет"
+
+#: templates/catalog/destination_detail.html:86
+msgid "Typical visit"
+msgstr "Обычная длительность"
+
+#: templates/catalog/destination_detail.html:87
+#, python-format
+msgid "%(minutes)s min"
+msgstr "%(minutes)s мин"
+
+#: templates/catalog/destination_detail.html:103
 #, python-format
 msgid "Build a private %(name)s tour"
 msgstr "Собрать частный тур — %(name)s"
 
+#: templates/catalog/destination_detail.html:105
 msgid ""
 "Customise your own itinerary with private transport, entrance tickets and an"
 " English-speaking driver."
@@ -89,24 +134,50 @@ msgstr ""
 "Соберите маршрут сами: частный транспорт, входные билеты и англоговорящий "
 "водитель."
 
+#: templates/catalog/destination_detail.html:108
+#: templates/catalog/route_detail.html:85
 msgid "Start building"
 msgstr "Начать сборку"
 
+#: templates/catalog/destination_detail.html:116
+msgid "Priced per vehicle, not per person"
+msgstr "Цена за автомобиль, а не за человека"
+
+#: templates/catalog/destination_detail.html:120
+#, fuzzy
+#| msgid ""
+#| "No online payment, no rigid packages — we agree the plan with you on "
+#| "WhatsApp."
+msgid "No online payment — we confirm by WhatsApp"
+msgstr ""
+"Без онлайн-оплаты и жёстких пакетов — план согласовываем с вами в WhatsApp."
+
+#: templates/catalog/destination_index.html:4
+#: templates/catalog/destination_index.html:10
+#: templates/catalog/partials/quote_summary.html:11
+#: templates/catalog/tour_builder.html:39 templates/partials/footer.html:26
+#: templates/partials/header.html:16 templates/partials/header.html:50
 msgid "Destinations"
 msgstr "Направления"
 
+#: templates/catalog/destination_index.html:12 templates/core/home.html:91
 msgid "From the ancient Silk Road cities to modern alpine resorts."
 msgstr "От древних городов Шёлкового пути до современных горных курортов."
 
+#: templates/catalog/package_detail.html:42
+#: templates/catalog/package_index.html:30
 msgid "days"
 msgstr "дней"
 
+#: templates/catalog/package_detail.html:57
 msgid "Itinerary"
 msgstr "Маршрут"
 
+#: templates/catalog/package_detail.html:61
 msgid "Day"
 msgstr "День"
 
+#: templates/catalog/package_detail.html:73
 msgid ""
 "Pricing is per private group (per vehicle), not per person. Entrance "
 "tickets, guide and meals are extras."
@@ -114,18 +185,24 @@ msgstr ""
 "Цена указана за группу (за автомобиль), а не за человека. Входные билеты, "
 "гид и питание — отдельно."
 
+#: templates/catalog/package_detail.html:75
 msgid "Customise this tour"
 msgstr "Настроить этот тур"
 
+#: templates/catalog/package_detail.html:78
 msgid "Request a Quote for this Tour"
 msgstr "Запросить цену на этот тур"
 
+#: templates/catalog/package_index.html:4 templates/partials/footer.html:27
+#: templates/partials/header.html:17 templates/partials/header.html:51
 msgid "Tours"
 msgstr "Туры"
 
+#: templates/catalog/package_index.html:10
 msgid "Tour packages"
 msgstr "Турпакеты"
 
+#: templates/catalog/package_index.html:13
 msgid ""
 "Ready-made itineraries, priced per private vehicle — or start from scratch "
 "in the tour builder."
@@ -133,12 +210,15 @@ msgstr ""
 "Готовые маршруты с ценой за автомобиль — или соберите тур с нуля в "
 "конструкторе."
 
+#: templates/catalog/partials/quote_summary.html:13
 msgid "None yet"
 msgstr "Пока не выбрано"
 
+#: templates/catalog/partials/quote_summary.html:17
 msgid "Travellers"
 msgstr "Путешественники"
 
+#: templates/catalog/partials/quote_summary.html:19
 #, python-format
 msgid "%(adults)s adult"
 msgid_plural "%(adults)s adults"
@@ -147,6 +227,7 @@ msgstr[1] "%(adults)s взрослых"
 msgstr[2] "%(adults)s взрослых"
 msgstr[3] "%(adults)s взрослых"
 
+#: templates/catalog/partials/quote_summary.html:19
 #, python-format
 msgid "%(children)s child"
 msgid_plural "%(children)s children"
@@ -155,24 +236,30 @@ msgstr[1] "%(children)s ребёнка"
 msgstr[2] "%(children)s детей"
 msgstr[3] "%(children)s детей"
 
+#: templates/catalog/partials/quote_summary.html:23
 msgid "Transport"
 msgstr "Транспорт"
 
+#: templates/catalog/partials/quote_summary.html:30
 msgid ""
 "Limited availability for these dates — we recommend requesting a quote soon."
 msgstr "На эти даты осталось мало мест — рекомендуем оставить заявку заранее."
 
+#: templates/catalog/partials/quote_summary.html:46
 msgid "Estimated total"
 msgstr "Примерная стоимость"
 
+#: templates/catalog/partials/quote_summary.html:50
 #, python-format
 msgid "~$%(per_person)s per person &middot; informational only"
 msgstr "~$%(per_person)s на человека &middot; только для справки"
 
+#: templates/catalog/route_detail.html:36
 #, python-format
 msgid "Suggested: %(days)s+ days"
 msgstr "Рекомендуется: от %(days)s дней"
 
+#: templates/catalog/route_detail.html:41
 #, python-format
 msgid ""
 "Combine %(a)s and %(b)s into a single private itinerary, priced per vehicle "
@@ -181,9 +268,12 @@ msgstr ""
 "Объедините %(a)s и %(b)s в единый частный маршрут с оплатой за автомобиль, а"
 " не за человека."
 
+#: templates/catalog/route_detail.html:59
+#: templates/catalog/route_detail.html:73
 msgid "Full destination guide"
 msgstr "Полный гид по направлению"
 
+#: templates/catalog/route_detail.html:81
 msgid ""
 "Pricing is per private group (per vehicle), not per person. Choose your own "
 "dates and add-ons in the tour builder."
@@ -191,9 +281,11 @@ msgstr ""
 "Цена указана за группу (за автомобиль), а не за человека. Даты и доп. услуги"
 " вы выбираете сами в конструкторе тура."
 
+#: templates/catalog/route_index.html:4
 msgid "Multi-City Tour Ideas"
 msgstr "Идеи туров по нескольким городам"
 
+#: templates/catalog/route_index.html:5
 msgid ""
 "Popular destination pairings for a private Uzbekistan tour, with a suggested"
 " number of days for each."
@@ -201,9 +293,11 @@ msgstr ""
 "Популярные сочетания направлений для частного тура по Узбекистану с "
 "рекомендованным числом дней для каждого."
 
+#: templates/catalog/route_index.html:11 templates/partials/footer.html:28
 msgid "Multi-city tour ideas"
 msgstr "Идеи туров по нескольким городам"
 
+#: templates/catalog/route_index.html:14
 msgid ""
 "Popular destination pairings, each with a suggested length of stay — a "
 "starting point for the tour builder, not a fixed package."
@@ -211,16 +305,21 @@ msgstr ""
 "Популярные сочетания направлений с рекомендованной длительностью — отправная"
 " точка для конструктора тура, а не готовый пакет."
 
+#: templates/catalog/route_index.html:40
 #, python-format
 msgid "From %(days)s days"
 msgstr "От %(days)s дней"
 
+#: templates/catalog/tour_builder.html:4 templates/core/home.html:47
+#: templates/partials/header.html:18 templates/partials/header.html:52
 msgid "Build Your Tour"
 msgstr "Собрать тур"
 
+#: templates/catalog/tour_builder.html:13
 msgid "Build your tour"
 msgstr "Соберите свой тур"
 
+#: templates/catalog/tour_builder.html:16
 msgid ""
 "Choose your dates, destinations and add-ons — we'll send you a tailored, "
 "per-vehicle estimate. Nothing is charged online; a real quote follows from "
@@ -229,54 +328,74 @@ msgstr ""
 "Выберите даты, направления и дополнительные услуги — мы пришлём расчёт за "
 "автомобиль. Онлайн-оплаты нет: точную цену пришлём в WhatsApp."
 
+#: templates/catalog/tour_builder.html:33
 msgid "Dates"
 msgstr "Даты"
 
+#: templates/catalog/tour_builder.html:45
 msgid "Activities"
 msgstr "Активности"
 
+#: templates/catalog/tour_builder.html:51
+#: templates/catalog/tour_builder.html:184
 msgid "Add-ons"
 msgstr "Доп. услуги"
 
+#: templates/catalog/tour_builder.html:57 templates/core/contact.html:4
+#: templates/partials/footer.html:43 templates/partials/header.html:21
+#: templates/partials/header.html:55
 msgid "Contact"
 msgstr "Контакты"
 
+#: templates/catalog/tour_builder.html:68
 msgid "When are you travelling, and how many?"
 msgstr "Когда вы едете и сколько вас?"
 
+#: templates/catalog/tour_builder.html:71
 msgid "Start date"
 msgstr "Дата начала"
 
+#: templates/catalog/tour_builder.html:76
 msgid "End date"
 msgstr "Дата окончания"
 
+#: templates/catalog/tour_builder.html:81
 msgid "Adults"
 msgstr "Взрослые"
 
+#: templates/catalog/tour_builder.html:83
 msgid "Decrease adults"
 msgstr "Уменьшить число взрослых"
 
+#: templates/catalog/tour_builder.html:85
 msgid "Number of adults"
 msgstr "Количество взрослых"
 
+#: templates/catalog/tour_builder.html:86
 msgid "Increase adults"
 msgstr "Увеличить число взрослых"
 
+#: templates/catalog/tour_builder.html:90
 msgid "Children (under 12)"
 msgstr "Дети (до 12 лет)"
 
+#: templates/catalog/tour_builder.html:92
 msgid "Decrease children"
 msgstr "Уменьшить число детей"
 
+#: templates/catalog/tour_builder.html:94
 msgid "Number of children"
 msgstr "Количество детей"
 
+#: templates/catalog/tour_builder.html:95
 msgid "Increase children"
 msgstr "Увеличить число детей"
 
+#: templates/catalog/tour_builder.html:102
 msgid "Vehicle"
 msgstr "Автомобиль"
 
+#: templates/catalog/tour_builder.html:104
 msgid ""
 "We assign the right vehicle for your group automatically — upgrade here if "
 "you'd like more space."
@@ -284,142 +403,363 @@ msgstr ""
 "Мы автоматически подбираем автомобиль под вашу группу — здесь можно выбрать "
 "более просторный."
 
+#: templates/catalog/tour_builder.html:108
 msgid "Auto (recommended)"
 msgstr "Автоматически (рекомендуется)"
 
+#: templates/catalog/tour_builder.html:110
 msgid "pax"
 msgstr "чел."
 
+#: templates/catalog/tour_builder.html:119
 msgid "Where would you like to go?"
 msgstr "Куда вы хотите поехать?"
 
+#: templates/catalog/tour_builder.html:148
 msgid "Add activities"
 msgstr "Добавить активности"
 
+#: templates/catalog/tour_builder.html:150
 msgid ""
 "Select at least one destination in the previous step to see activities."
 msgstr ""
 "Выберите хотя бы одно направление на предыдущем шаге, чтобы увидеть "
 "активности."
 
+#: templates/catalog/tour_builder.html:169
 msgid "/ person"
 msgstr "/ чел."
 
+#: templates/catalog/tour_builder.html:170
 msgid "/ day"
 msgstr "/ день"
 
+#: templates/catalog/tour_builder.html:171
 msgid "/ group"
 msgstr "/ группа"
 
+#: templates/catalog/tour_builder.html:205
+#: templates/catalog/tour_builder.html:229
 msgid "Back"
 msgstr "Назад"
 
+#: templates/catalog/tour_builder.html:206
 msgid "Next step"
 msgstr "Далее"
 
+#: templates/catalog/tour_builder.html:212
 msgid "Your details"
 msgstr "Ваши данные"
 
+#: templates/catalog/tour_builder.html:230
 msgid "Send request"
 msgstr "Отправить заявку"
 
+#: templates/catalog/tour_builder.html:239
 msgid "Tour summary"
 msgstr "Итог по туру"
 
+#: templates/core/about.html:4
 msgid "About Abdulloh Tours"
 msgstr "Об Abdulloh Tours"
 
+#: templates/core/about.html:10
 msgid "Meet Abdulloh"
 msgstr "Знакомьтесь — Абдулло"
 
+#: templates/core/contact.html:10
 msgid "Get in touch"
 msgstr "Связаться с нами"
 
+#: templates/core/contact.html:21
 msgid "Reach us directly"
 msgstr "Свяжитесь напрямую"
 
+#: templates/core/contact.html:23
 msgid "Phone"
 msgstr "Телефон"
 
+#: templates/core/contact.html:27
 msgid "Email"
 msgstr "Эл. почта"
 
+#: templates/core/contact.html:30
 msgid "Office"
 msgstr "Офис"
 
+#: templates/core/contact.html:33
 msgid "Working hours"
 msgstr "Часы работы"
 
+#: templates/core/contact.html:41
 msgid "Response promise"
 msgstr "Обещание по скорости ответа"
 
+#: templates/core/contact.html:45
 msgid "Message us on WhatsApp or Telegram for the fastest reply."
 msgstr "Напишите нам в WhatsApp или Telegram — так мы ответим быстрее всего."
 
+#: templates/core/faq.html:4 templates/partials/footer.html:31
+#: templates/partials/header.html:20 templates/partials/header.html:54
 msgid "FAQ"
 msgstr "Частые вопросы"
 
+#: templates/core/faq.html:14 templates/core/faq.html:70
+msgid "Do you sell flights or plane tickets?"
+msgstr "Вы продаёте авиабилеты?"
+
+#: templates/core/faq.html:15 templates/core/faq.html:73
+msgid ""
+"No. Abdulloh Tours is a private ground tour operator, not a travel agency or"
+" OTA — we don't book or sell airline tickets. We drive you around Uzbekistan"
+" in our own vehicles with an English-speaking driver."
+msgstr ""
+"Нет. Abdulloh Tours — оператор наземных частных туров, а не турагентство или"
+" OTA: мы не бронируем и не продаём авиабилеты. Мы возим вас по Узбекистану "
+"на своих автомобилях с англоговорящим водителем."
+
+#: templates/core/faq.html:19 templates/core/faq.html:77
+msgid "How is the price calculated?"
+msgstr "Как считается цена?"
+
+#: templates/core/faq.html:20 templates/core/faq.html:80
+#, fuzzy
+#| msgid ""
+#| "Pricing is per private group (per vehicle), not per person. Entrance "
+#| "tickets, guide and meals are extras."
+msgid ""
+"Tour pricing is per private vehicle/group, not per person — so the price "
+"stays the same whether it's 2 of you or a full van. Entrance tickets, a "
+"guide, and meals are optional per-person extras added on top."
+msgstr ""
+"Цена указана за группу (за автомобиль), а не за человека. Входные билеты, "
+"гид и питание — отдельно."
+
+#: templates/core/faq.html:24 templates/core/faq.html:84
+msgid "Can I pay online?"
+msgstr "Можно оплатить онлайн?"
+
+#: templates/core/faq.html:25 templates/core/faq.html:87
+msgid ""
+"There's no online payment on this site. Submitting a tour request or using "
+"the Tour Builder sends us your details; we then confirm the final itinerary "
+"and price with you directly over WhatsApp or Telegram."
+msgstr ""
+"На сайте нет онлайн-оплаты. Заявка или конструктор тура просто отправляют "
+"нам ваши данные — итоговый маршрут и цену мы согласуем с вами напрямую в "
+"WhatsApp или Telegram."
+
+#: templates/core/faq.html:29 templates/core/faq.html:91
+msgid "How quickly will you reply to my request?"
+msgstr "Как быстро вы ответите?"
+
+#: templates/core/faq.html:30 templates/core/faq.html:95
+msgid ""
+"We reply fast — a request that sits too long usually means a tourist books "
+"elsewhere, so getting back to you quickly is a priority for us."
+msgstr ""
+"Отвечаем быстро: если заявка ждёт слишком долго, турист обычно бронирует в "
+"другом месте — поэтому скорость ответа для нас в приоритете."
+
+#: templates/core/faq.html:34 templates/core/faq.html:100
+msgid "Which destinations do you cover?"
+msgstr "Какие направления вы охватываете?"
+
+#: templates/core/faq.html:35 templates/core/faq.html:103
+msgid ""
+"We run private tours across Uzbekistan, including Tashkent, Samarkand, "
+"Bukhara, Khiva, and the Amirsoy/Chimgan mountains — see the Destinations "
+"page for the full list."
+msgstr ""
+"Мы проводим частные туры по всему Узбекистану: Ташкент, Самарканд, Бухара, "
+"Хива, горы Амирсой и Чимган — полный список на странице «Направления»."
+
+#: templates/core/faq.html:39 templates/core/faq.html:107
+msgid "Is the driver English-speaking?"
+msgstr "Водитель говорит по-английски?"
+
+#: templates/core/faq.html:40 templates/core/faq.html:110
+#, fuzzy
+#| msgid ""
+#| "Private tours across Uzbekistan with an English-speaking driver."
+msgid "Yes — every private group is driven by an English-speaking driver."
+msgstr "Частные туры по Узбекистану с англоговорящим водителем."
+
+#: templates/core/faq.html:44 templates/core/faq.html:114
+msgid "Can I customize the itinerary?"
+msgstr "Можно изменить маршрут?"
+
+#: templates/core/faq.html:45 templates/core/faq.html:117
+msgid ""
+"Yes. Use the Tour Builder to pick your own dates, destinations, activities "
+"and add-ons, or start from one of our ready-made tour packages and we'll "
+"adjust it with you."
+msgstr ""
+"Да. В конструкторе тура выберите свои даты, направления, активности и "
+"дополнения — или возьмите готовый пакет, и мы подстроим его под вас."
+
+#: templates/core/faq.html:49 templates/core/faq.html:121
+msgid "How do I book a tour?"
+msgstr "Как забронировать тур?"
+
+#: templates/core/faq.html:50 templates/core/faq.html:124
+msgid ""
+"Submit a request through the Tour Builder or the quick booking form with "
+"your dates and group size. We'll get back to you to confirm the details and "
+"agree on a final price before anything is booked."
+msgstr ""
+"Отправьте заявку через конструктор тура или короткую форму, указав даты и "
+"число участников. Мы свяжемся с вами, уточним детали и согласуем итоговую "
+"цену — до любого бронирования."
+
+#: templates/core/faq.html:61
 msgid "Frequently asked questions"
 msgstr "Часто задаваемые вопросы"
 
+#: templates/core/home.html:35
 msgid "Private tours · Uzbekistan"
 msgstr "Частные туры · Узбекистан"
 
-msgid "See the real Uzbekistan, in your own private vehicle."
-msgstr "Настоящий Узбекистан — на личном автомобиле с водителем."
+#: templates/core/home.html:38
+msgid "Explore <span class=\"text-gold-bright\">Uzbekistan</span>, privately"
+msgstr "Откройте <span class=\"text-gold-bright\">Узбекистан</span> приватно"
 
-msgid "Browse Tours"
+#: templates/core/home.html:44
+msgid ""
+"Private journeys, local experiences and unforgettable moments — designed "
+"around you, and priced per vehicle rather than per person."
+msgstr ""
+"Частные поездки, местные впечатления и незабываемые моменты — под вас, с "
+"ценой за автомобиль, а не за человека."
+
+#: templates/core/home.html:48
+#, fuzzy
+#| msgid "Browse Tours"
+msgid "Explore Tours"
 msgstr "Смотреть туры"
 
+#: templates/core/home.html:60
 msgid "Private Tours"
 msgstr "Частные туры"
 
+#: templates/core/home.html:61
 msgid ""
 "Exclusive experiences priced per vehicle, tailored entirely to your pace."
 msgstr ""
 "Эксклюзивные впечатления с оплатой за автомобиль, в вашем собственном темпе."
 
+#: templates/core/home.html:67
 msgid "Local Experts"
 msgstr "Местные эксперты"
 
+#: templates/core/home.html:68
 msgid "English-speaking drivers who know the Silk Road cities inside out."
 msgstr "Англоговорящие водители, отлично знающие города Шёлкового пути."
 
+#: templates/core/home.html:74
 msgid "Flexible Itineraries"
 msgstr "Гибкие маршруты"
 
+#: templates/core/home.html:75
 msgid ""
 "No online payment, no rigid packages — we agree the plan with you on "
 "WhatsApp."
 msgstr ""
 "Без онлайн-оплаты и жёстких пакетов — план согласовываем с вами в WhatsApp."
 
+#: templates/core/home.html:90
 msgid "Explore Uzbekistan"
 msgstr "Исследуйте Узбекистан"
 
+#: templates/core/home.html:94
 msgid "View all destinations"
 msgstr "Все направления"
 
+#: templates/core/home.html:132
 msgid "Ready to plan your trip?"
 msgstr "Готовы спланировать поездку?"
 
+#: templates/core/home.html:134
+msgid ""
+"Tell us your dates and group size — we'll come back with an itinerary and a "
+"price."
+msgstr "Напишите даты и количество человек — пришлём маршрут и цену."
+
+#: templates/core/reviews.html:4 templates/partials/footer.html:30
 msgid "Reviews"
 msgstr "Отзывы"
 
+#: templates/core/reviews.html:32
 msgid "What our travellers say"
 msgstr "Что говорят наши путешественники"
 
-msgid "Private tours across Uzbekistan with an English-speaking driver."
+#: templates/partials/footer.html:11
+#, fuzzy
+#| msgid ""
+#| "Private tours across Uzbekistan with an English-speaking driver."
+msgid ""
+"Private tours across Uzbekistan in our own vehicles, with an English-"
+"speaking driver. Priced per vehicle, never per person."
 msgstr "Частные туры по Узбекистану с англоговорящим водителем."
 
+#: templates/partials/footer.html:24
+msgid "Explore"
+msgstr "Куда поехать"
+
+#: templates/partials/footer.html:36
+msgid "Connect"
+msgstr "Связаться"
+
+#: templates/partials/footer.html:39
+#, fuzzy
+#| msgid "WhatsApp"
+msgid "WhatsApp Support"
+msgstr "WhatsApp"
+
+#: templates/partials/footer.html:40
+#, fuzzy
+#| msgid "Telegram"
+msgid "Telegram Channel"
+msgstr "Telegram"
+
+#: templates/partials/footer.html:50
 msgid "All rights reserved."
 msgstr "Все права защищены."
 
+#: templates/partials/footer.html:51
+msgid ""
+"No online payment — every booking is a request we confirm with you "
+"personally."
+msgstr "Онлайн-оплаты нет — каждая заявка подтверждается лично."
+
+#: templates/partials/header.html:15 templates/partials/header.html:49
+msgid "Main"
+msgstr "Основное меню"
+
+#: templates/partials/header.html:36
 msgid "Toggle menu"
 msgstr "Открыть меню"
 
+#: templates/partials/lang_switcher.html:17
 msgid "Language"
 msgstr "Язык"
 
+#: templates/partials/lang_switcher.html:23
+msgid "Go"
+msgstr "Перейти"
+
+#: templates/partials/theme_toggle.html:28
+msgid "Theme: light"
+msgstr "Тема: светлая"
+
+#: templates/partials/theme_toggle.html:29
+msgid "Theme: dark"
+msgstr "Тема: тёмная"
+
+#: templates/partials/theme_toggle.html:30
+msgid "Theme: follow system"
+msgstr "Тема: как в системе"
+
+#: templates/partials/whatsapp_button.html:9
 msgid "Chat with us on WhatsApp"
 msgstr "Написать нам в WhatsApp"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-08-30 09:28+0500\n"
+"POT-Creation-Date: 2026-08-30 09:29+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,32 +16,32 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #: apps/bookings/models.py:65
 msgid "full name"
-msgstr "nom complet"
+msgstr "الاسم الكامل"
 
 #: apps/bookings/models.py:66
 msgid "email"
-msgstr "e-mail"
+msgstr "البريد الإلكتروني"
 
 #: apps/bookings/models.py:67
 msgid "phone"
-msgstr "téléphone"
+msgstr "الهاتف"
 
 #: apps/bookings/models.py:68 templates/bookings/booking_request.html:49
 #: templates/core/contact.html:24
 msgid "WhatsApp"
-msgstr "WhatsApp"
+msgstr "واتساب"
 
 #: apps/bookings/models.py:69
 msgid "country"
-msgstr "pays"
+msgstr "الدولة"
 
 #: apps/bookings/models.py:70
 msgid "message"
-msgstr "message"
+msgstr "رسالة"
 
 #. Translators: %(a)s and %(b)s are destination names, e.g. "Samarkand"
 #. and "Bukhara" — resolved per-language via modeltranslation already,
@@ -49,108 +49,106 @@ msgstr "message"
 #: apps/catalog/models.py:327
 #, python-format
 msgid "%(a)s & %(b)s Tour"
-msgstr "Circuit %(a)s et %(b)s"
+msgstr "جولة %(a)s و%(b)s"
 
 #: templates/base.html:71
 msgid "Skip to content"
-msgstr "Aller au contenu"
+msgstr "تخطَّ إلى المحتوى"
 
 #: templates/blog/blog_index.html:4 templates/blog/blog_index.html:10
 #: templates/partials/footer.html:29
 msgid "Blog"
-msgstr "Blog"
+msgstr "المدونة"
 
 #: templates/bookings/booking_request.html:4 templates/core/contact.html:37
 #: templates/core/home.html:137 templates/partials/header.html:29
 #: templates/partials/header.html:57
 msgid "Request a Quote"
-msgstr "Demander un devis"
+msgstr "اطلب عرض سعر"
 
 #: templates/bookings/booking_request.html:10
 #: templates/catalog/destination_detail.html:111
 msgid "Request a quote"
-msgstr "Demander un devis"
+msgstr "اطلب عرض سعر"
 
 #: templates/bookings/booking_request.html:38
 msgid "Send Request"
-msgstr "Envoyer la demande"
+msgstr "إرسال الطلب"
 
 #: templates/bookings/booking_request.html:44
 msgid "Prefer to chat?"
-msgstr "Vous préférez discuter ?"
+msgstr "تفضّل المحادثة؟"
 
 #: templates/bookings/booking_request.html:46
 msgid "Message us directly and we'll reply just as fast."
-msgstr "Écrivez-nous directement, nous répondons tout aussi vite."
+msgstr "راسلنا مباشرة وسنردّ بالسرعة نفسها."
 
 #: templates/bookings/booking_request.html:52 templates/core/contact.html:25
 msgid "Telegram"
-msgstr "Telegram"
+msgstr "تيليجرام"
 
 #: templates/bookings/thanks.html:4 templates/bookings/thanks.html:10
 msgid "Request received"
-msgstr "Demande reçue"
+msgstr "تم استلام الطلب"
 
 #: templates/bookings/thanks.html:12
 msgid "Thank you!"
-msgstr "Merci !"
+msgstr "شكرًا لك!"
 
 #: templates/bookings/thanks.html:15
 #, python-format
 msgid "Your request <strong>#%(ref_code)s</strong> has been received."
-msgstr "Votre demande <strong>n° %(ref_code)s</strong> a bien été reçue."
+msgstr "تم استلام طلبك <strong>رقم %(ref_code)s</strong>."
 
 #: templates/bookings/thanks.html:19
 msgid "Back to home"
-msgstr "Retour à l'accueil"
+msgstr "العودة إلى الرئيسية"
 
 #: templates/catalog/destination_detail.html:58
 #: templates/partials/header.html:19 templates/partials/header.html:53
 msgid "About"
-msgstr "À propos"
+msgstr "من نحن"
 
 #: templates/catalog/destination_detail.html:65
 msgid "Top attractions"
-msgstr "Sites incontournables"
+msgstr "أبرز المعالم"
 
 #: templates/catalog/destination_detail.html:80
 msgid "Entry fee"
-msgstr "Droit d'entrée"
+msgstr "رسوم الدخول"
 
 #: templates/catalog/destination_detail.html:86
 msgid "Typical visit"
-msgstr "Durée habituelle"
+msgstr "مدة الزيارة المعتادة"
 
 #: templates/catalog/destination_detail.html:87
 #, python-format
 msgid "%(minutes)s min"
-msgstr "%(minutes)s min"
+msgstr "%(minutes)s دقيقة"
 
 #: templates/catalog/destination_detail.html:103
 #, python-format
 msgid "Build a private %(name)s tour"
-msgstr "Composez un circuit privé à %(name)s"
+msgstr "صمّم جولة خاصة في %(name)s"
 
 #: templates/catalog/destination_detail.html:105
 msgid ""
 "Customise your own itinerary with private transport, entrance tickets and an"
 " English-speaking driver."
-msgstr ""
-"Composez votre propre itinéraire avec transport privé, billets d'entrée et "
-"chauffeur anglophone."
+msgstr "صمّم برنامجك الخاص مع نقل خاص وتذاكر دخول وسائق يتحدث الإنجليزية."
 
 #: templates/catalog/destination_detail.html:108
 #: templates/catalog/route_detail.html:85
 msgid "Start building"
-msgstr "Commencer"
+msgstr "ابدأ التصميم"
 
 #: templates/catalog/destination_detail.html:116
 msgid "Priced per vehicle, not per person"
-msgstr "Tarif par véhicule, pas par personne"
+msgstr "السعر لكل سيارة، لا لكل شخص"
 
 #: templates/catalog/destination_detail.html:120
 msgid "No online payment — we confirm by WhatsApp"
-msgstr "Aucun paiement en ligne — confirmation par WhatsApp"
+msgstr "لا دفع إلكتروني — نؤكد عبر واتساب"
 
 #: templates/catalog/destination_index.html:4
 #: templates/catalog/destination_index.html:10
@@ -158,105 +156,108 @@ msgstr "Aucun paiement en ligne — confirmation par WhatsApp"
 #: templates/catalog/tour_builder.html:39 templates/partials/footer.html:26
 #: templates/partials/header.html:16 templates/partials/header.html:50
 msgid "Destinations"
-msgstr "Destinations"
+msgstr "الوجهات"
 
 #: templates/catalog/destination_index.html:12 templates/core/home.html:91
 msgid "From the ancient Silk Road cities to modern alpine resorts."
-msgstr ""
-"Des cités antiques de la Route de la soie aux stations de montagne modernes."
+msgstr "من مدن طريق الحرير القديمة إلى منتجعات الجبال الحديثة."
 
 #: templates/catalog/package_detail.html:42
 #: templates/catalog/package_index.html:30
 msgid "days"
-msgstr "jours"
+msgstr "أيام"
 
 #: templates/catalog/package_detail.html:57
 msgid "Itinerary"
-msgstr "Itinéraire"
+msgstr "البرنامج"
 
 #: templates/catalog/package_detail.html:61
 msgid "Day"
-msgstr "Jour"
+msgstr "اليوم"
 
 #: templates/catalog/package_detail.html:73
 msgid ""
 "Pricing is per private group (per vehicle), not per person. Entrance "
 "tickets, guide and meals are extras."
 msgstr ""
-"Le tarif s'applique par groupe privé (par véhicule), et non par personne. "
-"Billets d'entrée, guide et repas sont en supplément."
+"السعر لكل مجموعة خاصة (لكل سيارة) وليس لكل شخص. تذاكر الدخول والمرشد "
+"والوجبات إضافات منفصلة."
 
 #: templates/catalog/package_detail.html:75
 msgid "Customise this tour"
-msgstr "Personnaliser ce circuit"
+msgstr "خصّص هذه الجولة"
 
 #: templates/catalog/package_detail.html:78
 msgid "Request a Quote for this Tour"
-msgstr "Demander un devis pour ce circuit"
+msgstr "اطلب عرض سعر لهذه الجولة"
 
 #: templates/catalog/package_index.html:4 templates/partials/footer.html:27
 #: templates/partials/header.html:17 templates/partials/header.html:51
 msgid "Tours"
-msgstr "Circuits"
+msgstr "الجولات"
 
 #: templates/catalog/package_index.html:10
 msgid "Tour packages"
-msgstr "Circuits organisés"
+msgstr "باقات الجولات"
 
 #: templates/catalog/package_index.html:13
 msgid ""
 "Ready-made itineraries, priced per private vehicle — or start from scratch "
 "in the tour builder."
-msgstr ""
-"Des itinéraires clés en main au tarif par véhicule — ou partez de zéro dans "
-"le configurateur."
+msgstr "برامج جاهزة بسعر لكل سيارة — أو ابدأ من الصفر في مُصمّم الجولات."
 
 #: templates/catalog/partials/quote_summary.html:13
 msgid "None yet"
-msgstr "Rien pour l'instant"
+msgstr "لا شيء بعد"
 
 #: templates/catalog/partials/quote_summary.html:17
 msgid "Travellers"
-msgstr "Voyageurs"
+msgstr "المسافرون"
 
 #: templates/catalog/partials/quote_summary.html:19
 #, python-format
 msgid "%(adults)s adult"
 msgid_plural "%(adults)s adults"
-msgstr[0] "%(adults)s adulte"
-msgstr[1] "%(adults)s adultes"
+msgstr[0] "%(adults)s بالغ"
+msgstr[1] "بالغ واحد"
+msgstr[2] "بالغان"
+msgstr[3] "%(adults)s بالغين"
+msgstr[4] "%(adults)s بالغًا"
+msgstr[5] "%(adults)s بالغ"
 
 #: templates/catalog/partials/quote_summary.html:19
 #, python-format
 msgid "%(children)s child"
 msgid_plural "%(children)s children"
-msgstr[0] "%(children)s enfant"
-msgstr[1] "%(children)s enfants"
+msgstr[0] "%(children)s طفل"
+msgstr[1] "طفل واحد"
+msgstr[2] "طفلان"
+msgstr[3] "%(children)s أطفال"
+msgstr[4] "%(children)s طفلًا"
+msgstr[5] "%(children)s طفل"
 
 #: templates/catalog/partials/quote_summary.html:23
 msgid "Transport"
-msgstr "Transport"
+msgstr "النقل"
 
 #: templates/catalog/partials/quote_summary.html:30
 msgid ""
 "Limited availability for these dates — we recommend requesting a quote soon."
-msgstr ""
-"Disponibilité limitée à ces dates — nous vous conseillons de demander un "
-"devis rapidement."
+msgstr "التوافر محدود في هذه التواريخ — ننصح بطلب عرض سعر قريبًا."
 
 #: templates/catalog/partials/quote_summary.html:46
 msgid "Estimated total"
-msgstr "Total estimé"
+msgstr "الإجمالي التقديري"
 
 #: templates/catalog/partials/quote_summary.html:50
 #, python-format
 msgid "~$%(per_person)s per person &middot; informational only"
-msgstr "~%(per_person)s $ par personne &middot; à titre indicatif"
+msgstr "~%(per_person)s$ للشخص &middot; للاطّلاع فقط"
 
 #: templates/catalog/route_detail.html:36
 #, python-format
 msgid "Suggested: %(days)s+ days"
-msgstr "Suggéré : à partir de %(days)s jours"
+msgstr "المقترح: %(days)s أيام فأكثر"
 
 #: templates/catalog/route_detail.html:41
 #, python-format
@@ -264,59 +265,58 @@ msgid ""
 "Combine %(a)s and %(b)s into a single private itinerary, priced per vehicle "
 "rather than per person."
 msgstr ""
-"Combinez %(a)s et %(b)s en un seul itinéraire privé, au tarif par véhicule "
-"plutôt que par personne."
+"اجمع بين %(a)s و%(b)s في برنامج خاص واحد، بسعر لكل سيارة بدلًا من كل شخص."
 
 #: templates/catalog/route_detail.html:59
 #: templates/catalog/route_detail.html:73
 msgid "Full destination guide"
-msgstr "Guide complet de la destination"
+msgstr "الدليل الكامل للوجهة"
 
 #: templates/catalog/route_detail.html:81
 msgid ""
 "Pricing is per private group (per vehicle), not per person. Choose your own "
 "dates and add-ons in the tour builder."
 msgstr ""
-"Le tarif s'applique par groupe privé (par véhicule), et non par personne. "
-"Choisissez vos dates et vos options dans le configurateur."
+"السعر لكل مجموعة خاصة (لكل سيارة) وليس لكل شخص. اختر تواريخك وإضافاتك في "
+"مُصمّم الجولات."
 
 #: templates/catalog/route_index.html:4
 msgid "Multi-City Tour Ideas"
-msgstr "Idées de circuits multi-villes"
+msgstr "أفكار جولات متعددة المدن"
 
 #: templates/catalog/route_index.html:5
 msgid ""
 "Popular destination pairings for a private Uzbekistan tour, with a suggested"
 " number of days for each."
 msgstr ""
-"Associations de destinations populaires pour un circuit privé en "
-"Ouzbékistan, avec une durée conseillée pour chacune."
+"أشهر تركيبات الوجهات لجولة خاصة في أوزبكستان، مع عدد الأيام المقترح لكل "
+"منها."
 
 #: templates/catalog/route_index.html:11 templates/partials/footer.html:28
 msgid "Multi-city tour ideas"
-msgstr "Idées de circuits multi-villes"
+msgstr "أفكار جولات متعددة المدن"
 
 #: templates/catalog/route_index.html:14
 msgid ""
 "Popular destination pairings, each with a suggested length of stay — a "
 "starting point for the tour builder, not a fixed package."
 msgstr ""
-"Associations de destinations populaires, chacune avec une durée de séjour "
-"conseillée — un point de départ pour le configurateur, pas un forfait figé."
+"تركيبات وجهات شائعة، لكل منها مدة إقامة مقترحة — نقطة انطلاق لمُصمّم "
+"الجولات، وليست باقة ثابتة."
 
 #: templates/catalog/route_index.html:40
 #, python-format
 msgid "From %(days)s days"
-msgstr "À partir de %(days)s jours"
+msgstr "من %(days)s أيام"
 
 #: templates/catalog/tour_builder.html:4 templates/core/home.html:47
 #: templates/partials/header.html:18 templates/partials/header.html:52
 msgid "Build Your Tour"
-msgstr "Composez votre circuit"
+msgstr "صمّم جولتك"
 
 #: templates/catalog/tour_builder.html:13
 msgid "Build your tour"
-msgstr "Composez votre circuit"
+msgstr "صمّم جولتك"
 
 #: templates/catalog/tour_builder.html:16
 msgid ""
@@ -324,189 +324,186 @@ msgid ""
 "per-vehicle estimate. Nothing is charged online; a real quote follows from "
 "us on WhatsApp."
 msgstr ""
-"Choisissez vos dates, destinations et options — nous vous enverrons une "
-"estimation sur mesure, par véhicule. Rien n'est facturé en ligne ; un vrai "
-"devis suit de notre part sur WhatsApp."
+"اختر تواريخك ووجهاتك وإضافاتك — وسنرسل لك تقديرًا مخصصًا لكل سيارة. لا "
+"يُحصَّل أي مبلغ إلكترونيًا؛ يصلك عرض سعر حقيقي منّا عبر واتساب."
 
 #: templates/catalog/tour_builder.html:33
 msgid "Dates"
-msgstr "Dates"
+msgstr "التواريخ"
 
 #: templates/catalog/tour_builder.html:45
 msgid "Activities"
-msgstr "Activités"
+msgstr "الأنشطة"
 
 #: templates/catalog/tour_builder.html:51
 #: templates/catalog/tour_builder.html:184
 msgid "Add-ons"
-msgstr "Options"
+msgstr "الإضافات"
 
 #: templates/catalog/tour_builder.html:57 templates/core/contact.html:4
 #: templates/partials/footer.html:43 templates/partials/header.html:21
 #: templates/partials/header.html:55
 msgid "Contact"
-msgstr "Contact"
+msgstr "اتصل بنا"
 
 #: templates/catalog/tour_builder.html:68
 msgid "When are you travelling, and how many?"
-msgstr "Quand partez-vous, et combien êtes-vous ?"
+msgstr "متى تسافر، وكم عددكم؟"
 
 #: templates/catalog/tour_builder.html:71
 msgid "Start date"
-msgstr "Date de début"
+msgstr "تاريخ البداية"
 
 #: templates/catalog/tour_builder.html:76
 msgid "End date"
-msgstr "Date de fin"
+msgstr "تاريخ النهاية"
 
 #: templates/catalog/tour_builder.html:81
 msgid "Adults"
-msgstr "Adultes"
+msgstr "البالغون"
 
 #: templates/catalog/tour_builder.html:83
 msgid "Decrease adults"
-msgstr "Moins d'adultes"
+msgstr "إنقاص عدد البالغين"
 
 #: templates/catalog/tour_builder.html:85
 msgid "Number of adults"
-msgstr "Nombre d'adultes"
+msgstr "عدد البالغين"
 
 #: templates/catalog/tour_builder.html:86
 msgid "Increase adults"
-msgstr "Plus d'adultes"
+msgstr "زيادة عدد البالغين"
 
 #: templates/catalog/tour_builder.html:90
 msgid "Children (under 12)"
-msgstr "Enfants (moins de 12 ans)"
+msgstr "الأطفال (دون 12)"
 
 #: templates/catalog/tour_builder.html:92
 msgid "Decrease children"
-msgstr "Moins d'enfants"
+msgstr "إنقاص عدد الأطفال"
 
 #: templates/catalog/tour_builder.html:94
 msgid "Number of children"
-msgstr "Nombre d'enfants"
+msgstr "عدد الأطفال"
 
 #: templates/catalog/tour_builder.html:95
 msgid "Increase children"
-msgstr "Plus d'enfants"
+msgstr "زيادة عدد الأطفال"
 
 #: templates/catalog/tour_builder.html:102
 msgid "Vehicle"
-msgstr "Véhicule"
+msgstr "السيارة"
 
 #: templates/catalog/tour_builder.html:104
 msgid ""
 "We assign the right vehicle for your group automatically — upgrade here if "
 "you'd like more space."
 msgstr ""
-"Nous attribuons automatiquement le véhicule adapté à votre groupe — passez à"
-" la catégorie supérieure ici si vous souhaitez plus d'espace."
+"نختار السيارة المناسبة لمجموعتك تلقائيًا — يمكنك الترقية هنا إن أردت مساحة "
+"أكبر."
 
 #: templates/catalog/tour_builder.html:108
 msgid "Auto (recommended)"
-msgstr "Automatique (recommandé)"
+msgstr "تلقائي (موصى به)"
 
 #: templates/catalog/tour_builder.html:110
 msgid "pax"
-msgstr "pers."
+msgstr "أشخاص"
 
 #: templates/catalog/tour_builder.html:119
 msgid "Where would you like to go?"
-msgstr "Où souhaitez-vous aller ?"
+msgstr "إلى أين تودّ الذهاب؟"
 
 #: templates/catalog/tour_builder.html:148
 msgid "Add activities"
-msgstr "Ajouter des activités"
+msgstr "أضف أنشطة"
 
 #: templates/catalog/tour_builder.html:150
 msgid ""
 "Select at least one destination in the previous step to see activities."
-msgstr ""
-"Sélectionnez au moins une destination à l'étape précédente pour voir les "
-"activités."
+msgstr "اختر وجهة واحدة على الأقل في الخطوة السابقة لعرض الأنشطة."
 
 #: templates/catalog/tour_builder.html:169
 msgid "/ person"
-msgstr "/ personne"
+msgstr "/ للشخص"
 
 #: templates/catalog/tour_builder.html:170
 msgid "/ day"
-msgstr "/ jour"
+msgstr "/ لليوم"
 
 #: templates/catalog/tour_builder.html:171
 msgid "/ group"
-msgstr "/ groupe"
+msgstr "/ للمجموعة"
 
 #: templates/catalog/tour_builder.html:205
 #: templates/catalog/tour_builder.html:229
 msgid "Back"
-msgstr "Retour"
+msgstr "رجوع"
 
 #: templates/catalog/tour_builder.html:206
 msgid "Next step"
-msgstr "Étape suivante"
+msgstr "الخطوة التالية"
 
 #: templates/catalog/tour_builder.html:212
 msgid "Your details"
-msgstr "Vos coordonnées"
+msgstr "بياناتك"
 
 #: templates/catalog/tour_builder.html:230
 msgid "Send request"
-msgstr "Envoyer la demande"
+msgstr "إرسال الطلب"
 
 #: templates/catalog/tour_builder.html:239
 msgid "Tour summary"
-msgstr "Récapitulatif du circuit"
+msgstr "ملخص الجولة"
 
 #: templates/core/about.html:4
 msgid "About Abdulloh Tours"
-msgstr "À propos d'Abdulloh Tours"
+msgstr "عن Abdulloh Tours"
 
 #: templates/core/about.html:10
 msgid "Meet Abdulloh"
-msgstr "Rencontrez Abdulloh"
+msgstr "تعرّف على عبد الله"
 
 #: templates/core/contact.html:10
 msgid "Get in touch"
-msgstr "Nous contacter"
+msgstr "تواصل معنا"
 
 #: templates/core/contact.html:21
 msgid "Reach us directly"
-msgstr "Nous joindre directement"
+msgstr "تواصل معنا مباشرة"
 
 #: templates/core/contact.html:23
 msgid "Phone"
-msgstr "Téléphone"
+msgstr "الهاتف"
 
 #: templates/core/contact.html:27
 msgid "Email"
-msgstr "E-mail"
+msgstr "البريد الإلكتروني"
 
 #: templates/core/contact.html:30
 msgid "Office"
-msgstr "Bureau"
+msgstr "المكتب"
 
 #: templates/core/contact.html:33
 msgid "Working hours"
-msgstr "Horaires"
+msgstr "ساعات العمل"
 
 #: templates/core/contact.html:41
 msgid "Response promise"
-msgstr "Notre engagement de réponse"
+msgstr "وعد الاستجابة"
 
 #: templates/core/contact.html:45
 msgid "Message us on WhatsApp or Telegram for the fastest reply."
-msgstr "Écrivez-nous sur WhatsApp ou Telegram pour la réponse la plus rapide."
+msgstr "راسلنا عبر واتساب أو تيليجرام للحصول على أسرع رد."
 
 #: templates/core/faq.html:4 templates/partials/footer.html:31
 #: templates/partials/header.html:20 templates/partials/header.html:54
 msgid "FAQ"
-msgstr "FAQ"
+msgstr "الأسئلة الشائعة"
 
 #: templates/core/faq.html:14 templates/core/faq.html:70
 msgid "Do you sell flights or plane tickets?"
-msgstr "Vendez-vous des vols ou des billets d'avion ?"
+msgstr "هل تبيعون تذاكر طيران؟"
 
 #: templates/core/faq.html:15 templates/core/faq.html:73
 msgid ""
@@ -514,14 +511,13 @@ msgid ""
 " OTA — we don't book or sell airline tickets. We drive you around Uzbekistan"
 " in our own vehicles with an English-speaking driver."
 msgstr ""
-"Non. Abdulloh Tours est un organisateur de circuits privés terrestres, ni "
-"une agence de voyage ni une OTA — nous ne réservons ni ne vendons de billets"
-" d'avion. Nous vous conduisons à travers l'Ouzbékistan dans nos propres "
-"véhicules avec un chauffeur anglophone."
+"لا. Abdulloh Tours مشغّل جولات برية خاصة، وليس وكالة سفر أو منصة حجز — نحن "
+"لا نحجز أو نبيع تذاكر الطيران. ننقلك في أنحاء أوزبكستان بسياراتنا مع سائق "
+"يتحدث الإنجليزية."
 
 #: templates/core/faq.html:19 templates/core/faq.html:77
 msgid "How is the price calculated?"
-msgstr "Comment le prix est-il calculé ?"
+msgstr "كيف يُحتسب السعر؟"
 
 #: templates/core/faq.html:20 templates/core/faq.html:80
 msgid ""
@@ -529,13 +525,13 @@ msgid ""
 "stays the same whether it's 2 of you or a full van. Entrance tickets, a "
 "guide, and meals are optional per-person extras added on top."
 msgstr ""
-"Le tarif s'applique par véhicule privé/groupe, et non par personne : il "
-"reste identique que vous soyez deux ou que le van soit plein. Les billets "
-"d'entrée, le guide et les repas sont des options facturées par personne."
+"يُحتسب سعر الجولة لكل سيارة/مجموعة خاصة وليس لكل شخص — فالسعر نفسه سواء "
+"كنتما اثنين أو كانت الحافلة ممتلئة. أما تذاكر الدخول والمرشد والوجبات فهي "
+"إضافات اختيارية تُحتسب لكل شخص."
 
 #: templates/core/faq.html:24 templates/core/faq.html:84
 msgid "Can I pay online?"
-msgstr "Puis-je payer en ligne ?"
+msgstr "هل يمكنني الدفع إلكترونيًا؟"
 
 #: templates/core/faq.html:25 templates/core/faq.html:87
 msgid ""
@@ -543,27 +539,25 @@ msgid ""
 "the Tour Builder sends us your details; we then confirm the final itinerary "
 "and price with you directly over WhatsApp or Telegram."
 msgstr ""
-"Il n'y a pas de paiement en ligne sur ce site. Une demande de circuit ou le "
-"configurateur nous transmet vos coordonnées ; nous confirmons ensuite "
-"l'itinéraire final et le prix directement avec vous sur WhatsApp ou "
-"Telegram."
+"لا يوجد دفع إلكتروني على هذا الموقع. إرسال طلب جولة أو استخدام مُصمّم "
+"الجولات يرسل لنا بياناتك؛ ثم نؤكد معك البرنامج النهائي والسعر مباشرة عبر "
+"واتساب أو تيليجرام."
 
 #: templates/core/faq.html:29 templates/core/faq.html:91
 msgid "How quickly will you reply to my request?"
-msgstr "Sous quel délai répondez-vous ?"
+msgstr "ما مدى سرعة ردّكم على طلبي؟"
 
 #: templates/core/faq.html:30 templates/core/faq.html:95
 msgid ""
 "We reply fast — a request that sits too long usually means a tourist books "
 "elsewhere, so getting back to you quickly is a priority for us."
 msgstr ""
-"Nous répondons vite : une demande laissée trop longtemps signifie "
-"généralement que le voyageur réserve ailleurs, donc vous répondre rapidement"
-" est une priorité."
+"نردّ بسرعة — فالطلب الذي ينتظر طويلًا يعني عادةً أن السائح سيحجز في مكان "
+"آخر، لذا فإن الرد السريع أولوية لدينا."
 
 #: templates/core/faq.html:34 templates/core/faq.html:100
 msgid "Which destinations do you cover?"
-msgstr "Quelles destinations couvrez-vous ?"
+msgstr "ما الوجهات التي تغطّونها؟"
 
 #: templates/core/faq.html:35 templates/core/faq.html:103
 msgid ""
@@ -571,21 +565,20 @@ msgid ""
 "Bukhara, Khiva, and the Amirsoy/Chimgan mountains — see the Destinations "
 "page for the full list."
 msgstr ""
-"Nous organisons des circuits privés dans tout l'Ouzbékistan : Tachkent, "
-"Samarcande, Boukhara, Khiva et les montagnes d'Amirsoy/Chimgan — la liste "
-"complète figure sur la page Destinations."
+"ننظّم جولات خاصة في جميع أنحاء أوزبكستان، وتشمل طشقند وسمرقند وبخارى وخيوة "
+"وجبال أميرصوي/تشيمغان — راجع صفحة الوجهات للقائمة الكاملة."
 
 #: templates/core/faq.html:39 templates/core/faq.html:107
 msgid "Is the driver English-speaking?"
-msgstr "Le chauffeur parle-t-il anglais ?"
+msgstr "هل السائق يتحدث الإنجليزية؟"
 
 #: templates/core/faq.html:40 templates/core/faq.html:110
 msgid "Yes — every private group is driven by an English-speaking driver."
-msgstr "Oui : chaque groupe privé est conduit par un chauffeur anglophone."
+msgstr "نعم — كل مجموعة خاصة يقودها سائق يتحدث الإنجليزية."
 
 #: templates/core/faq.html:44 templates/core/faq.html:114
 msgid "Can I customize the itinerary?"
-msgstr "Puis-je personnaliser l'itinéraire ?"
+msgstr "هل يمكنني تخصيص البرنامج؟"
 
 #: templates/core/faq.html:45 templates/core/faq.html:117
 msgid ""
@@ -593,13 +586,12 @@ msgid ""
 "and add-ons, or start from one of our ready-made tour packages and we'll "
 "adjust it with you."
 msgstr ""
-"Oui. Utilisez le configurateur pour choisir vos dates, destinations, "
-"activités et options, ou partez d'un de nos circuits prêts à l'emploi que "
-"nous adapterons avec vous."
+"نعم. استخدم مُصمّم الجولات لاختيار تواريخك ووجهاتك وأنشطتك وإضافاتك، أو ابدأ"
+" من إحدى باقاتنا الجاهزة وسنعدّلها معك."
 
 #: templates/core/faq.html:49 templates/core/faq.html:121
 msgid "How do I book a tour?"
-msgstr "Comment réserver un circuit ?"
+msgstr "كيف أحجز جولة؟"
 
 #: templates/core/faq.html:50 templates/core/faq.html:124
 msgid ""
@@ -607,159 +599,149 @@ msgid ""
 "your dates and group size. We'll get back to you to confirm the details and "
 "agree on a final price before anything is booked."
 msgstr ""
-"Envoyez une demande via le configurateur ou le formulaire rapide, en "
-"précisant vos dates et la taille du groupe. Nous revenons vers vous pour "
-"confirmer les détails et convenir d'un prix final avant toute réservation."
+"أرسل طلبًا عبر مُصمّم الجولات أو نموذج الحجز السريع مع تواريخك وعدد "
+"المسافرين. سنعاود الاتصال بك لتأكيد التفاصيل والاتفاق على السعر النهائي قبل "
+"حجز أي شيء."
 
 #: templates/core/faq.html:61
 msgid "Frequently asked questions"
-msgstr "Questions fréquentes"
+msgstr "الأسئلة الشائعة"
 
 #: templates/core/home.html:35
 msgid "Private tours · Uzbekistan"
-msgstr "Circuits privés · Ouzbékistan"
+msgstr "جولات خاصة · أوزبكستان"
 
 #: templates/core/home.html:38
 msgid "Explore <span class=\"text-gold-bright\">Uzbekistan</span>, privately"
-msgstr "Découvrez l'<span class=\"text-gold-bright\">Ouzbékistan</span>, en privé"
+msgstr "اكتشف <span class=\"text-gold-bright\">أوزبكستان</span> بخصوصية"
 
 #: templates/core/home.html:44
 msgid ""
 "Private journeys, local experiences and unforgettable moments — designed "
 "around you, and priced per vehicle rather than per person."
 msgstr ""
-"Voyages privés, expériences locales et moments inoubliables — conçus pour "
-"vous, au tarif par véhicule plutôt que par personne."
+"رحلات خاصة وتجارب محلية ولحظات لا تُنسى — مصمّمة حولك، وبسعر لكل سيارة بدلًا"
+" من كل شخص."
 
 #: templates/core/home.html:48
 msgid "Explore Tours"
-msgstr "Voir les circuits"
+msgstr "تصفّح الجولات"
 
 #: templates/core/home.html:60
 msgid "Private Tours"
-msgstr "Circuits privés"
+msgstr "جولات خاصة"
 
 #: templates/core/home.html:61
 msgid ""
 "Exclusive experiences priced per vehicle, tailored entirely to your pace."
-msgstr ""
-"Des expériences exclusives au tarif par véhicule, entièrement à votre "
-"rythme."
+msgstr "تجارب حصرية بسعر لكل سيارة، وبإيقاعك أنت تمامًا."
 
 #: templates/core/home.html:67
 msgid "Local Experts"
-msgstr "Experts locaux"
+msgstr "خبراء محليون"
 
 #: templates/core/home.html:68
 msgid "English-speaking drivers who know the Silk Road cities inside out."
-msgstr ""
-"Des chauffeurs anglophones qui connaissent parfaitement les villes de la "
-"Route de la soie."
+msgstr "سائقون يتحدثون الإنجليزية ويعرفون مدن طريق الحرير عن ظهر قلب."
 
 #: templates/core/home.html:74
 msgid "Flexible Itineraries"
-msgstr "Itinéraires flexibles"
+msgstr "برامج مرنة"
 
 #: templates/core/home.html:75
 msgid ""
 "No online payment, no rigid packages — we agree the plan with you on "
 "WhatsApp."
-msgstr ""
-"Aucun paiement en ligne, aucun forfait rigide — nous convenons du programme "
-"avec vous sur WhatsApp."
+msgstr "لا دفع إلكتروني ولا برامج جامدة — نتفق معك على الخطة عبر واتساب."
 
 #: templates/core/home.html:90
 msgid "Explore Uzbekistan"
-msgstr "Découvrir l'Ouzbékistan"
+msgstr "اكتشف أوزبكستان"
 
 #: templates/core/home.html:94
 msgid "View all destinations"
-msgstr "Voir toutes les destinations"
+msgstr "عرض كل الوجهات"
 
 #: templates/core/home.html:132
 msgid "Ready to plan your trip?"
-msgstr "Prêt à planifier votre voyage ?"
+msgstr "جاهز لتخطيط رحلتك؟"
 
 #: templates/core/home.html:134
 msgid ""
 "Tell us your dates and group size — we'll come back with an itinerary and a "
 "price."
-msgstr ""
-"Indiquez vos dates et la taille du groupe — nous revenons vers vous avec un "
-"itinéraire et un prix."
+msgstr "أخبرنا بتواريخك وعدد المسافرين — وسنعود إليك ببرنامج وسعر."
 
 #: templates/core/reviews.html:4 templates/partials/footer.html:30
 msgid "Reviews"
-msgstr "Avis"
+msgstr "التقييمات"
 
 #: templates/core/reviews.html:32
 msgid "What our travellers say"
-msgstr "Ce que disent nos voyageurs"
+msgstr "ماذا يقول مسافرونا"
 
 #: templates/partials/footer.html:11
 msgid ""
 "Private tours across Uzbekistan in our own vehicles, with an English-"
 "speaking driver. Priced per vehicle, never per person."
 msgstr ""
-"Circuits privés en Ouzbékistan dans nos propres véhicules, avec chauffeur "
-"anglophone. Tarif par véhicule, jamais par personne."
+"جولات خاصة في أوزبكستان بسياراتنا مع سائق يتحدث الإنجليزية. السعر لكل سيارة،"
+" وليس لكل شخص."
 
 #: templates/partials/footer.html:24
 msgid "Explore"
-msgstr "Explorer"
+msgstr "استكشف"
 
 #: templates/partials/footer.html:36
 msgid "Connect"
-msgstr "Nous suivre"
+msgstr "تواصل"
 
 #: templates/partials/footer.html:39
 msgid "WhatsApp Support"
-msgstr "Assistance WhatsApp"
+msgstr "الدعم عبر واتساب"
 
 #: templates/partials/footer.html:40
 msgid "Telegram Channel"
-msgstr "Chaîne Telegram"
+msgstr "قناة تيليجرام"
 
 #: templates/partials/footer.html:50
 msgid "All rights reserved."
-msgstr "Tous droits réservés."
+msgstr "جميع الحقوق محفوظة."
 
 #: templates/partials/footer.html:51
 msgid ""
 "No online payment — every booking is a request we confirm with you "
 "personally."
-msgstr ""
-"Aucun paiement en ligne — chaque réservation est une demande que nous "
-"confirmons personnellement."
+msgstr "لا يوجد دفع إلكتروني — كل حجز هو طلب نؤكده معك شخصيًا."
 
 #: templates/partials/header.html:15 templates/partials/header.html:49
 msgid "Main"
-msgstr "Navigation principale"
+msgstr "التنقل الرئيسي"
 
 #: templates/partials/header.html:36
 msgid "Toggle menu"
-msgstr "Afficher le menu"
+msgstr "تبديل القائمة"
 
 #: templates/partials/lang_switcher.html:17
 msgid "Language"
-msgstr "Langue"
+msgstr "اللغة"
 
 #: templates/partials/lang_switcher.html:23
 msgid "Go"
-msgstr "OK"
+msgstr "انتقل"
 
 #: templates/partials/theme_toggle.html:28
 msgid "Theme: light"
-msgstr "Thème : clair"
+msgstr "المظهر: فاتح"
 
 #: templates/partials/theme_toggle.html:29
 msgid "Theme: dark"
-msgstr "Thème : sombre"
+msgstr "المظهر: داكن"
 
 #: templates/partials/theme_toggle.html:30
 msgid "Theme: follow system"
-msgstr "Thème : selon le système"
+msgstr "المظهر: حسب النظام"
 
 #: templates/partials/whatsapp_button.html:9
 msgid "Chat with us on WhatsApp"
-msgstr "Discutez avec nous sur WhatsApp"
+msgstr "تواصل معنا عبر واتساب"

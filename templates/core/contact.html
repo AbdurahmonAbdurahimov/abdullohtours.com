@@ -20,8 +20,8 @@
     <div class="card p-6">
       <h2 class="font-serif text-h3 text-content mb-4">{% trans "Reach us directly" %}</h2>
       <ul class="space-y-3 text-[16px] text-content">
-        <li class="flex justify-between gap-4"><span class="label text-content-muted">{% trans "Phone" %}</span> <a class="text-gold-bright hover:underline" href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></li>
-        <li class="flex justify-between gap-4"><span class="label text-content-muted">{% trans "WhatsApp" %}</span> <a class="text-gold-bright hover:underline" href="https://wa.me/{{ site_settings.whatsapp_number }}">{{ site_settings.whatsapp_number }}</a></li>
+        <li class="flex justify-between gap-4"><span class="label text-content-muted">{% trans "Phone" %}</span> <a class="text-gold-bright hover:underline" href="tel:{{ site_settings.phone }}" dir="ltr">{{ site_settings.phone }}</a></li>
+        <li class="flex justify-between gap-4"><span class="label text-content-muted">{% trans "WhatsApp" %}</span> <a class="text-gold-bright hover:underline" href="https://wa.me/{{ site_settings.whatsapp_number }}" dir="ltr">{{ site_settings.whatsapp_number }}</a></li>
         <li class="flex justify-between gap-4"><span class="label text-content-muted">{% trans "Telegram" %}</span> <a class="text-gold-bright hover:underline" href="https://t.me/{{ site_settings.telegram_username }}">@{{ site_settings.telegram_username }}</a></li>
         {% if site_settings.email %}
         <li class="flex justify-between gap-4"><span class="label text-content-muted">{% trans "Email" %}</span> <a class="text-gold-bright hover:underline" href="mailto:{{ site_settings.email }}">{{ site_settings.email }}</a></li>
