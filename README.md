@@ -99,6 +99,26 @@ Cron jobs (see CLAUDE.md §9) run `python manage.py <command>` inside the
 0 4 * * *    cd /path/to/abdullohtours.com && docker compose exec -T web python manage.py backup_db
 ```
 
+### Telegram bot
+
+The bot (CLAUDE.md §8) is a plain webhook view at `/tg/webhook/<secret>/` —
+no polling process to run. After setting real `TELEGRAM_BOT_TOKEN` /
+`TELEGRAM_WEBHOOK_SECRET` values in `.env` and adding a `TelegramAdmin` row
+in `/admin/` for your own chat ID, tell Telegram where to deliver updates:
+
+```bash
+# Production (once deployed — points Telegram at CANONICAL_HOST):
+python manage.py set_telegram_webhook
+
+# Local dev — Telegram requires public HTTPS, so tunnel first (e.g. `ngrok
+# http 8000`), then point the webhook at the tunnel instead:
+python manage.py set_telegram_webhook --url https://abc123.ngrok-free.app
+
+# Diagnostics / cleanup:
+python manage.py set_telegram_webhook --info
+python manage.py set_telegram_webhook --delete
+```
+
 ## Repo structure
 
 See `CLAUDE.md` for the full spec. Short version:
