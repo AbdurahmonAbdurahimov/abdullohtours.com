@@ -9,13 +9,13 @@
   <div class="mx-auto max-w-[640px] px-4 md:px-8 text-center">
     <p class="label text-gold mb-4">{% trans "Request received" %}</p>
     {% block h1 %}
-    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Thank you!" %}</h1>
+    <h1 class="font-serif text-h1 md:text-h1-md">{% trans "Thank you!" %}</h1>
     {% endblock %}
     <p class="mt-4 text-[16px] text-cream/85">
       {% blocktrans with ref_code=booking.ref_code %}Your request <strong>#{{ ref_code }}</strong> has been received.{% endblocktrans %}
       {% if site_settings.response_time_promise %}{{ site_settings.response_time_promise }}{% endif %}
     </p>
-    <a href="{% url 'core:home' %}" class="mt-8 inline-flex items-center justify-center rounded border border-gold text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:bg-gold/10">
+    <a href="{% url 'core:home' %}" class="mt-8 btn-outline-gold">
       {% trans "Back to home" %}
     </a>
   </div>

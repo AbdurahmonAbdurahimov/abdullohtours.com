@@ -39,7 +39,7 @@
     --c-surface-raised: 10 29 45; /* navy-soft */
     --c-content: 255 248 241; /* cream */
     --c-content-muted: 201 166 107; /* gold */
-    --c-hairline: 201 166 107; /* gold (used at low opacity on dark) */
+    --c-hairline: 168 117 32; /* dark gold #A87520 — the spec's card-border tone on dark */
   }
 }
 
@@ -49,7 +49,7 @@
   --c-surface-raised: 10 29 45;
   --c-content: 255 248 241;
   --c-content-muted: 201 166 107;
-  --c-hairline: 201 166 107;
+  --c-hairline: 168 117 32;
 }
 
 /* Let the browser theme form controls, scrollbars and the like to match. */
@@ -81,6 +81,63 @@
   }
 }
 
+/* Shared component classes. These exist to stop long Tailwind class strings
+   being copy-pasted across a dozen templates and drifting apart — every
+   button, card and page shell on the public site should come from here.
+   Per the Neo-Silk Road spec in design/neo_silk_road/DESIGN.md: buttons and
+   inputs are 8px-radius, cards are outlined rather than shadowed, and gold
+   is reserved for primary actions and prices. */
+@layer components {
+  /* Centred 1280px column with the standard gutters (CLAUDE.md §3). */
+  .container-page {
+    @apply mx-auto max-w-container px-4 md:px-8;
+  }
+
+  /* Vertical rhythm between major sections — `xl` (80px) per §3. */
+  .section {
+    @apply py-xl;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-6 py-3
+           text-label uppercase font-semibold tracking-[0.08em]
+           transition-colors focus-visible:outline-none focus-visible:ring-2
+           focus-visible:ring-gold-bright focus-visible:ring-offset-2
+           focus-visible:ring-offset-transparent;
+  }
+  /* Primary action. Gold fill + navy text is fixed in both themes. */
+  .btn-gold {
+    @apply btn bg-gold-bright text-navy hover:bg-gold;
+  }
+  /* Secondary on a dark/photographic surface. */
+  .btn-outline-gold {
+    @apply btn border border-gold text-gold hover:bg-gold/10;
+  }
+  /* Secondary on a themed page surface. */
+  .btn-outline {
+    @apply btn border border-hairline text-content hover:border-gold-bright hover:text-gold-bright;
+  }
+
+  /* Outlined surface card — the default container for content on a themed
+     page. Depth comes from the hairline border, not a shadow (§3). */
+  .card {
+    @apply rounded-lg border border-hairline bg-surface-raised;
+  }
+  /* Always-navy card used for CTAs that need to punch out of a light page
+     (e.g. the destination-detail "Build a private tour" panel). */
+  .card-navy {
+    @apply rounded-lg border border-gold/30 bg-navy text-cream;
+  }
+
+  /* Section heading + optional lead, used above every content grid. */
+  .section-title {
+    @apply font-serif text-h2 md:text-h2-md text-content;
+  }
+  .section-lead {
+    @apply mt-2 text-content-muted max-w-2xl;
+  }
+}
+
 /* Minimal rich-text styling for rendered body content (blog posts, package
    and destination descriptions) that templates mark with `class="prose"`.
    No typography plugin per CLAUDE.md §2 (fixed tech stack) — hand-styled
@@ -90,14 +147,15 @@
     @apply mt-4;
   }
   .prose h2 {
-    @apply font-serif text-h2 md:text-h2-md text-navy mt-8 mb-2;
+    @apply font-serif text-h2 md:text-h2-md text-content mt-8 mb-2;
   }
   .prose h3 {
-    @apply font-serif text-h3 md:text-h3-md text-navy mt-6 mb-2;
+    @apply font-serif text-h3 md:text-h3-md text-content mt-6 mb-2;
   }
   .prose ul,
   .prose ol {
-    @apply space-y-2 pl-4;
+    /* `ps-` (logical) not `pl-`: the list indent has to flip for Arabic. */
+    @apply space-y-2 ps-4;
   }
   .prose ul {
     @apply list-disc;

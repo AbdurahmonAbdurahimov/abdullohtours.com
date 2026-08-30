@@ -56,72 +56,72 @@
 
 {% block content %}
 <section class="bg-navy text-cream py-lg">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+  <div class="container-page">
     {% block h1 %}
-    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Frequently asked questions" %}</h1>
+    <h1 class="font-serif text-h1 md:text-h1-md">{% trans "Frequently asked questions" %}</h1>
     {% endblock %}
   </div>
 </section>
 
-<section class="bg-cream py-xl">
+<section class="bg-surface section">
   <div class="mx-auto max-w-2xl px-4 md:px-8 space-y-3">
-    <details class="group rounded border border-line bg-white p-4" open>
-      <summary class="cursor-pointer font-semibold text-ink list-none flex items-center justify-between gap-4">
+    <details class="group rounded border border-hairline bg-surface-raised p-4" open>
+      <summary class="cursor-pointer font-semibold text-content list-none flex items-center justify-between gap-4">
         {% trans "Do you sell flights or plane tickets?" %}
         <span class="text-gold-bright transition-transform group-open:rotate-45 text-[20px] leading-none">+</span>
       </summary>
-      <p class="mt-3 text-[15px] text-muted leading-relaxed">{% trans "No. Abdulloh Tours is a private ground tour operator, not a travel agency or OTA — we don't book or sell airline tickets. We drive you around Uzbekistan in our own vehicles with an English-speaking driver." %}</p>
+      <p class="mt-3 text-[15px] text-content-muted leading-relaxed">{% trans "No. Abdulloh Tours is a private ground tour operator, not a travel agency or OTA — we don't book or sell airline tickets. We drive you around Uzbekistan in our own vehicles with an English-speaking driver." %}</p>
     </details>
-    <details class="group rounded border border-line bg-white p-4">
-      <summary class="cursor-pointer font-semibold text-ink list-none flex items-center justify-between gap-4">
+    <details class="group rounded border border-hairline bg-surface-raised p-4">
+      <summary class="cursor-pointer font-semibold text-content list-none flex items-center justify-between gap-4">
         {% trans "How is the price calculated?" %}
         <span class="text-gold-bright transition-transform group-open:rotate-45 text-[20px] leading-none">+</span>
       </summary>
-      <p class="mt-3 text-[15px] text-muted leading-relaxed">{% trans "Tour pricing is per private vehicle/group, not per person — so the price stays the same whether it's 2 of you or a full van. Entrance tickets, a guide, and meals are optional per-person extras added on top." %}</p>
+      <p class="mt-3 text-[15px] text-content-muted leading-relaxed">{% trans "Tour pricing is per private vehicle/group, not per person — so the price stays the same whether it's 2 of you or a full van. Entrance tickets, a guide, and meals are optional per-person extras added on top." %}</p>
     </details>
-    <details class="group rounded border border-line bg-white p-4">
-      <summary class="cursor-pointer font-semibold text-ink list-none flex items-center justify-between gap-4">
+    <details class="group rounded border border-hairline bg-surface-raised p-4">
+      <summary class="cursor-pointer font-semibold text-content list-none flex items-center justify-between gap-4">
         {% trans "Can I pay online?" %}
         <span class="text-gold-bright transition-transform group-open:rotate-45 text-[20px] leading-none">+</span>
       </summary>
-      <p class="mt-3 text-[15px] text-muted leading-relaxed">{% trans "There's no online payment on this site. Submitting a tour request or using the Tour Builder sends us your details; we then confirm the final itinerary and price with you directly over WhatsApp or Telegram." %}</p>
+      <p class="mt-3 text-[15px] text-content-muted leading-relaxed">{% trans "There's no online payment on this site. Submitting a tour request or using the Tour Builder sends us your details; we then confirm the final itinerary and price with you directly over WhatsApp or Telegram." %}</p>
     </details>
-    <details class="group rounded border border-line bg-white p-4">
-      <summary class="cursor-pointer font-semibold text-ink list-none flex items-center justify-between gap-4">
+    <details class="group rounded border border-hairline bg-surface-raised p-4">
+      <summary class="cursor-pointer font-semibold text-content list-none flex items-center justify-between gap-4">
         {% trans "How quickly will you reply to my request?" %}
         <span class="text-gold-bright transition-transform group-open:rotate-45 text-[20px] leading-none">+</span>
       </summary>
-      <p class="mt-3 text-[15px] text-muted leading-relaxed">
+      <p class="mt-3 text-[15px] text-content-muted leading-relaxed">
         {% if site_settings.response_time_promise %}{{ site_settings.response_time_promise }}{% else %}{% trans "We reply fast — a request that sits too long usually means a tourist books elsewhere, so getting back to you quickly is a priority for us." %}{% endif %}
       </p>
     </details>
-    <details class="group rounded border border-line bg-white p-4">
-      <summary class="cursor-pointer font-semibold text-ink list-none flex items-center justify-between gap-4">
+    <details class="group rounded border border-hairline bg-surface-raised p-4">
+      <summary class="cursor-pointer font-semibold text-content list-none flex items-center justify-between gap-4">
         {% trans "Which destinations do you cover?" %}
         <span class="text-gold-bright transition-transform group-open:rotate-45 text-[20px] leading-none">+</span>
       </summary>
-      <p class="mt-3 text-[15px] text-muted leading-relaxed">{% trans "We run private tours across Uzbekistan, including Tashkent, Samarkand, Bukhara, Khiva, and the Amirsoy/Chimgan mountains — see the Destinations page for the full list." %}</p>
+      <p class="mt-3 text-[15px] text-content-muted leading-relaxed">{% trans "We run private tours across Uzbekistan, including Tashkent, Samarkand, Bukhara, Khiva, and the Amirsoy/Chimgan mountains — see the Destinations page for the full list." %}</p>
     </details>
-    <details class="group rounded border border-line bg-white p-4">
-      <summary class="cursor-pointer font-semibold text-ink list-none flex items-center justify-between gap-4">
+    <details class="group rounded border border-hairline bg-surface-raised p-4">
+      <summary class="cursor-pointer font-semibold text-content list-none flex items-center justify-between gap-4">
         {% trans "Is the driver English-speaking?" %}
         <span class="text-gold-bright transition-transform group-open:rotate-45 text-[20px] leading-none">+</span>
       </summary>
-      <p class="mt-3 text-[15px] text-muted leading-relaxed">{% trans "Yes — every private group is driven by an English-speaking driver." %}</p>
+      <p class="mt-3 text-[15px] text-content-muted leading-relaxed">{% trans "Yes — every private group is driven by an English-speaking driver." %}</p>
     </details>
-    <details class="group rounded border border-line bg-white p-4">
-      <summary class="cursor-pointer font-semibold text-ink list-none flex items-center justify-between gap-4">
+    <details class="group rounded border border-hairline bg-surface-raised p-4">
+      <summary class="cursor-pointer font-semibold text-content list-none flex items-center justify-between gap-4">
         {% trans "Can I customize the itinerary?" %}
         <span class="text-gold-bright transition-transform group-open:rotate-45 text-[20px] leading-none">+</span>
       </summary>
-      <p class="mt-3 text-[15px] text-muted leading-relaxed">{% trans "Yes. Use the Tour Builder to pick your own dates, destinations, activities and add-ons, or start from one of our ready-made tour packages and we'll adjust it with you." %}</p>
+      <p class="mt-3 text-[15px] text-content-muted leading-relaxed">{% trans "Yes. Use the Tour Builder to pick your own dates, destinations, activities and add-ons, or start from one of our ready-made tour packages and we'll adjust it with you." %}</p>
     </details>
-    <details class="group rounded border border-line bg-white p-4">
-      <summary class="cursor-pointer font-semibold text-ink list-none flex items-center justify-between gap-4">
+    <details class="group rounded border border-hairline bg-surface-raised p-4">
+      <summary class="cursor-pointer font-semibold text-content list-none flex items-center justify-between gap-4">
         {% trans "How do I book a tour?" %}
         <span class="text-gold-bright transition-transform group-open:rotate-45 text-[20px] leading-none">+</span>
       </summary>
-      <p class="mt-3 text-[15px] text-muted leading-relaxed">{% trans "Submit a request through the Tour Builder or the quick booking form with your dates and group size. We'll get back to you to confirm the details and agree on a final price before anything is booked." %}</p>
+      <p class="mt-3 text-[15px] text-content-muted leading-relaxed">{% trans "Submit a request through the Tour Builder or the quick booking form with your dates and group size. We'll get back to you to confirm the details and agree on a final price before anything is booked." %}</p>
     </details>
   </div>
 </section>

@@ -5,9 +5,9 @@
 
 {% block content %}
 <section class="bg-navy text-cream py-lg">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+  <div class="container-page">
     {% block h1 %}
-    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Request a quote" %}</h1>
+    <h1 class="font-serif text-h1 md:text-h1-md">{% trans "Request a quote" %}</h1>
     {% endblock %}
     {% if site_settings.response_time_promise %}
     <p class="mt-2 text-cream/80">{{ site_settings.response_time_promise }}</p>
@@ -15,9 +15,9 @@
   </div>
 </section>
 
-<section class="bg-cream py-xl">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-lg">
-    <form method="post" class="md:col-span-7 space-y-4 bg-white border border-line rounded-lg p-6">
+<section class="bg-surface section">
+  <div class="container-page grid grid-cols-1 md:grid-cols-12 gap-lg">
+    <form method="post" class="md:col-span-7 space-y-4 bg-surface-raised border border-hairline rounded-lg p-6">
       {% csrf_token %}
       {# Honeypot: hidden from real visitors via CSS, left empty by humans. #}
       <div class="hidden" aria-hidden="true">{{ form.website }}</div>
@@ -25,7 +25,7 @@
       {% for field in form %}
         {% if field.name != "website" %}
           <div>
-            <label for="{{ field.id_for_label }}" class="label text-muted block mb-1">{{ field.label }}</label>
+            <label for="{{ field.id_for_label }}" class="label text-content-muted block mb-1">{{ field.label }}</label>
             {{ field }}
             {% if field.errors %}
               <p class="text-red-600 text-[13px] mt-1">{{ field.errors|striptags }}</p>
@@ -40,9 +40,9 @@
     </form>
 
     <div class="md:col-span-5">
-      <div class="rounded-lg border border-gold/40 bg-cream-soft p-6">
+      <div class="rounded-lg border border-gold/40 bg-surface-alt p-6">
         <p class="label text-gold mb-2">{% trans "Prefer to chat?" %}</p>
-        <p class="text-[14px] text-muted mb-4">
+        <p class="text-[14px] text-content-muted mb-4">
           {% trans "Message us directly and we'll reply just as fast." %}
         </p>
         <a href="https://wa.me/{{ site_settings.whatsapp_number }}" class="flex items-center justify-center rounded border border-gold text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:bg-gold/10">

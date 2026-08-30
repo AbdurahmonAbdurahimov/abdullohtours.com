@@ -9,8 +9,16 @@ from .models import Review
 
 
 def home(request: HttpRequest) -> HttpResponse:
-    destinations = Destination.objects.filter(is_active=True)[:5]
-    return render(request, "core/home.html", {"destinations": destinations})
+    destinations = list(Destination.objects.filter(is_active=True)[:5])
+    # The hero uses the first destination that actually has an image as its
+    # backdrop; with no images seeded yet this stays None and the template
+    # falls back to the navy gradient rather than rendering an empty frame.
+    hero_destination = next((d for d in destinations if d.hero_image), None)
+    return render(
+        request,
+        "core/home.html",
+        {"destinations": destinations, "hero_destination": hero_destination},
+    )
 
 
 def about(request: HttpRequest) -> HttpResponse:

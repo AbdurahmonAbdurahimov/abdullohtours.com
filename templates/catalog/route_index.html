@@ -6,9 +6,9 @@
 
 {% block content %}
 <section class="bg-navy text-cream py-lg">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+  <div class="container-page">
     {% block h1 %}
-    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Multi-city tour ideas" %}</h1>
+    <h1 class="font-serif text-h1 md:text-h1-md">{% trans "Multi-city tour ideas" %}</h1>
     {% endblock %}
     <p class="mt-4 max-w-2xl text-cream/80">
       {% trans "Popular destination pairings, each with a suggested length of stay — a starting point for the tour builder, not a fixed package." %}
@@ -16,12 +16,12 @@
   </div>
 </section>
 
-<section class="bg-cream py-xl">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+<section class="bg-surface section">
+  <div class="container-page">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {% for route in routes %}
         <a href="{% url 'catalog:route_detail' route.slug %}"
-           class="block rounded-lg border border-line hover:border-gold transition-colors bg-white overflow-hidden">
+           class="block rounded-lg border border-hairline hover:border-gold transition-colors bg-surface-raised overflow-hidden">
           <div class="grid grid-cols-2 h-32">
             {% if route.destination_a.hero_image %}
               {% responsive_image route.destination_a.hero_image route.destination_a.name width=route.destination_a.hero_image_width height=route.destination_a.hero_image_height css_class="w-full h-full object-cover" sizes="(min-width: 768px) 17vw, 50vw" loading="lazy" %}
@@ -35,14 +35,14 @@
             {% endif %}
           </div>
           <div class="p-4">
-            <h2 class="font-serif text-[18px] text-ink">{{ route.title }}</h2>
-            <p class="text-[13px] text-muted mt-1">
+            <h2 class="font-serif text-[18px] text-content">{{ route.title }}</h2>
+            <p class="text-[13px] text-content-muted mt-1">
               {% blocktrans with days=route.combined_min_days %}From {{ days }} days{% endblocktrans %}
             </p>
           </div>
         </a>
       {% empty %}
-        <p class="text-muted md:col-span-3">TODO: content needed — no route pages yet.</p>
+        <p class="text-content-muted md:col-span-3">TODO: content needed — no route pages yet.</p>
       {% endfor %}
     </div>
   </div>

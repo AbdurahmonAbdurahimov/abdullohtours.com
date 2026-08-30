@@ -16,6 +16,7 @@ considered complete; others gate on Destination.translation_complete_<lang>.
 {% if destination.translation_complete_de %}<link rel="alternate" hreflang="de" href="{{ CANONICAL_HOST }}/de/destinations/{{ destination.slug }}/">{% endif %}
 {% if destination.translation_complete_fr %}<link rel="alternate" hreflang="fr" href="{{ CANONICAL_HOST }}/fr/destinations/{{ destination.slug }}/">{% endif %}
 {% if destination.translation_complete_es %}<link rel="alternate" hreflang="es" href="{{ CANONICAL_HOST }}/es/destinations/{{ destination.slug }}/">{% endif %}
+{% if destination.translation_complete_ar %}<link rel="alternate" hreflang="ar" href="{{ CANONICAL_HOST }}/ar/destinations/{{ destination.slug }}/">{% endif %}
 <link rel="alternate" hreflang="x-default" href="{{ CANONICAL_HOST }}/en/destinations/{{ destination.slug }}/">
 {% endblock %}
 
@@ -34,45 +35,63 @@ considered complete; others gate on Destination.translation_complete_<lang>.
 {% block content %}
 <!-- Hero -->
 <section class="relative min-h-[60dvh] flex items-end overflow-hidden bg-navy text-cream">
-  {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="100vw" loading="eager" %}
-  <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/30"></div>
-  <div class="relative mx-auto max-w-[1280px] px-4 md:px-8 py-lg w-full">
+  {% if destination.hero_image %}
+    {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="100vw" loading="eager" %}
+    <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/70 to-navy/30" aria-hidden="true"></div>
+  {% else %}
+    <div class="absolute inset-0 bg-gradient-to-b from-navy via-navy-soft to-navy" aria-hidden="true"></div>
+  {% endif %}
+  <div class="relative container-page py-lg w-full">
     {% if destination.region %}<p class="label text-gold mb-2">{{ destination.region }}</p>{% endif %}
     {% block h1 %}
-    <h1 class="font-serif text-[28px] md:text-[44px]">{{ destination.name }}</h1>
+    <h1 class="font-serif text-h1 md:text-h1-md">{{ destination.name }}</h1>
     {% endblock %}
     <p class="mt-4 max-w-2xl text-cream/85">{{ destination.intro|default:"TODO: content needed" }}</p>
   </div>
 </section>
 
-<section class="bg-cream py-xl">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-lg">
+<section class="bg-surface section">
+  <div class="container-page grid grid-cols-1 md:grid-cols-12 gap-lg">
     <!-- Main content -->
     <div class="md:col-span-8 space-y-xl">
       <div>
-        <h2 class="font-serif text-[24px] md:text-[32px] text-ink mb-4">{% trans "About" %} {{ destination.name }}</h2>
-        <div class="prose max-w-none text-[16px] leading-relaxed text-ink">
+        <h2 class="section-title mb-4">{% trans "About" %} {{ destination.name }}</h2>
+        <div class="prose max-w-none text-[16px] leading-relaxed text-content">
           {{ destination.body|default:"TODO: content needed"|linebreaks }}
         </div>
       </div>
 
       <div>
-        <h3 class="font-serif text-[20px] md:text-[24px] text-ink mb-4">{% trans "Top attractions" %}</h3>
+        <h3 class="font-serif text-h3 md:text-h3-md text-content mb-4">{% trans "Top attractions" %}</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {% for attraction in destination.attractions.all %}
-            <div class="rounded-lg overflow-hidden border border-line bg-cream-soft">
+            <article class="card overflow-hidden flex flex-col">
               {% if attraction.images.0 %}
                 <img src="{{ attraction.images.0 }}" alt="{{ attraction.name }}" loading="lazy" class="w-full aspect-video object-cover">
               {% else %}
-                <div class="w-full aspect-video bg-navy"></div>
+                <div class="w-full aspect-video bg-navy" aria-hidden="true"></div>
               {% endif %}
-              <div class="p-4">
-                <h4 class="font-serif text-[18px] text-ink mb-1">{{ attraction.name }}</h4>
-                <p class="text-[14px] text-muted">{{ attraction.description|default:"TODO: content needed"|truncatewords:24 }}</p>
+              <div class="p-4 flex flex-col grow">
+                <h4 class="font-serif text-h3 text-content mb-1">{{ attraction.name }}</h4>
+                <p class="text-small text-content-muted grow">{{ attraction.description|default:"TODO: content needed"|truncatewords:24 }}</p>
+                <dl class="mt-3 pt-3 border-t border-hairline/60 flex items-center gap-4 text-label text-content-muted">
+                  {% if attraction.entry_fee_usd %}
+                    <div class="flex items-center gap-1">
+                      <dt class="sr-only">{% trans "Entry fee" %}</dt>
+                      <dd class="text-gold-bright font-semibold">${{ attraction.entry_fee_usd|floatformat:0 }}</dd>
+                    </div>
+                  {% endif %}
+                  {% if attraction.typical_duration_min %}
+                    <div class="flex items-center gap-1">
+                      <dt class="sr-only">{% trans "Typical visit" %}</dt>
+                      <dd>{% blocktrans with minutes=attraction.typical_duration_min %}{{ minutes }} min{% endblocktrans %}</dd>
+                    </div>
+                  {% endif %}
+                </dl>
               </div>
-            </div>
+            </article>
           {% empty %}
-            <p class="text-muted md:col-span-2">TODO: content needed — no attractions yet (seed data is a follow-up task).</p>
+            <p class="text-content-muted md:col-span-2">TODO: content needed — no attractions yet (seed data is a follow-up task).</p>
           {% endfor %}
         </div>
       </div>
@@ -80,19 +99,27 @@ considered complete; others gate on Destination.translation_complete_<lang>.
 
     <!-- Sticky CTA sidebar -->
     <div class="md:col-span-4">
-      <div class="sticky top-24 bg-navy text-cream border border-gold/30 rounded-lg p-6">
-        <h3 class="font-serif text-[20px] text-gold mb-3">{% blocktrans with name=destination.name %}Build a private {{ name }} tour{% endblocktrans %}</h3>
-        <p class="text-[14px] text-cream/80 mb-6">
+      <div class="sticky top-24 card-navy p-6">
+        <h3 class="font-serif text-h3 text-gold mb-3">{% blocktrans with name=destination.name %}Build a private {{ name }} tour{% endblocktrans %}</h3>
+        <p class="text-small text-cream/80 mb-6">
           {% trans "Customise your own itinerary with private transport, entrance tickets and an English-speaking driver." %}
         </p>
-        <a href="{% url 'catalog:tour_builder' %}?destination={{ destination.id }}"
-           class="w-full inline-flex items-center justify-center gap-2 rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
+        <a href="{% url 'catalog:tour_builder' %}?destination={{ destination.id }}" class="btn-gold w-full">
           {% trans "Start building" %}
         </a>
-        <a href="{% url 'bookings:booking_request' %}"
-           class="mt-3 w-full inline-flex items-center justify-center gap-2 rounded border border-gold/50 text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:bg-gold/10">
+        <a href="{% url 'bookings:booking_request' %}" class="btn-outline-gold w-full mt-3">
           {% trans "Request a quote" %}
         </a>
+        <ul class="mt-6 pt-4 border-t border-gold/20 space-y-2 text-label text-cream/70">
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gold shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+            {% trans "Priced per vehicle, not per person" %}
+          </li>
+          <li class="flex items-center gap-2">
+            <svg class="w-4 h-4 text-gold shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5"/></svg>
+            {% trans "No online payment — we confirm by WhatsApp" %}
+          </li>
+        </ul>
       </div>
     </div>
   </div>

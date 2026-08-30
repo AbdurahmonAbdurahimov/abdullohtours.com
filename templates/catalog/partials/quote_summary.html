@@ -9,7 +9,7 @@ always comes from apps.catalog.pricing.calculate_quote(), never from JS.
   <div class="space-y-2 text-[14px]">
     <div class="flex justify-between gap-4">
       <span class="text-cream/60">{% trans "Destinations" %}</span>
-      <span class="font-semibold text-right">
+      <span class="font-semibold text-end">
         {% if quote.destinations %}{{ quote.destinations|join:", " }}{% else %}{% trans "None yet" %}{% endif %}
       </span>
     </div>
@@ -21,7 +21,7 @@ always comes from apps.catalog.pricing.calculate_quote(), never from JS.
     </div>
     <div class="flex justify-between gap-4">
       <span class="text-cream/60">{% trans "Transport" %}</span>
-      <span class="font-semibold text-right">
+      <span class="font-semibold text-end">
         {% if quote.vehicle_class %}{{ quote.vehicle_class.name }}{% if quote.vehicle_count > 1 %} &times;{{ quote.vehicle_count }}{% endif %}{% else %}&mdash;{% endif %}
       </span>
     </div>

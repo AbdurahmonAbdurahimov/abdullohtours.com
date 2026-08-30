@@ -11,6 +11,7 @@
 {% if route.translation_complete_de %}<link rel="alternate" hreflang="de" href="{{ CANONICAL_HOST }}/de/routes/{{ route.slug }}/">{% endif %}
 {% if route.translation_complete_fr %}<link rel="alternate" hreflang="fr" href="{{ CANONICAL_HOST }}/fr/routes/{{ route.slug }}/">{% endif %}
 {% if route.translation_complete_es %}<link rel="alternate" hreflang="es" href="{{ CANONICAL_HOST }}/es/routes/{{ route.slug }}/">{% endif %}
+{% if route.translation_complete_ar %}<link rel="alternate" hreflang="ar" href="{{ CANONICAL_HOST }}/ar/routes/{{ route.slug }}/">{% endif %}
 <link rel="alternate" hreflang="x-default" href="{{ CANONICAL_HOST }}/en/routes/{{ route.slug }}/">
 {% endblock %}
 
@@ -31,10 +32,10 @@
 
 {% block content %}
 <section class="bg-navy text-cream py-lg">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+  <div class="container-page">
     <p class="label text-gold mb-2">{% blocktrans with days=route.combined_min_days %}Suggested: {{ days }}+ days{% endblocktrans %}</p>
     {% block h1 %}
-    <h1 class="font-serif text-[28px] md:text-[44px]">{{ route.title }}</h1>
+    <h1 class="font-serif text-h1 md:text-h1-md">{{ route.title }}</h1>
     {% endblock %}
     <p class="mt-4 max-w-2xl text-cream/85">
       {% blocktrans with a=route.destination_a.name b=route.destination_b.name %}Combine {{ a }} and {{ b }} into a single private itinerary, priced per vehicle rather than per person.{% endblocktrans %}
@@ -42,32 +43,32 @@
   </div>
 </section>
 
-<section class="bg-cream py-xl">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+<section class="bg-surface section">
+  <div class="container-page">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="rounded-lg border border-line bg-white overflow-hidden">
+      <div class="card overflow-hidden">
         {% if route.destination_a.hero_image %}
           {% responsive_image route.destination_a.hero_image route.destination_a.name width=route.destination_a.hero_image_width height=route.destination_a.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 50vw, 100vw" loading="lazy" %}
         {% else %}
           <div class="w-full h-48 bg-navy"></div>
         {% endif %}
         <div class="p-6">
-          <h2 class="font-serif text-[20px] text-ink mb-2">{{ route.destination_a.name }}</h2>
-          <p class="text-[14px] text-muted">{{ route.destination_a.intro }}</p>
+          <h2 class="font-serif text-h3 text-content mb-2">{{ route.destination_a.name }}</h2>
+          <p class="text-[14px] text-content-muted">{{ route.destination_a.intro }}</p>
           <a href="{% url 'catalog:destination_detail' route.destination_a.slug %}" class="mt-4 inline-block text-[13px] text-gold-bright hover:underline">
             {% trans "Full destination guide" %} &rarr;
           </a>
         </div>
       </div>
-      <div class="rounded-lg border border-line bg-white overflow-hidden">
+      <div class="card overflow-hidden">
         {% if route.destination_b.hero_image %}
           {% responsive_image route.destination_b.hero_image route.destination_b.name width=route.destination_b.hero_image_width height=route.destination_b.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 50vw, 100vw" loading="lazy" %}
         {% else %}
           <div class="w-full h-48 bg-navy"></div>
         {% endif %}
         <div class="p-6">
-          <h2 class="font-serif text-[20px] text-ink mb-2">{{ route.destination_b.name }}</h2>
-          <p class="text-[14px] text-muted">{{ route.destination_b.intro }}</p>
+          <h2 class="font-serif text-h3 text-content mb-2">{{ route.destination_b.name }}</h2>
+          <p class="text-[14px] text-content-muted">{{ route.destination_b.intro }}</p>
           <a href="{% url 'catalog:destination_detail' route.destination_b.slug %}" class="mt-4 inline-block text-[13px] text-gold-bright hover:underline">
             {% trans "Full destination guide" %} &rarr;
           </a>
@@ -75,12 +76,12 @@
       </div>
     </div>
 
-    <div class="mt-lg rounded-lg border border-gold/40 bg-cream-soft p-6 flex flex-col md:flex-row items-center justify-between gap-4">
-      <p class="text-[14px] text-muted max-w-xl">
+    <div class="mt-lg rounded-lg border border-gold/40 bg-surface-alt p-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-[14px] text-content-muted max-w-xl">
         {% trans "Pricing is per private group (per vehicle), not per person. Choose your own dates and add-ons in the tour builder." %}
       </p>
       <a href="{% url 'catalog:tour_builder' %}?destination={{ route.destination_a.id }}&destination={{ route.destination_b.id }}"
-         class="shrink-0 inline-flex items-center justify-center rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
+         class="btn-gold">
         {% trans "Start building" %}
       </a>
     </div>

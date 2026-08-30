@@ -27,25 +27,25 @@
 
 {% block content %}
 <section class="bg-navy text-cream py-lg">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+  <div class="container-page">
     {% block h1 %}
-    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "What our travellers say" %}</h1>
+    <h1 class="font-serif text-h1 md:text-h1-md">{% trans "What our travellers say" %}</h1>
     {% endblock %}
   </div>
 </section>
-<section class="bg-cream py-xl">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+<section class="bg-surface section">
+  <div class="container-page">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {% for review in reviews %}
-        <div class="rounded-lg border border-line bg-white p-6">
+        <div class="rounded-lg border border-hairline bg-surface-raised p-6">
           <p class="text-gold-bright text-[14px] mb-2">{{ review.rating }}/5 ★</p>
-          <p class="text-[14px] text-ink leading-relaxed">&ldquo;{{ review.body }}&rdquo;</p>
-          <p class="mt-4 text-[13px] text-muted">
-            <strong class="text-ink">{{ review.author_name }}</strong>{% if review.country %} · {{ review.country }}{% endif %}
+          <p class="text-[14px] text-content leading-relaxed">&ldquo;{{ review.body }}&rdquo;</p>
+          <p class="mt-4 text-[13px] text-content-muted">
+            <strong class="text-content">{{ review.author_name }}</strong>{% if review.country %} · {{ review.country }}{% endif %}
           </p>
         </div>
       {% empty %}
-        <p class="text-muted md:col-span-3">TODO: content needed — no published reviews yet.</p>
+        <p class="text-content-muted md:col-span-3">TODO: content needed — no published reviews yet.</p>
       {% endfor %}
     </div>
   </div>

@@ -5,9 +5,9 @@
 
 {% block content %}
 <section class="bg-navy text-cream py-lg">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+  <div class="container-page">
     {% block h1 %}
-    <h1 class="font-serif text-[28px] md:text-[44px]">{% trans "Tour packages" %}</h1>
+    <h1 class="font-serif text-h1 md:text-h1-md">{% trans "Tour packages" %}</h1>
     {% endblock %}
     <p class="mt-4 max-w-2xl text-cream/80">
       {% trans "Ready-made itineraries, priced per private vehicle — or start from scratch in the tour builder." %}
@@ -15,12 +15,12 @@
   </div>
 </section>
 
-<section class="bg-cream py-xl">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
+<section class="bg-surface section">
+  <div class="container-page">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       {% for package in packages %}
         <a href="{% url 'catalog:package_detail' package.slug %}"
-           class="block rounded-lg overflow-hidden border border-line hover:border-gold transition-colors bg-white">
+           class="card block overflow-hidden hover:border-gold transition-colors">
           {% if package.hero_image %}
             {% responsive_image package.hero_image package.title width=package.hero_image_width height=package.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" %}
           {% else %}
@@ -28,12 +28,12 @@
           {% endif %}
           <div class="p-4">
             <p class="label text-gold">{{ package.get_tier_display }} · {{ package.total_days }} {% trans "days" %}</p>
-            <h2 class="font-serif text-[20px] text-ink mt-1">{{ package.title }}</h2>
-            <p class="text-[14px] text-muted mt-1">{{ package.summary|truncatewords:20 }}</p>
+            <h2 class="font-serif text-h3 text-content mt-1">{{ package.title }}</h2>
+            <p class="text-[14px] text-content-muted mt-1">{{ package.summary|truncatewords:20 }}</p>
           </div>
         </a>
       {% empty %}
-        <p class="text-muted md:col-span-3">TODO: content needed — no packages yet (seed data is a follow-up task).</p>
+        <p class="text-content-muted md:col-span-3">TODO: content needed — no packages yet (seed data is a follow-up task).</p>
       {% endfor %}
     </div>
   </div>

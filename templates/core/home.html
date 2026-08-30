@@ -5,118 +5,134 @@
 {% block meta_description %}Private group tours across Uzbekistan — Samarkand, Bukhara, Khiva, Tashkent — in our own vehicles with an English-speaking driver. Request a free quote.{% endblock %}
 
 {% block content %}
-<!-- Hero -->
+{% comment %}
+Hero. Always navy/cream regardless of theme: it sits over photography (or a
+navy gradient when no image is seeded yet), so its contrast is fixed rather
+than theme-dependent — same reasoning as the header and footer.
+{% endcomment %}
 <section class="relative min-h-[80dvh] flex items-center overflow-hidden bg-navy text-cream">
-  <div class="absolute inset-0 bg-gradient-to-b from-navy via-navy-soft to-navy"></div>
+  {% if hero_destination %}
+    {% responsive_image hero_destination.hero_image hero_destination.name width=hero_destination.hero_image_width height=hero_destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="100vw" loading="eager" %}
+    <div class="absolute inset-0 bg-gradient-to-b from-navy/80 via-navy/60 to-navy" aria-hidden="true"></div>
+  {% else %}
+    <div class="absolute inset-0 bg-gradient-to-b from-navy via-navy-soft to-navy" aria-hidden="true"></div>
+  {% endif %}
 
-  {# Uzbek-motif corner accents (CLAUDE.md §3: gold hairline borders, restrained decoration) #}
-  <div class="absolute top-6 left-6 w-20 h-20 border-t-2 border-l-2 border-gold/40" aria-hidden="true"></div>
-  <div class="absolute top-6 right-6 w-20 h-20 border-t-2 border-r-2 border-gold/40" aria-hidden="true"></div>
-  <div class="absolute bottom-6 left-6 w-20 h-20 border-b-2 border-l-2 border-gold/40" aria-hidden="true"></div>
-  <div class="absolute bottom-6 right-6 w-20 h-20 border-b-2 border-r-2 border-gold/40" aria-hidden="true"></div>
+  {% comment %}
+  Uzbek-motif corner brackets (design/neo_silk_road: sharp architectural
+  geometry against the rounded UI). Physical left/right is correct here —
+  the frame is symmetric, so it looks identical mirrored.
+  {% endcomment %}
+  <div class="pointer-events-none absolute inset-4 md:inset-6" aria-hidden="true">
+    <div class="absolute top-0 left-0 w-16 h-16 md:w-20 md:h-20 border-t-2 border-l-2 border-gold/40"></div>
+    <div class="absolute top-0 right-0 w-16 h-16 md:w-20 md:h-20 border-t-2 border-r-2 border-gold/40"></div>
+    <div class="absolute bottom-0 left-0 w-16 h-16 md:w-20 md:h-20 border-b-2 border-l-2 border-gold/40"></div>
+    <div class="absolute bottom-0 right-0 w-16 h-16 md:w-20 md:h-20 border-b-2 border-r-2 border-gold/40"></div>
+  </div>
 
-  <div class="relative mx-auto max-w-[1280px] px-4 md:px-8 py-lg w-full">
+  <div class="relative container-page py-xl w-full text-center">
     <p class="label text-gold mb-4">{% trans "Private tours · Uzbekistan" %}</p>
     {% block h1 %}
-    <h1 class="font-serif text-[32px] md:text-[52px] leading-tight max-w-3xl">
-      {% trans "See the real Uzbekistan, in your own private vehicle." %}
+    <h1 class="font-serif text-display md:text-display-md leading-tight max-w-4xl mx-auto text-balance">
+      {% blocktrans trimmed %}
+      Explore <span class="text-gold-bright">Uzbekistan</span>, privately
+      {% endblocktrans %}
     </h1>
     {% endblock %}
-    <p class="mt-6 max-w-xl text-[16px] leading-relaxed text-cream/85">
-      {% comment %} TODO: content needed — real hero copy from Abdulloh, not paraphrased from a third-party source. {% endcomment %}
-      TODO: content needed
+    <p class="mt-6 max-w-2xl mx-auto text-body leading-relaxed text-cream/85">
+      {% trans "Private journeys, local experiences and unforgettable moments — designed around you, and priced per vehicle rather than per person." %}
     </p>
-    <div class="mt-8 flex flex-col sm:flex-row gap-4">
-      <a href="{% url 'catalog:tour_builder' %}" class="rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 text-center hover:opacity-90">
-        {% trans "Build Your Tour" %}
-      </a>
-      <a href="{% url 'catalog:package_index' %}" class="rounded border border-gold text-gold text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 text-center hover:bg-gold/10">
-        {% trans "Browse Tours" %}
-      </a>
+    <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="{% url 'catalog:tour_builder' %}" class="btn-gold">{% trans "Build Your Tour" %}</a>
+      <a href="{% url 'catalog:package_index' %}" class="btn-outline-gold">{% trans "Explore Tours" %}</a>
     </div>
   </div>
 </section>
 
 <!-- Trust / value props -->
-<section class="bg-navy text-cream py-xl border-t border-gold/20">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+<section class="bg-surface-alt border-y border-hairline/40 py-lg">
+  <div class="container-page grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
     <div class="flex flex-col items-center px-4">
-      <svg class="w-10 h-10 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <svg class="w-9 h-9 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z"/>
       </svg>
-      <h3 class="font-serif text-[20px] mb-2">{% trans "Private Tours" %}</h3>
-      <p class="text-[14px] text-cream/70">{% trans "Exclusive experiences priced per vehicle, tailored entirely to your pace." %}</p>
+      <h2 class="font-serif text-h3 text-content mb-2">{% trans "Private Tours" %}</h2>
+      <p class="text-small text-content-muted">{% trans "Exclusive experiences priced per vehicle, tailored entirely to your pace." %}</p>
     </div>
-    <div class="flex flex-col items-center px-4 md:border-x md:border-gold/20">
-      <svg class="w-10 h-10 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+    <div class="flex flex-col items-center px-4 md:border-x md:border-hairline/40">
+      <svg class="w-9 h-9 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M9 6.75V15m6-6v8.25m.5 4.5-.5-.75-6.5 3.75-6-3.5V4.5l6-3.5 6 3.5 6-3.5v14.25l-6 3.5Z"/>
       </svg>
-      <h3 class="font-serif text-[20px] mb-2">{% trans "Local Experts" %}</h3>
-      <p class="text-[14px] text-cream/70">{% trans "English-speaking drivers who know the Silk Road cities inside out." %}</p>
+      <h2 class="font-serif text-h3 text-content mb-2">{% trans "Local Experts" %}</h2>
+      <p class="text-small text-content-muted">{% trans "English-speaking drivers who know the Silk Road cities inside out." %}</p>
     </div>
     <div class="flex flex-col items-center px-4">
-      <svg class="w-10 h-10 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+      <svg class="w-9 h-9 text-gold mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5m-9-6h.008v.008H12v-.008Z"/>
       </svg>
-      <h3 class="font-serif text-[20px] mb-2">{% trans "Flexible Itineraries" %}</h3>
-      <p class="text-[14px] text-cream/70">{% trans "No online payment, no rigid packages — we agree the plan with you on WhatsApp." %}</p>
+      <h2 class="font-serif text-h3 text-content mb-2">{% trans "Flexible Itineraries" %}</h2>
+      <p class="text-small text-content-muted">{% trans "No online payment, no rigid packages — we agree the plan with you on WhatsApp." %}</p>
     </div>
   </div>
 </section>
 
-<!-- Explore destinations -->
-<section class="bg-cream py-xl">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8">
-    <div class="flex items-end justify-between mb-8">
+{% comment %}
+Destination bento grid (design/abdulloh_tours_home_gold_navy): the first
+destination gets a double-width, double-height tile, the rest fill the row
+beneath it. Sizes are driven by forloop position so it reflows correctly
+whatever number of destinations are active.
+{% endcomment %}
+<section class="bg-surface section">
+  <div class="container-page">
+    <div class="flex flex-wrap items-end justify-between gap-4 mb-8">
       <div>
-        <h2 class="font-serif text-[24px] md:text-[32px] text-ink mb-2">{% trans "Explore Uzbekistan" %}</h2>
-        <p class="text-muted max-w-xl">{% trans "From the ancient Silk Road cities to modern alpine resorts." %}</p>
+        <h2 class="section-title">{% trans "Explore Uzbekistan" %}</h2>
+        <p class="section-lead">{% trans "From the ancient Silk Road cities to modern alpine resorts." %}</p>
       </div>
-      <a href="{% url 'catalog:destination_index' %}" class="hidden md:inline-flex items-center gap-1 label text-gold-bright hover:underline">
-        {% trans "View all destinations" %} &rarr;
+      <a href="{% url 'catalog:destination_index' %}" class="inline-flex items-center gap-1 label text-gold-bright hover:underline">
+        {% trans "View all destinations" %} <span aria-hidden="true">&rarr;</span>
       </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 md:gap-6">
       {% for destination in destinations %}
+        {% comment %}
+        Two rows on desktop, matching the mockup: a 4+2 hero row of tall
+        tiles, then 2+2+2 shorter ones. Sized by column span alone (no
+        row-span) so the rows stay predictable however many destinations
+        are active.
+        {% endcomment %}
         <a href="{% url 'catalog:destination_detail' destination.slug %}"
-           class="group relative overflow-hidden rounded-lg border border-gold/20 block h-[200px] {% if forloop.first %}md:col-span-8 md:h-[400px]{% else %}md:col-span-4{% endif %}">
+           class="group relative overflow-hidden rounded-lg border border-hairline/50 block h-[220px]
+                  {% if forloop.first %}sm:col-span-2 lg:col-span-4 lg:h-[420px]{% elif forloop.counter == 2 %}lg:col-span-2 lg:h-[420px]{% else %}lg:col-span-2 lg:h-[240px]{% endif %}">
           {% if destination.hero_image %}
-            {% with loading_attr=forloop.first|yesno:"eager,lazy" %}
-            {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" sizes="(min-width: 768px) 66vw, 100vw" loading=loading_attr %}
-            {% endwith %}
+            {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" sizes="(min-width: 1024px) 66vw, (min-width: 640px) 50vw, 100vw" loading="lazy" %}
           {% else %}
-            <div class="absolute inset-0 bg-navy"></div>
+            <div class="absolute inset-0 bg-navy" aria-hidden="true"></div>
           {% endif %}
-          <div class="absolute inset-0 bg-gradient-to-t from-navy to-transparent opacity-80"></div>
-          <div class="absolute bottom-0 left-0 p-4">
-            <h3 class="font-serif text-[20px] text-white border-l-2 border-gold pl-2">{{ destination.name }}</h3>
-            {% if destination.region %}<p class="text-[13px] text-gold mt-1 pl-2">{{ destination.region }}</p>{% endif %}
+          <div class="absolute inset-0 bg-gradient-to-t from-navy via-navy/30 to-transparent" aria-hidden="true"></div>
+          <div class="absolute bottom-0 start-0 p-4 md:p-5">
+            <h3 class="font-serif text-h3 text-cream border-s-2 border-gold ps-2 group-hover:text-gold-bright transition-colors">{{ destination.name }}</h3>
+            {% if destination.region %}<p class="text-label text-gold mt-1 ps-2">{{ destination.region }}</p>{% endif %}
           </div>
         </a>
       {% empty %}
-        <p class="text-muted md:col-span-12">TODO: content needed — no destinations yet (seed data is a follow-up task).</p>
+        <p class="text-content-muted sm:col-span-2 lg:col-span-6">TODO: content needed — no destinations yet.</p>
       {% endfor %}
     </div>
-
-    <a href="{% url 'catalog:destination_index' %}" class="md:hidden mt-6 inline-flex items-center gap-1 label text-gold-bright">
-      {% trans "View all destinations" %} &rarr;
-    </a>
   </div>
 </section>
 
 <!-- Booking CTA -->
-<section class="bg-navy-soft text-cream py-lg border-t border-gold/20">
-  <div class="mx-auto max-w-[1280px] px-4 md:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+<section class="bg-navy text-cream py-lg border-t border-gold/20">
+  <div class="container-page flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-start">
     <div>
-      <h2 class="font-serif text-[24px] md:text-[32px]">{% trans "Ready to plan your trip?" %}</h2>
-      {% if site_settings.response_time_promise %}
-      <p class="mt-2 text-cream/70 max-w-xl">{{ site_settings.response_time_promise }}</p>
-      {% endif %}
+      <h2 class="font-serif text-h2 md:text-h2-md">{% trans "Ready to plan your trip?" %}</h2>
+      <p class="mt-2 text-cream/70 max-w-xl">
+        {% if site_settings.response_time_promise %}{{ site_settings.response_time_promise }}{% else %}{% trans "Tell us your dates and group size — we'll come back with an itinerary and a price." %}{% endif %}
+      </p>
     </div>
-    <a href="{% url 'bookings:booking_request' %}" class="shrink-0 rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90">
-      {% trans "Request a Quote" %}
-    </a>
+    <a href="{% url 'bookings:booking_request' %}" class="btn-gold shrink-0">{% trans "Request a Quote" %}</a>
   </div>
 </section>
 {% endblock %}

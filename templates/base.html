@@ -11,8 +11,10 @@
   {% block hreflang %}{% endblock %}
   {% block robots %}<meta name="robots" content="index, follow">{% endblock %}
 
-  {# Matches the themed page background so the browser chrome (and any
-     overscroll area) doesn't flash the opposite theme. #}
+  {% comment %}
+  Matches the themed page background so the browser chrome (and any
+  overscroll area) doesn't flash the opposite theme.
+  {% endcomment %}
   <meta name="theme-color" content="#FFF8F1" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#071A2A" media="(prefers-color-scheme: dark)">
 
