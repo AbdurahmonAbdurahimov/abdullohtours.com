@@ -247,11 +247,14 @@ def telegram_webhook(request: HttpRequest, secret: str) -> HttpResponse:
     except (ValueError, UnicodeDecodeError):
         return HttpResponse(status=400)
 
-    bot = get_bot()
     try:
+        bot = get_bot()
         update = Update.de_json(data, bot)
         asyncio.run(_handle_update(update, bot))
     except Exception:  # noqa: BLE001 - never let a bot-handling bug break the webhook 200
+        # Includes a malformed/momentarily-bad TELEGRAM_BOT_TOKEN: Bot(...)
+        # validates its token's shape locally and raises synchronously, so
+        # get_bot() must be inside this try too, not just the calls after it.
         logger.exception("Error handling Telegram update")
 
     return JsonResponse({"ok": True})
