@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block meta_title %}{% trans "Page not found" %} — Abdulloh Tours{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, follow">{% endblock %}
+
+{% block content %}
+<section class="bg-navy text-cream py-lg min-h-[60dvh] flex items-center">
+  <div class="container-page text-center">
+    <p class="label text-gold mb-sm">{% trans "404" %}</p>
+    {% block h1 %}
+    <h1 class="text-[28px] md:text-[44px] leading-tight font-serif font-bold mb-md">
+      {% trans "This page wandered off the road" %}
+    </h1>
+    {% endblock %}
+    <p class="body text-cream/80 max-w-[560px] mx-auto mb-lg">
+      {% trans "We couldn't find the page you were looking for. It may have moved, or the link may be out of date." %}
+    </p>
+    <div class="flex flex-wrap justify-center gap-sm">
+      <a href="{% url 'core:home' %}" class="btn-gold">{% trans "Back to home" %}</a>
+      <a href="{% url 'catalog:package_index' %}" class="btn-outline-gold">{% trans "Browse tours" %}</a>
+      <a href="{% url 'core:contact' %}" class="btn-outline-gold">{% trans "Contact us" %}</a>
+    </div>
+  </div>
+</section>
+{% endblock %}
