@@ -71,6 +71,95 @@
   display: none !important;
 }
 
+/* ---------------------------------------------------------------------------
+   Site-wide motion.
+
+   Two layers:
+   1. Micro-interactions — hover/focus/active transitions on links, buttons
+      and cards, so every themed surface responds the same way.
+   2. Scroll reveal — static_src/js/animations.js adds `.is-revealed` to
+      `.reveal` elements the moment they enter the viewport (IntersectionObserver).
+      The CSS below only defines the before/after states; the JS never
+      computes styles itself.
+
+   Both respect `prefers-reduced-motion: reduce`: transforms/opacity delays
+   are stripped and content is shown at its final state immediately, so
+   motion is a progressive enhancement, never a requirement to read the page.
+   --------------------------------------------------------------------------- */
+html {
+  scroll-behavior: smooth;
+}
+
+a,
+button {
+  transition-duration: 200ms;
+}
+
+@layer components {
+  .btn {
+    @apply transition-all duration-200 ease-out hover:-translate-y-0.5 active:translate-y-0 active:duration-75;
+  }
+
+  .card {
+    @apply transition-all duration-300 ease-out hover:-translate-y-1 hover:border-gold-bright/60 hover:shadow-lg hover:shadow-navy/5;
+  }
+}
+
+/* Scroll reveal: fade + rise into place. Elements start hidden only once JS
+   has confirmed it can reveal them (see animations.js `motion-ready` gate),
+   so content is never stuck invisible for no-JS visitors or crawlers that
+   don't execute IntersectionObserver callbacks. */
+.motion-ready .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.motion-ready .reveal.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Stagger children of a revealed grid/list one after another. */
+.motion-ready .reveal-group > .reveal:nth-child(1) { transition-delay: 0ms; }
+.motion-ready .reveal-group > .reveal:nth-child(2) { transition-delay: 80ms; }
+.motion-ready .reveal-group > .reveal:nth-child(3) { transition-delay: 160ms; }
+.motion-ready .reveal-group > .reveal:nth-child(4) { transition-delay: 240ms; }
+.motion-ready .reveal-group > .reveal:nth-child(5) { transition-delay: 320ms; }
+.motion-ready .reveal-group > .reveal:nth-child(6) { transition-delay: 400ms; }
+.motion-ready .reveal-group > .reveal:nth-child(n+7) { transition-delay: 480ms; }
+
+/* Gentle breathing pulse on the floating WhatsApp button so it draws a first
+   glance without being distracting on repeat visits. */
+@keyframes gentle-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgb(22 163 74 / 0.45); }
+  50% { box-shadow: 0 0 0 10px rgb(22 163 74 / 0); }
+}
+.animate-gentle-pulse {
+  animation: gentle-pulse 2.8s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .motion-ready .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .btn:hover,
+  .card:hover {
+    transform: none;
+  }
+}
+
 /* CLAUDE.md §3 type scale defines "label" as a reusable style
    (text-[13px] tracking-[0.08em] uppercase font-semibold), and templates
    apply it as `class="label"`. `text-label` (the fontSize entry below)
