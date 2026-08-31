@@ -10,7 +10,7 @@ Hero. Always navy/cream regardless of theme: it sits over photography (or a
 navy gradient when no image is seeded yet), so its contrast is fixed rather
 than theme-dependent — same reasoning as the header and footer.
 {% endcomment %}
-<section class="relative min-h-[80dvh] flex items-center overflow-hidden bg-navy text-cream">
+<section class="relative min-h-[100dvh] flex items-center overflow-hidden bg-navy text-cream">
   {% if hero_destination %}
     {% responsive_image hero_destination.hero_image hero_destination.name width=hero_destination.hero_image_width height=hero_destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="100vw" loading="eager" %}
     <div class="absolute inset-0 bg-gradient-to-b from-navy/80 via-navy/60 to-navy" aria-hidden="true"></div>
