@@ -1,6 +1,13 @@
 {% load i18n static cache_bust %}<!doctype html>
-{% get_current_language_bidi as LANGUAGE_BIDI %}
-<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"{% if theme %} data-theme="{{ theme }}"{% endif %}>
+{% comment %}
+dir is deliberately always ltr, even for Arabic: the brand's editorial
+layout (asymmetric hero, bento grid, sidebar summaries) is a fixed design
+decision, not something that should mirror per language. Templates should
+still use CSS logical properties (ms-/me-/ps-/pe-/start-/end-) rather than
+physical left/right so Arabic *text* itself renders correctly — just the
+overall page layout stays LTR.
+{% endcomment %}
+<html lang="{{ LANGUAGE_CODE }}" dir="ltr"{% if theme %} data-theme="{{ theme }}"{% endif %}>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
