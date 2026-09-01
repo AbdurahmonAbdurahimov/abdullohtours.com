@@ -227,6 +227,50 @@ button {
   }
 }
 
+/* Loading feedback (CLAUDE.md §1: response time is the key metric, and every
+   quote/booking action already goes through a network round trip, so users
+   need to see something moving). Three pieces, all driven server-side —
+   nothing here computes or guesses at outcomes, it only signals "working":
+
+   1. #page-loader   — a top-of-viewport progress bar for ordinary full-page
+                        navigations (static_src/js/loading.js drives it).
+   2. .spinner        — a small currentColor ring, used inside buttons and
+                        htmx-indicator overlays.
+   3. .btn-loading    — the disabled/in-flight state loading.js applies to a
+                        submit button while its form's request is in flight. */
+@layer components {
+  #page-loader {
+    @apply fixed top-0 start-0 z-50 h-[3px] bg-gold-bright opacity-0;
+    width: 0%;
+    box-shadow: 0 0 8px rgba(217, 160, 46, 0.65);
+    transition: width 4s cubic-bezier(0.1, 0.6, 0.2, 1), opacity 0.2s ease-out;
+  }
+  #page-loader.is-loading {
+    width: 80%;
+    @apply opacity-100;
+  }
+  #page-loader.is-done {
+    width: 100%;
+    transition: width 0.2s ease-out, opacity 0.3s ease-out 0.15s;
+    @apply opacity-0;
+  }
+
+  .spinner {
+    @apply inline-block rounded-full border-2 border-current border-t-transparent align-[-3px];
+    animation: spin 0.6s linear infinite;
+  }
+
+  .btn-loading {
+    @apply pointer-events-none opacity-80;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* Minimal rich-text styling for rendered body content (blog posts, package
    and destination descriptions) that templates mark with `class="prose"`.
    No typography plugin per CLAUDE.md §2 (fixed tech stack) — hand-styled

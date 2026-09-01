@@ -20,6 +20,10 @@ module.exports = {
   content: [
     "templates/**/*.html",
     "apps/**/*.py",
+    // loading.js injects .spinner/.btn-loading markup at runtime rather than
+    // templates emitting it server-side, so it needs its own content entry
+    // or Tailwind's JIT purge drops those classes as "unused".
+    "static_src/js/*.js",
   ],
   theme: {
     extend: {
