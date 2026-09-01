@@ -5,6 +5,16 @@
 {% block meta_description %}{{ route.meta_description|default:route.title }}{% endblock %}
 {% block robots %}<meta name="robots" content="{% if route.noindex %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
 
+{% block og_image %}
+  {% with image=route.og_image|default:route.destination_a.hero_image|default:route.destination_b.hero_image|default:site_settings.default_og_image %}
+    {% if image %}
+      <meta property="og:image" content="{{ CANONICAL_HOST }}{{ image.url }}">
+      <meta property="og:image:width" content="{{ route.og_image_width|default:route.destination_a.hero_image_width|default:route.destination_b.hero_image_width|default:site_settings.default_og_image_width }}">
+      <meta property="og:image:height" content="{{ route.og_image_height|default:route.destination_a.hero_image_height|default:route.destination_b.hero_image_height|default:site_settings.default_og_image_height }}">
+    {% endif %}
+  {% endwith %}
+{% endblock %}
+
 {% block hreflang %}
 <link rel="alternate" hreflang="en" href="{{ CANONICAL_HOST }}/en/routes/{{ route.slug }}/">
 {% if route.translation_complete_ru %}<link rel="alternate" hreflang="ru" href="{{ CANONICAL_HOST }}/ru/routes/{{ route.slug }}/">{% endif %}

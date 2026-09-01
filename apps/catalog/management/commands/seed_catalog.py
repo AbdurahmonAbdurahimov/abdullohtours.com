@@ -19,6 +19,7 @@ from __future__ import annotations
 
 from decimal import Decimal
 
+from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
 
@@ -297,18 +298,35 @@ class Command(BaseCommand):
             },
         ]
 
+        # Media already sitting in media/ from the design phase (CLAUDE.md
+        # §7 image pipeline) — wired up by natural key rather than uploaded
+        # again, since default_storage already has these committed files.
+        # Attraction.images stores full URLs (help_text: "paths/URLs"), not
+        # bare storage names — the template renders it straight into <img
+        # src> with no MEDIA_URL prefix, so a bare name 404s.
+        attraction_images = {
+            "Registan Square": [default_storage.url("attractions/topattractions-registan.webp")],
+            "Gur-e-Amir Mausoleum": [default_storage.url("attractions/topattractions-guremir.webp")],
+        }
+
         destinations: dict[str, Destination] = {}
         for row in data:
             attractions = row.pop("attractions")
+            hero_image = f"destinations/{row['slug']}-hero.webp"
+            if default_storage.exists(hero_image):
+                row["hero_image"] = hero_image
             obj, _created = Destination.objects.update_or_create(
                 slug=row["slug"],
                 defaults={**row, "is_active": True},
             )
             for name, description, duration in attractions:
+                defaults = {"description": description, "typical_duration_min": duration}
+                if name in attraction_images:
+                    defaults["images"] = attraction_images[name]
                 Attraction.objects.update_or_create(
                     destination=obj,
                     name=name,
-                    defaults={"description": description, "typical_duration_min": duration},
+                    defaults=defaults,
                 )
             destinations[row["slug"]] = obj
         return destinations
@@ -783,16 +801,28 @@ class Command(BaseCommand):
             },
         ]
 
+        gallery_images = [
+            "packages/gallery/visualjourneys-1.webp",
+            "packages/gallery/visualjourneys-2.webp",
+            "packages/gallery/visualjourneys-3.webp",
+        ]
+
         for pkg_data in packages:
             days = pkg_data.pop("days")
             vehicle_class_name = pkg_data.pop("vehicle_class")
+            hero_image = f"packages/{pkg_data['slug']}-hero.webp"
+            if default_storage.exists(hero_image):
+                pkg_data["hero_image"] = hero_image
+            is_featured = pkg_data["tier"] == Package.Tier.STANDARD
+            if is_featured and all(default_storage.exists(p) for p in gallery_images):
+                pkg_data["gallery"] = gallery_images
             package, _ = Package.objects.update_or_create(
                 slug=pkg_data["slug"],
                 defaults={
                     **pkg_data,
                     "base_vehicle_class": vehicle_classes[vehicle_class_name],
                     "is_active": True,
-                    "is_featured": pkg_data["tier"] == Package.Tier.STANDARD,
+                    "is_featured": is_featured,
                 },
             )
             for day_number, title, description, activity_titles in days:

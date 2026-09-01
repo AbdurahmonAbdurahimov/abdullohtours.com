@@ -10,6 +10,22 @@
   {% block canonical %}<link rel="canonical" href="{{ CANONICAL_HOST }}{{ request.path }}">{% endblock %}
   {% block hreflang %}{% endblock %}
   {% block robots %}<meta name="robots" content="index, follow">{% endblock %}
+  <meta property="og:url" content="{{ CANONICAL_HOST }}{{ request.path }}">
+  {% comment %}
+  Per-page templates override this with their own SEOMixin.og_image (falling
+  back to hero_image) when they have one — see destination_detail.html /
+  package_detail.html. Otherwise every page falls back to the site-wide
+  SiteSettings.default_og_image (CLAUDE.md §7 — every page needs an og:image,
+  a share card with no image looks broken on every platform).
+  {% endcomment %}
+  {% block og_image %}
+    {% if site_settings.default_og_image %}
+      <meta property="og:image" content="{{ CANONICAL_HOST }}{{ site_settings.default_og_image.url }}">
+      <meta property="og:image:width" content="{{ site_settings.default_og_image_width }}">
+      <meta property="og:image:height" content="{{ site_settings.default_og_image_height }}">
+    {% endif %}
+  {% endblock %}
+  <meta name="twitter:card" content="summary_large_image">
 
   {% comment %}
   Matches the themed page background so the browser chrome (and any
