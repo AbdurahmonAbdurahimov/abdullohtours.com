@@ -1,4 +1,4 @@
-{% load i18n static %}<!doctype html>
+{% load i18n static cache_bust %}<!doctype html>
 {% get_current_language_bidi as LANGUAGE_BIDI %}
 <html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"{% if theme %} data-theme="{{ theme }}"{% endif %}>
 <head>
@@ -34,7 +34,7 @@
   <meta name="theme-color" content="#FFF8F1" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#071A2A" media="(prefers-color-scheme: dark)">
 
-  <link rel="stylesheet" href="{% static 'css/main.css' %}">
+  <link rel="stylesheet" href="{% static_v 'css/main.css' %}">
   {% block extra_head %}{% endblock %}
 
   {% comment %}
@@ -58,9 +58,9 @@
 
   {# Self-hosted, no CDN (CLAUDE.md §2) — see static_src/js/vendor/README.md #}
   <script src="{% static 'js/vendor/htmx-2.0.10.min.js' %}" defer></script>
-  <script src="{% static 'js/animations.js' %}" defer></script>
+  <script src="{% static_v 'js/animations.js' %}" defer></script>
   <script src="{% static 'js/vendor/alpine-3.16.3.min.js' %}" defer></script>
-  <script src="{% static 'js/loading.js' %}" defer></script>
+  <script src="{% static_v 'js/loading.js' %}" defer></script>
 </head>
 {% comment %}
 SINGLE-H1 CONVENTION: every page template must define exactly one h1 block
