@@ -1,9 +1,13 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n i18n_seo %}
 
 {% block meta_title %}{{ post.meta_title|default:post.title }} — Abdulloh Tours{% endblock %}
 {% block meta_description %}{{ post.meta_description|default:post.excerpt }}{% endblock %}
-{% block robots %}<meta name="robots" content="{% if post.noindex %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
+{% comment %}
+Blog is EN + RU only at launch (CLAUDE.md §12) — noindex everything else,
+same restriction as apps/blog/sitemaps.py's BLOG_LANGUAGES.
+{% endcomment %}
+{% block robots %}<meta name="robots" content="{% if post.noindex or not post|lang_indexable:"en,ru" %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
 
 {% block og_image %}
   {% with image=post.og_image|default:post.cover_image|default:site_settings.default_og_image %}

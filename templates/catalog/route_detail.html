@@ -1,9 +1,14 @@
 {% extends "base.html" %}
-{% load i18n responsive_image %}
+{% load i18n responsive_image i18n_seo %}
 
 {% block meta_title %}{{ route.meta_title|default:route.title }} — Abdulloh Tours{% endblock %}
 {% block meta_description %}{{ route.meta_description|default:route.title }}{% endblock %}
-{% block robots %}<meta name="robots" content="{% if route.noindex %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
+{% comment %}
+noindex, nofollow whenever the current language has no complete translation
+(matches the hreflang gate below), so an untranslated variant can't get
+indexed as thin/duplicate content (CLAUDE.md §7).
+{% endcomment %}
+{% block robots %}<meta name="robots" content="{% if route.noindex or not route|lang_indexable %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
 
 {% block og_image %}
   {% with image=route.og_image|default:route.destination_a.hero_image|default:route.destination_b.hero_image|default:site_settings.default_og_image %}

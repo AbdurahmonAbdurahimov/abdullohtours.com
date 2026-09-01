@@ -1,9 +1,15 @@
 {% extends "base.html" %}
-{% load i18n responsive_image %}
+{% load i18n responsive_image i18n_seo %}
 
 {% block meta_title %}{{ destination.meta_title|default:destination.name }} — Abdulloh Tours{% endblock %}
 {% block meta_description %}{{ destination.meta_description|default:destination.intro|truncatewords:30 }}{% endblock %}
-{% block robots %}<meta name="robots" content="{% if destination.noindex %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
+{% comment %}
+noindex, nofollow whenever the current language has no complete translation
+(matches the hreflang gate below) — not just when an admin sets noindex —
+so an untranslated variant showing "TODO: content needed" text can't get
+indexed as thin/duplicate content (CLAUDE.md §7).
+{% endcomment %}
+{% block robots %}<meta name="robots" content="{% if destination.noindex or not destination|lang_indexable %}noindex, nofollow{% else %}index, follow{% endif %}">{% endblock %}
 
 {% block og_image %}
   {% with image=destination.og_image|default:destination.hero_image|default:site_settings.default_og_image %}
