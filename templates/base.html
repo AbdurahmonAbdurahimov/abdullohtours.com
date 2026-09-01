@@ -82,9 +82,11 @@ RTL: Arabic is an active language, so use CSS *logical* properties
 left/right ones anywhere the layout should mirror.
 {% endcomment %}
 <body class="bg-surface text-content font-sans antialiased">
-  {# Top navigation progress bar — driven by static_src/js/loading.js on both
-     ordinary page loads and htmx partial requests (CLAUDE.md §1: response
-     speed is the product, so every wait gets visible feedback). #}
+  {% comment %}
+  Top navigation progress bar — driven by static_src/js/loading.js on both
+  ordinary page loads and htmx partial requests (CLAUDE.md §1: response
+  speed is the product, so every wait gets visible feedback).
+  {% endcomment %}
   <div id="page-loader" aria-hidden="true"></div>
   <a href="#main-content"
      class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:top-2 focus:start-2 focus:rounded focus:bg-gold-bright focus:px-4 focus:py-2 focus:text-navy focus:font-semibold">
