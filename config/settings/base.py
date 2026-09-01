@@ -312,6 +312,16 @@ UNFOLD = {
                         "icon": "alt_route",
                         "link": reverse_lazy("admin:catalog_routepage_changelist"),
                     },
+                    {
+                        "title": "Hotels",
+                        "icon": "hotel",
+                        "link": reverse_lazy("admin:catalog_hotel_changelist"),
+                    },
+                    {
+                        "title": "Cars",
+                        "icon": "directions_car",
+                        "link": reverse_lazy("admin:catalog_car_changelist"),
+                    },
                 ],
             },
             {

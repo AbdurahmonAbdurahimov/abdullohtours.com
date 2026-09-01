@@ -200,6 +200,38 @@
                 <p class="text-content-muted">TODO: content needed — no add-ons yet (seed data is a follow-up task).</p>
               {% endfor %}
             </div>
+
+            {% if hotels or cars %}
+            <div class="mt-6 pt-4 border-t border-hairline grid grid-cols-1 md:grid-cols-2 gap-4">
+              <p class="md:col-span-2 text-[13px] text-content-muted">
+                {% trans "Optional — let us know your preferred hotel and car. This is a note for our team, not a priced item; we'll confirm availability and pricing on WhatsApp." %}
+              </p>
+              {% if hotels %}
+              <div>
+                <label class="label text-content-muted block mb-1">{% trans "Preferred hotel" %}</label>
+                <select name="preferred_hotel" x-model="preferredHotel" @change="refresh()"
+                        class="w-full border border-hairline rounded px-3 py-2 bg-surface-raised">
+                  <option value="">{% trans "No preference" %}</option>
+                  {% for hotel in hotels %}
+                    <option value="{{ hotel.id }}">{{ hotel.name }} ({{ hotel.get_category_display }})</option>
+                  {% endfor %}
+                </select>
+              </div>
+              {% endif %}
+              {% if cars %}
+              <div>
+                <label class="label text-content-muted block mb-1">{% trans "Preferred car" %}</label>
+                <select name="preferred_car" x-model="preferredCar" @change="refresh()"
+                        class="w-full border border-hairline rounded px-3 py-2 bg-surface-raised">
+                  <option value="">{% trans "No preference" %}</option>
+                  {% for car in cars %}
+                    <option value="{{ car.id }}">{{ car.name }} ({{ car.get_category_display }})</option>
+                  {% endfor %}
+                </select>
+              </div>
+              {% endif %}
+            </div>
+            {% endif %}
           </div>
 
           <div class="mt-8 flex justify-between border-t border-hairline pt-4" x-show="step < 5">
@@ -267,6 +299,8 @@
       activities: payload.activities || [],
       addons: payload.addons || [],
       manualVehicleClass: payload.manual_vehicle_class_id || "",
+      preferredHotel: payload.preferred_hotel_id || "",
+      preferredCar: payload.preferred_car_id || "",
       goTo(n) {
         this.step = Math.min(Math.max(n, 1), 5);
         this.refresh();

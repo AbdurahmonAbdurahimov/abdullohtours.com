@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.sitemaps import Sitemap
 from django.utils import translation
 
-from .models import Destination, Package, RoutePage
+from .models import Car, Destination, Hotel, Package, RoutePage
 
 
 class _I18nModelSitemap(Sitemap):
@@ -38,7 +38,9 @@ class _I18nModelSitemap(Sitemap):
                 lang_items = all_items
             else:
                 lang_items = [
-                    obj for obj in all_items if getattr(obj, f"translation_complete_{lang_code}", False)
+                    obj
+                    for obj in all_items
+                    if getattr(obj, f"translation_complete_{lang_code}", False)
                 ]
             if not lang_items:
                 continue
@@ -94,3 +96,35 @@ class RoutePageSitemap(_I18nModelSitemap):
         from django.urls import reverse
 
         return reverse("catalog:route_detail", kwargs={"slug": obj.slug})
+
+
+class HotelSitemap(_I18nModelSitemap):
+    changefreq = "weekly"
+    priority = 0.6
+
+    def _all_items(self):
+        return Hotel.objects.filter(is_active=True)
+
+    def lastmod(self, obj):
+        return None
+
+    def location(self, obj):
+        from django.urls import reverse
+
+        return reverse("catalog:hotel_detail", kwargs={"slug": obj.slug})
+
+
+class CarSitemap(_I18nModelSitemap):
+    changefreq = "weekly"
+    priority = 0.6
+
+    def _all_items(self):
+        return Car.objects.filter(is_active=True)
+
+    def lastmod(self, obj):
+        return None
+
+    def location(self, obj):
+        from django.urls import reverse
+
+        return reverse("catalog:car_detail", kwargs={"slug": obj.slug})

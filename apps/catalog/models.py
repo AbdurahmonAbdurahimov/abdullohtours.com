@@ -334,6 +334,93 @@ class RoutePage(SEOMixin):
         return self.destination_a.min_recommended_days + self.destination_b.min_recommended_days
 
 
+class Hotel(SEOMixin):
+    class Category(models.TextChoices):
+        BUDGET = "BUDGET", "Budget"
+        STANDARD = "STANDARD", "Standard"
+        BOUTIQUE = "BOUTIQUE", "Boutique"
+        LUXURY = "LUXURY", "Luxury"
+
+    slug = models.SlugField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    category = models.CharField(max_length=20, choices=Category.choices, default=Category.STANDARD)
+    address = models.CharField(max_length=255, blank=True)
+    destination = models.ForeignKey(
+        Destination, on_delete=models.SET_NULL, null=True, blank=True, related_name="hotels"
+    )
+    description = models.TextField(blank=True)
+    amenities = models.TextField(blank=True, help_text="One item per line.")
+    price_per_night_usd = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    hero_image = WebPImageField(
+        upload_to="hotels/",
+        blank=True,
+        null=True,
+        width_field="hero_image_width",
+        height_field="hero_image_height",
+    )
+    hero_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    hero_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    gallery = models.JSONField(default=list, blank=True)
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "name"]
+
+    def __str__(self) -> str:
+        return self.name
+
+    def get_absolute_url(self) -> str:
+        with translation.override("en"):
+            return reverse("catalog:hotel_detail", kwargs={"slug": self.slug})
+
+
+class Car(SEOMixin):
+    class Category(models.TextChoices):
+        SEDAN = "SEDAN", "Sedan"
+        SUV = "SUV", "SUV"
+        MINIVAN = "MINIVAN", "Minivan"
+        MINIBUS = "MINIBUS", "Minibus"
+        BUS = "BUS", "Bus"
+
+    slug = models.SlugField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
+    category = models.CharField(max_length=20, choices=Category.choices, default=Category.SEDAN)
+    # Links a browsable car listing to the pricing engine's tier for display
+    # purposes only — pricing.py always prices off VehicleClass, never Car.
+    vehicle_class = models.ForeignKey(
+        VehicleClass, on_delete=models.SET_NULL, null=True, blank=True, related_name="cars"
+    )
+    capacity_pax = models.PositiveSmallIntegerField(default=1)
+    trunk_capacity_desc = models.CharField(max_length=255, blank=True)
+    # Display-only informational rate — NOT wired into pricing.py; the
+    # pricing engine keeps using VehicleClass.daily_rate_usd exactly as today.
+    daily_rate_usd = models.DecimalField(max_digits=8, decimal_places=2, default=0)
+    description = models.TextField(blank=True)
+    hero_image = WebPImageField(
+        upload_to="cars/",
+        blank=True,
+        null=True,
+        width_field="hero_image_width",
+        height_field="hero_image_height",
+    )
+    hero_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    hero_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    gallery = models.JSONField(default=list, blank=True)
+    is_active = models.BooleanField(default=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "name"]
+
+    def __str__(self) -> str:
+        return self.name
+
+    def get_absolute_url(self) -> str:
+        with translation.override("en"):
+            return reverse("catalog:car_detail", kwargs={"slug": self.slug})
+
+
 class BlackoutDate(models.Model):
     date = models.DateField()
     vehicle = models.ForeignKey(

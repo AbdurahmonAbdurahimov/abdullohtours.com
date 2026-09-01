@@ -17,7 +17,9 @@ from . import pricing
 from .models import (
     Activity,
     AddOn,
+    Car,
     Destination,
+    Hotel,
     Package,
     RoutePage,
     SeasonalRate,
@@ -63,6 +65,40 @@ def route_detail(request: HttpRequest, slug: str) -> HttpResponse:
     return render(request, "catalog/route_detail.html", {"route": route})
 
 
+def hotel_index(request: HttpRequest) -> HttpResponse:
+    hotels = Hotel.objects.filter(is_active=True).select_related("destination")
+    category = request.GET.get("category") or ""
+    if category:
+        hotels = hotels.filter(category=category)
+    return render(
+        request,
+        "catalog/hotel_index.html",
+        {"hotels": hotels, "categories": Hotel.Category.choices, "selected_category": category},
+    )
+
+
+def hotel_detail(request: HttpRequest, slug: str) -> HttpResponse:
+    hotel = get_object_or_404(Hotel, slug=slug, is_active=True)
+    return render(request, "catalog/hotel_detail.html", {"hotel": hotel})
+
+
+def car_index(request: HttpRequest) -> HttpResponse:
+    cars = Car.objects.filter(is_active=True).select_related("vehicle_class")
+    category = request.GET.get("category") or ""
+    if category:
+        cars = cars.filter(category=category)
+    return render(
+        request,
+        "catalog/car_index.html",
+        {"cars": cars, "categories": Car.Category.choices, "selected_category": category},
+    )
+
+
+def car_detail(request: HttpRequest, slug: str) -> HttpResponse:
+    car = get_object_or_404(Car, slug=slug, is_active=True)
+    return render(request, "catalog/car_detail.html", {"car": car})
+
+
 def tour_builder(
     request: HttpRequest,
     *,
@@ -89,6 +125,8 @@ def tour_builder(
     ).select_related("destination")
     addons = AddOn.objects.filter(is_active=True)
     vehicle_classes = VehicleClass.objects.all()
+    hotels = Hotel.objects.filter(is_active=True)
+    cars = Car.objects.filter(is_active=True)
     payload = builder_payload or {}
     if not payload and request.GET.getlist("destination"):
         # "Build a private tour" CTA from a destination or route landing page
@@ -103,6 +141,8 @@ def tour_builder(
             "activities": activities,
             "addons": addons,
             "vehicle_classes": vehicle_classes,
+            "hotels": hotels,
+            "cars": cars,
             "initial_step": initial_step,
             "contact_form": contact_form or BookingRequestForm(),
             "quote": _quote_from_payload(payload),
@@ -209,6 +249,11 @@ def _selection_from_post(data) -> dict:
         "activities": data.getlist("activities"),
         "addons": data.getlist("addons"),
         "manual_vehicle_class_id": manual_vehicle_class_id,
+        # Informational-only preferences (CLAUDE.md §10 integration) — never
+        # fed into calculate_quote(), just carried through to the admin as a
+        # note on the request.
+        "preferred_hotel_id": data.get("preferred_hotel") or None,
+        "preferred_car_id": data.get("preferred_car") or None,
     }
 
 

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% load i18n responsive_image %}
+
+{% block meta_title %}{% trans "Cars" %} — Abdulloh Tours{% endblock %}
+
+{% block content %}
+<section class="bg-navy text-cream py-lg">
+  <div class="container-page">
+    {% block h1 %}
+    <h1 class="font-serif text-h1 md:text-h1-md">{% trans "Cars" %}</h1>
+    {% endblock %}
+    <p class="mt-4 max-w-2xl text-cream/80">
+      {% trans "Our own vehicles and trusted partner cars, each with an English-speaking driver. Rates shown are informational — your final estimate comes from the tour builder." %}
+    </p>
+  </div>
+</section>
+
+<section class="bg-surface section">
+  <div class="container-page">
+    <div class="flex flex-wrap gap-2 mb-8">
+      <a href="{% url 'catalog:car_index' %}"
+         class="label px-3 py-1.5 rounded-full border {% if not selected_category %}bg-gold-bright text-navy border-gold-bright{% else %}border-hairline text-content-muted hover:border-gold{% endif %}">
+        {% trans "All" %}
+      </a>
+      {% for value, label in categories %}
+        <a href="{% url 'catalog:car_index' %}?category={{ value }}"
+           class="label px-3 py-1.5 rounded-full border {% if selected_category == value %}bg-gold-bright text-navy border-gold-bright{% else %}border-hairline text-content-muted hover:border-gold{% endif %}">
+          {{ label }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% for car in cars %}
+        <a href="{% url 'catalog:car_detail' car.slug %}"
+           class="card block overflow-hidden hover:border-gold transition-colors">
+          {% if car.hero_image %}
+            {% if forloop.first %}
+              {% responsive_image car.hero_image car.name width=car.hero_image_width height=car.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 33vw, 100vw" loading="eager" fetchpriority="high" %}
+            {% else %}
+              {% responsive_image car.hero_image car.name width=car.hero_image_width height=car.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" %}
+            {% endif %}
+          {% else %}
+            <div class="w-full h-48 bg-navy"></div>
+          {% endif %}
+          <div class="p-4">
+            <p class="label text-gold">{{ car.get_category_display }}</p>
+            <h2 class="font-serif text-h3 text-content mt-1">{{ car.name }}</h2>
+            <p class="text-[13px] text-content-muted mt-1">
+              {% blocktrans with pax=car.capacity_pax %}Up to {{ pax }} passengers{% endblocktrans %}
+              {% if car.trunk_capacity_desc %} &middot; {{ car.trunk_capacity_desc }}{% endif %}
+            </p>
+            {% if car.daily_rate_usd %}
+              <p class="text-[13px] text-gold-bright mt-2">
+                {% blocktrans with price=car.daily_rate_usd|floatformat:0 %}from ${{ price }} / day{% endblocktrans %}
+              </p>
+            {% endif %}
+          </div>
+        </a>
+      {% empty %}
+        <p class="text-content-muted md:col-span-3">TODO: content needed — no cars yet (seed data is a follow-up task).</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

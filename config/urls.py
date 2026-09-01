@@ -15,7 +15,13 @@ from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path
 
 from apps.blog.sitemaps import BlogPostSitemap
-from apps.catalog.sitemaps import DestinationSitemap, PackageSitemap, RoutePageSitemap
+from apps.catalog.sitemaps import (
+    CarSitemap,
+    DestinationSitemap,
+    HotelSitemap,
+    PackageSitemap,
+    RoutePageSitemap,
+)
 from apps.core.sitemaps import StaticViewSitemap
 from apps.core.views import robots_txt
 
@@ -27,6 +33,8 @@ sitemaps = {
     "destinations": DestinationSitemap,
     "packages": PackageSitemap,
     "routes": RoutePageSitemap,
+    "hotels": HotelSitemap,
+    "cars": CarSitemap,
     "blog": BlogPostSitemap,
 }
 

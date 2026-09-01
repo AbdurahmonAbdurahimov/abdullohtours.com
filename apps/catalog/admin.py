@@ -9,8 +9,10 @@ from .models import (
     AddOn,
     Attraction,
     BlackoutDate,
+    Car,
     Destination,
     Driver,
+    Hotel,
     Package,
     PackageDay,
     PackageItem,
@@ -125,6 +127,22 @@ class RoutePageAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
     list_display = ("__str__", "slug", "is_active", "order")
     list_filter = ("is_active",)
     autocomplete_fields = ("destination_a", "destination_b")
+
+
+@admin.register(Hotel)
+class HotelAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
+    list_display = ("name", "category", "destination", "price_per_night_usd", "is_active", "order")
+    list_filter = ("category", "destination", "is_active")
+    search_fields = ("name", "address")
+    prepopulated_fields = {"slug": ("name",)}
+
+
+@admin.register(Car)
+class CarAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
+    list_display = ("name", "category", "capacity_pax", "daily_rate_usd", "is_active", "order")
+    list_filter = ("category", "is_active")
+    search_fields = ("name",)
+    prepopulated_fields = {"slug": ("name",)}
 
 
 @admin.register(BlackoutDate)

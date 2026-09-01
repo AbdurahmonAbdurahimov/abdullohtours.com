@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load i18n responsive_image %}
+
+{% block meta_title %}{% trans "Hotels" %} — Abdulloh Tours{% endblock %}
+
+{% block content %}
+<section class="bg-navy text-cream py-lg">
+  <div class="container-page">
+    {% block h1 %}
+    <h1 class="font-serif text-h1 md:text-h1-md">{% trans "Hotels" %}</h1>
+    {% endblock %}
+    <p class="mt-4 max-w-2xl text-cream/80">
+      {% trans "Hotels we regularly book for our guests, from budget guesthouses to boutique stays. Tell us your preference when you request a quote." %}
+    </p>
+  </div>
+</section>
+
+<section class="bg-surface section">
+  <div class="container-page">
+    <div class="flex flex-wrap gap-2 mb-8">
+      <a href="{% url 'catalog:hotel_index' %}"
+         class="label px-3 py-1.5 rounded-full border {% if not selected_category %}bg-gold-bright text-navy border-gold-bright{% else %}border-hairline text-content-muted hover:border-gold{% endif %}">
+        {% trans "All" %}
+      </a>
+      {% for value, label in categories %}
+        <a href="{% url 'catalog:hotel_index' %}?category={{ value }}"
+           class="label px-3 py-1.5 rounded-full border {% if selected_category == value %}bg-gold-bright text-navy border-gold-bright{% else %}border-hairline text-content-muted hover:border-gold{% endif %}">
+          {{ label }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {% for hotel in hotels %}
+        <a href="{% url 'catalog:hotel_detail' hotel.slug %}"
+           class="card block overflow-hidden hover:border-gold transition-colors">
+          {% if hotel.hero_image %}
+            {% if forloop.first %}
+              {% responsive_image hotel.hero_image hotel.name width=hotel.hero_image_width height=hotel.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 33vw, 100vw" loading="eager" fetchpriority="high" %}
+            {% else %}
+              {% responsive_image hotel.hero_image hotel.name width=hotel.hero_image_width height=hotel.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" %}
+            {% endif %}
+          {% else %}
+            <div class="w-full h-48 bg-navy"></div>
+          {% endif %}
+          <div class="p-4">
+            <p class="label text-gold">{{ hotel.get_category_display }}</p>
+            <h2 class="font-serif text-h3 text-content mt-1">{{ hotel.name }}</h2>
+            {% if hotel.address %}<p class="text-[13px] text-content-muted mt-1">{{ hotel.address }}</p>{% endif %}
+            {% if hotel.price_per_night_usd %}
+              <p class="text-[13px] text-gold-bright mt-2">
+                {% blocktrans with price=hotel.price_per_night_usd|floatformat:0 %}from ${{ price }} / night{% endblocktrans %}
+              </p>
+            {% endif %}
+          </div>
+        </a>
+      {% empty %}
+        <p class="text-content-muted md:col-span-3">TODO: content needed — no hotels yet (seed data is a follow-up task).</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

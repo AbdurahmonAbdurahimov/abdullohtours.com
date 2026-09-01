@@ -1,6 +1,6 @@
 from modeltranslation.translator import TranslationOptions, register
 
-from .models import Activity, Destination, Package, PackageDay, RoutePage
+from .models import Activity, Car, Destination, Hotel, Package, PackageDay, RoutePage
 
 
 @register(Destination)
@@ -37,3 +37,13 @@ class RoutePageTranslationOptions(TranslationOptions):
     # from the (already translated) destination names. Only the SEO meta
     # fields are real stored fields here.
     fields = ("meta_title", "meta_description")
+
+
+@register(Hotel)
+class HotelTranslationOptions(TranslationOptions):
+    fields = ("name", "description", "amenities", "address", "meta_title", "meta_description")
+
+
+@register(Car)
+class CarTranslationOptions(TranslationOptions):
+    fields = ("name", "description", "trunk_capacity_desc", "meta_title", "meta_description")
