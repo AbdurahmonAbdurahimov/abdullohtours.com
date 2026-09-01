@@ -47,8 +47,54 @@ class Command(BaseCommand):
         self._seed_drivers()
         activities = self._seed_activities(destinations)
         addons = self._seed_addons()
-        self._seed_packages(destinations, vehicle_classes, activities, addons)
+        packages = self._seed_packages(destinations, vehicle_classes, activities, addons)
+        self._wire_translation_placeholders(destinations, activities, packages)
         self.stdout.write(self.style.SUCCESS("Catalog seed complete."))
+
+    # ------------------------------------------------------------------
+    # Translation placeholders
+    # ------------------------------------------------------------------
+
+    #: CLAUDE.md §12: EN is the only language with real seed copy at launch
+    #: (RU real copy lives in seed_blog/translated content passes elsewhere,
+    #: not here). These are schema placeholders, not content — never real
+    #: translated text — and translation_complete_* stays False, so hreflang
+    #: (CLAUDE.md §7) never emits for them and the admin's per-language
+    #: status column (apps/core/admin_mixins.py) correctly shows them as gaps.
+    _PLACEHOLDER_LANGUAGES = ("ru", "de", "fr", "es", "ar")
+    _TODO_TEXT = "TODO: content needed"
+
+    def _wire_translation_placeholders(self, destinations, activities, packages):
+        for dest in destinations.values():
+            self._fill_placeholders(dest, ("name", "region", "intro", "body", "meta_title", "meta_description"))
+        for activity in activities.values():
+            self._fill_placeholders(
+                activity,
+                (
+                    "title",
+                    "short_desc",
+                    "full_desc",
+                    "included",
+                    "not_included",
+                    "meta_title",
+                    "meta_description",
+                ),
+            )
+        for package in packages.values():
+            self._fill_placeholders(package, ("title", "summary", "body", "meta_title", "meta_description"))
+            for day in package.days.all():
+                self._fill_placeholders(day, ("title", "description"))
+
+    def _fill_placeholders(self, obj, fields: tuple[str, ...]) -> None:
+        changed = False
+        for field in fields:
+            for lang in self._PLACEHOLDER_LANGUAGES:
+                attname = f"{field}_{lang}"
+                if hasattr(obj, attname) and not getattr(obj, attname):
+                    setattr(obj, attname, self._TODO_TEXT)
+                    changed = True
+        if changed:
+            obj.save()
 
     # ------------------------------------------------------------------
     # Destinations + attractions
@@ -581,7 +627,7 @@ class Command(BaseCommand):
         vehicle_classes: dict[str, VehicleClass],
         activities: dict[str, Activity],
         addons: dict[str, AddOn],
-    ) -> None:
+    ) -> dict[str, Package]:
         guide = addons["English-Speaking Guide"]
         hotel = addons["Hotel (3-Star, Double Room)"]
 
@@ -807,6 +853,7 @@ class Command(BaseCommand):
             "packages/gallery/visualjourneys-3.webp",
         ]
 
+        seeded_packages: dict[str, Package] = {}
         for pkg_data in packages:
             days = pkg_data.pop("days")
             vehicle_class_name = pkg_data.pop("vehicle_class")
@@ -825,6 +872,7 @@ class Command(BaseCommand):
                     "is_featured": is_featured,
                 },
             )
+            seeded_packages[package.slug] = package
             for day_number, title, description, activity_titles in days:
                 day, _ = PackageDay.objects.update_or_create(
                     package=package,
@@ -841,3 +889,5 @@ class Command(BaseCommand):
                     PackageItem.objects.create(package_day=day, addon=guide, is_optional=False)
                     if day_number < package.total_days:
                         PackageItem.objects.create(package_day=day, addon=hotel, is_optional=False)
+
+        return seeded_packages
