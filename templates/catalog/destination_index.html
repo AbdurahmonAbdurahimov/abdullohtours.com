@@ -20,7 +20,11 @@
         <a href="{% url 'catalog:destination_detail' destination.slug %}"
            class="group relative block h-64 rounded-lg overflow-hidden border border-hairline hover:border-gold transition-colors">
           {% if destination.hero_image %}
-            {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" %}
+            {% if forloop.first %}
+              {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" sizes="(min-width: 768px) 33vw, 100vw" loading="eager" fetchpriority="high" %}
+            {% else %}
+              {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" sizes="(min-width: 768px) 33vw, 100vw" loading="lazy" %}
+            {% endif %}
           {% else %}
             <div class="absolute inset-0 bg-navy"></div>
           {% endif %}

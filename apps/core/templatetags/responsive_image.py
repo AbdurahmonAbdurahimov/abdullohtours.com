@@ -20,13 +20,26 @@ register = template.Library()
 
 @register.simple_tag
 def responsive_image(
-    image_field, alt, width=None, height=None, css_class="", sizes="100vw", loading="lazy"
+    image_field,
+    alt,
+    width=None,
+    height=None,
+    css_class="",
+    sizes="100vw",
+    loading="lazy",
+    fetchpriority=None,
 ):
     """
     {% responsive_image destination.hero_image destination.name width=destination.hero_image_width height=destination.hero_image_height css_class="w-full h-48 object-cover" sizes="(min-width: 768px) 50vw, 100vw" loading="lazy" %}
 
     `image_field` may be falsy (empty ImageField) — renders nothing so
     callers can drop the surrounding `{% if %}` they already have.
+
+    Pass `loading="eager" fetchpriority="high"` for the one image expected
+    to be the page's LCP element (e.g. the first card in a grid) — Lighthouse
+    flags `loading="lazy"` on the LCP image as a performance regression
+    since it delays the browser from discovering it (CLAUDE.md §7's
+    Lighthouse ≥95 target).
     """
     if not image_field:
         return ""
@@ -40,6 +53,8 @@ def responsive_image(
         "loading": loading,
         "decoding": "async",
     }
+    if fetchpriority:
+        attrs["fetchpriority"] = fetchpriority
     if css_class:
         attrs["class"] = css_class
     if img_width:

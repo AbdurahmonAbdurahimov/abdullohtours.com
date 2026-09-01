@@ -17,6 +17,8 @@ overall page layout stays LTR.
   {% block canonical %}<link rel="canonical" href="{{ CANONICAL_HOST }}{{ request.path }}">{% endblock %}
   {% block hreflang %}{% endblock %}
   {% block robots %}<meta name="robots" content="index, follow">{% endblock %}
+  {# Without an explicit icon, browsers request /favicon.ico anyway and log a 404 console error, which Lighthouse's best-practices "errors-in-console" audit flags on every page. #}
+  <link rel="icon" type="image/svg+xml" href="{% static 'favicon.svg' %}">
   <meta property="og:url" content="{{ CANONICAL_HOST }}{{ request.path }}">
   {% comment %}
   Per-page templates override this with their own SEOMixin.og_image (falling
