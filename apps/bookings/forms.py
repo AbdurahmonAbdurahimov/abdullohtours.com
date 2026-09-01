@@ -28,6 +28,21 @@ class BookingRequestForm(forms.ModelForm):
             "message": forms.Textarea(attrs={"rows": 4}),
         }
 
+    # Widgets carry no CSS of their own out of the box, which left every
+    # field rendering as an unstyled browser default input (dark-grey box,
+    # no border) instead of the design system's input treatment used
+    # everywhere else (e.g. the tour builder's date inputs). Applied here,
+    # once, rather than per-field in the template.
+    INPUT_CLASS = "w-full border border-hairline rounded px-3 py-2 bg-surface-raised text-content placeholder:text-content-muted focus:outline-none focus:border-gold-bright"
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for name, field in self.fields.items():
+            if name == "website":
+                continue
+            existing = field.widget.attrs.get("class", "")
+            field.widget.attrs["class"] = f"{existing} {self.INPUT_CLASS}".strip()
+
     def clean_website(self) -> str:
         value = self.cleaned_data.get("website", "")
         if value:

@@ -1,9 +1,10 @@
+from django.db.models import Avg, Count
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
 from django.template import loader
 from django.views.decorators.http import require_GET
 
-from apps.catalog.models import Destination
+from apps.catalog.models import Destination, Package
 
 from .models import Review
 
@@ -14,10 +15,26 @@ def home(request: HttpRequest) -> HttpResponse:
     # backdrop; with no images seeded yet this stays None and the template
     # falls back to the navy gradient rather than rendering an empty frame.
     hero_destination = next((d for d in destinations if d.hero_image), None)
+    featured_packages = list(
+        Package.objects.filter(is_active=True, is_featured=True).select_related("base_vehicle_class")[:3]
+    )
+    # Real aggregate over published reviews only (apps/core/models.py Review
+    # docstring: this app ships with zero seeded rows, so this is None/0
+    # until an admin publishes real reviews — never a fabricated figure).
+    review_stats = Review.objects.filter(is_published=True).aggregate(
+        avg_rating=Avg("rating"), count=Count("id")
+    )
+    if review_stats["avg_rating"] is not None:
+        review_stats["star_range"] = range(round(review_stats["avg_rating"]))
     return render(
         request,
         "core/home.html",
-        {"destinations": destinations, "hero_destination": hero_destination},
+        {
+            "destinations": destinations,
+            "hero_destination": hero_destination,
+            "featured_packages": featured_packages,
+            "review_stats": review_stats,
+        },
     )
 
 
