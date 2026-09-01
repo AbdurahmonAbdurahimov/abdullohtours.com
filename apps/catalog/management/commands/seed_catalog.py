@@ -47,54 +47,20 @@ class Command(BaseCommand):
         self._seed_drivers()
         activities = self._seed_activities(destinations)
         addons = self._seed_addons()
-        packages = self._seed_packages(destinations, vehicle_classes, activities, addons)
-        self._wire_translation_placeholders(destinations, activities, packages)
+        self._seed_packages(destinations, vehicle_classes, activities, addons)
         self.stdout.write(self.style.SUCCESS("Catalog seed complete."))
 
-    # ------------------------------------------------------------------
-    # Translation placeholders
-    # ------------------------------------------------------------------
-
-    #: CLAUDE.md §12: EN is the only language with real seed copy at launch
-    #: (RU real copy lives in seed_blog/translated content passes elsewhere,
-    #: not here). These are schema placeholders, not content — never real
-    #: translated text — and translation_complete_* stays False, so hreflang
-    #: (CLAUDE.md §7) never emits for them and the admin's per-language
-    #: status column (apps/core/admin_mixins.py) correctly shows them as gaps.
-    _PLACEHOLDER_LANGUAGES = ("ru", "de", "fr", "es", "ar")
-    _TODO_TEXT = "TODO: content needed"
-
-    def _wire_translation_placeholders(self, destinations, activities, packages):
-        for dest in destinations.values():
-            self._fill_placeholders(dest, ("name", "region", "intro", "body", "meta_title", "meta_description"))
-        for activity in activities.values():
-            self._fill_placeholders(
-                activity,
-                (
-                    "title",
-                    "short_desc",
-                    "full_desc",
-                    "included",
-                    "not_included",
-                    "meta_title",
-                    "meta_description",
-                ),
-            )
-        for package in packages.values():
-            self._fill_placeholders(package, ("title", "summary", "body", "meta_title", "meta_description"))
-            for day in package.days.all():
-                self._fill_placeholders(day, ("title", "description"))
-
-    def _fill_placeholders(self, obj, fields: tuple[str, ...]) -> None:
-        changed = False
-        for field in fields:
-            for lang in self._PLACEHOLDER_LANGUAGES:
-                attname = f"{field}_{lang}"
-                if hasattr(obj, attname) and not getattr(obj, attname):
-                    setattr(obj, attname, self._TODO_TEXT)
-                    changed = True
-        if changed:
-            obj.save()
+    # Untranslated ru/de/fr/es/ar fields on Destination/Activity/Package/
+    # PackageDay are deliberately left empty rather than filled with a
+    # "TODO: content needed" placeholder: that text isn't just an admin-side
+    # marker, it's also what a real visitor's browser renders for `.name`/
+    # `.title` (e.g. an <img alt="...">) the moment they switch languages —
+    # see MODELTRANSLATION_FALLBACK_LANGUAGES in config/settings/base.py,
+    # which falls back to the real English copy instead. Untranslated pages
+    # still noindex,nofollow (apps/core/templatetags/i18n_seo.py) and the
+    # admin's per-language status column (apps/core/admin_mixins.py) still
+    # tracks the gap via translation_complete_* — none of that depends on
+    # the field content itself.
 
     # ------------------------------------------------------------------
     # Destinations + attractions

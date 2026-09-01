@@ -142,6 +142,14 @@ LANGUAGES = [
 MODELTRANSLATION_DEFAULT_LANGUAGE = "en"
 MODELTRANSLATION_LANGUAGES = [code for code, _ in LANGUAGES]
 
+# Fall back to English for any translatable field left empty in another
+# language, instead of returning an empty string. Untranslated pages are
+# already noindex,nofollow (see apps/core/templatetags/i18n_seo.py) so this
+# doesn't affect search visibility — it just stops a real visitor who
+# switches the language dropdown from hitting a blank heading or an <img
+# alt=""> on every destination/package/activity that has no translation yet.
+MODELTRANSLATION_FALLBACK_LANGUAGES = ("en",)
+
 TIME_ZONE = "Asia/Tashkent"
 USE_I18N = True
 USE_TZ = True
