@@ -106,11 +106,12 @@ def tour_builder(
     contact_form=None,
     builder_payload: dict | None = None,
 ) -> HttpResponse:
-    """The 5-step Tour Builder (CLAUDE.md §6): dates+travellers, destinations,
-    activities, add-ons, contact. Vehicle class is derived automatically from
-    party size (apps.catalog.pricing.select_vehicle) and shown read-only in
-    the sticky summary — never a separate step, never a free pick below the
-    party's required capacity.
+    """The Tour Builder (CLAUDE.md §6): dates+travellers, destinations,
+    activities, add-ons, stay (hotel), contact. Vehicle class/total transport
+    price is still derived automatically from party size
+    (apps.catalog.pricing.select_vehicle) — the step-1 car cards only let the
+    visitor pick which browsable `Car` maps to that class (or upgrade), they
+    never let a group choose a vehicle smaller than its required capacity.
 
     All pricing shown to the visitor comes from the /build/quote/ HTMX
     endpoint below, which calls apps.catalog.pricing.calculate_quote()
@@ -126,7 +127,7 @@ def tour_builder(
     addons = AddOn.objects.filter(is_active=True)
     vehicle_classes = VehicleClass.objects.all()
     hotels = Hotel.objects.filter(is_active=True)
-    cars = Car.objects.filter(is_active=True)
+    cars = Car.objects.filter(is_active=True).select_related("vehicle_class")
     payload = builder_payload or {}
     if not payload and request.GET.getlist("destination"):
         # "Build a private tour" CTA from a destination or route landing page
@@ -147,6 +148,9 @@ def tour_builder(
             "contact_form": contact_form or BookingRequestForm(),
             "quote": _quote_from_payload(payload),
             "builder_payload_json": json.dumps(payload),
+            "car_vehicle_class_json": json.dumps(
+                {str(car.id): str(car.vehicle_class_id) for car in cars if car.vehicle_class_id}
+            ),
         },
     )
 
@@ -338,7 +342,7 @@ def build_quote(request: HttpRequest) -> HttpResponse:
 
 @ratelimit(key="ip", rate="5/h", method="POST", block=True)
 def build_submit(request: HttpRequest) -> HttpResponse:
-    """Step 5 submission: create the BookingRequest from the *stored*
+    """Final-step submission: create the BookingRequest from the *stored*
     BuilderSession payload, never from client-submitted totals — the price
     is recomputed here from scratch via apps.catalog.pricing so nothing the
     browser sent is trusted as the final number.
@@ -357,7 +361,7 @@ def build_submit(request: HttpRequest) -> HttpResponse:
     form = BookingRequestForm(request.POST)
     if not form.is_valid():
         return tour_builder(
-            request, initial_step=5, contact_form=form, builder_payload=session_obj.payload
+            request, initial_step=6, contact_form=form, builder_payload=session_obj.payload
         )
 
     breakdown = _quote_from_payload(session_obj.payload)

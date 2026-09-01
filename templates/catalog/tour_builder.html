@@ -7,7 +7,7 @@
 {% block content %}
 <section class="bg-navy text-cream py-lg">
   <div class="container-page"
-       x-data="tourBuilder({{ initial_step }}, {{ builder_payload_json|safe }})">
+       x-data="tourBuilder({{ initial_step }}, {{ builder_payload_json|safe }}, {{ car_vehicle_class_json|safe }})">
 
     {% block h1 %}
     <h1 class="font-serif text-h1 md:text-h1-md text-cream mb-2">{% trans "Build your tour" %}</h1>
@@ -52,9 +52,15 @@
           </button>
           <button type="button" class="flex flex-col items-center gap-1" @click="goTo(5)">
             <span class="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold"
-                  :class="step === 5 ? 'bg-gold-bright text-navy' : 'bg-surface border-2 border-gold/40 text-content-muted'"
-                  x-text="'5'"></span>
-            <span class="label hidden sm:block" :class="step === 5 ? 'text-navy' : 'text-content-muted'">{% trans "Contact" %}</span>
+                  :class="step > 5 ? 'bg-gold-bright text-navy' : (step === 5 ? 'bg-gold-bright text-navy' : 'bg-surface border-2 border-gold/40 text-content-muted')"
+                  x-text="step > 5 ? '✓' : '5'"></span>
+            <span class="label hidden sm:block" :class="step === 5 ? 'text-navy' : 'text-content-muted'">{% trans "Stay" %}</span>
+          </button>
+          <button type="button" class="flex flex-col items-center gap-1" @click="goTo(6)">
+            <span class="w-8 h-8 rounded-full flex items-center justify-center text-[13px] font-semibold"
+                  :class="step === 6 ? 'bg-gold-bright text-navy' : 'bg-surface border-2 border-gold/40 text-content-muted'"
+                  x-text="'6'"></span>
+            <span class="label hidden sm:block" :class="step === 6 ? 'text-navy' : 'text-content-muted'">{% trans "Contact" %}</span>
           </button>
         </div>
 
@@ -98,7 +104,58 @@
               </div>
             </div>
 
-            {% if vehicle_classes %}
+            {% if cars %}
+            <div class="mt-6 pt-4 border-t border-hairline">
+              <label class="label text-content-muted block mb-1">{% trans "Vehicle" %}</label>
+              <p class="text-[13px] text-content-muted mb-2">
+                {% trans "We assign the right vehicle class for your group automatically — pick a specific car here if you'd like to see (and lock in a preference for) more space." %}
+              </p>
+              <input type="hidden" name="preferred_car" x-model="preferredCar">
+              <input type="hidden" name="vehicle_class" :value="carVehicleClassMap[preferredCar] || ''">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <label class="relative cursor-pointer flex flex-col rounded-lg overflow-hidden border-2 border-hairline hover:border-gold transition-colors bg-surface-raised">
+                  <input type="radio" name="_vehicle_pick" value="" x-model="preferredCar" @change="refresh()" class="sr-only">
+                  <div class="h-28 flex items-center justify-center bg-navy/5">
+                    <span class="font-serif text-[15px] text-content-muted">{% trans "Auto (recommended)" %}</span>
+                  </div>
+                  <div class="p-3">
+                    <span class="block font-medium text-content">{% trans "Let us choose" %}</span>
+                    <span class="block text-[13px] text-content-muted">{% trans "Right-sized for your group automatically." %}</span>
+                  </div>
+                  <div class="absolute inset-0 rounded-lg ring-2 ring-gold-bright pointer-events-none opacity-0 transition-opacity"
+                       :class="preferredCar === '' ? 'opacity-100' : ''"></div>
+                </label>
+                {% for car in cars %}
+                  {% if car.vehicle_class_id %}
+                  <label class="relative cursor-pointer flex flex-col rounded-lg overflow-hidden border-2 border-hairline hover:border-gold transition-colors bg-surface-raised">
+                    <input type="radio" name="_vehicle_pick" value="{{ car.id }}"
+                           x-model="preferredCar" @change="refresh()" class="sr-only">
+                    <div class="h-40 relative">
+                      {% if car.hero_image %}
+                        {% responsive_image car.hero_image car.name width=car.hero_image_width height=car.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="(min-width: 640px) 33vw, 100vw" loading="lazy" %}
+                      {% else %}
+                        <div class="absolute inset-0 bg-navy"></div>
+                      {% endif %}
+                    </div>
+                    <div class="p-3">
+                      <span class="block font-medium text-content">{{ car.name }}</span>
+                      <span class="block text-[13px] text-content-muted">{{ car.get_category_display }} &middot; {% trans "up to" %} {{ car.capacity_pax }} {% trans "pax" %}</span>
+                      {% if car.trunk_capacity_desc %}
+                        <span class="block text-[13px] text-content-muted">{% trans "Trunk:" %} {{ car.trunk_capacity_desc }}</span>
+                      {% endif %}
+                      <span class="block text-[13px] text-gold-bright mt-1">{% trans "From" %} ${{ car.daily_rate_usd }}{% trans "/day" %}</span>
+                    </div>
+                    <div class="absolute inset-0 rounded-lg ring-2 ring-gold-bright pointer-events-none opacity-0 transition-opacity"
+                         :class="preferredCar === '{{ car.id }}' ? 'opacity-100' : ''"></div>
+                  </label>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              <p class="text-[13px] text-content-muted mt-2">
+                <a href="{% url 'catalog:car_index' %}" class="underline hover:text-gold-bright">{% trans "See all vehicles" %}</a>
+              </p>
+            </div>
+            {% elif vehicle_classes %}
             <div class="mt-6 pt-4 border-t border-hairline">
               <label class="label text-content-muted block mb-1">{% trans "Vehicle" %}</label>
               <p class="text-[13px] text-content-muted mb-2">
@@ -200,48 +257,65 @@
                 <p class="text-content-muted">TODO: content needed — no add-ons yet (seed data is a follow-up task).</p>
               {% endfor %}
             </div>
+          </div>
 
-            {% if hotels or cars %}
-            <div class="mt-6 pt-4 border-t border-hairline grid grid-cols-1 md:grid-cols-2 gap-4">
-              <p class="md:col-span-2 text-[13px] text-content-muted">
-                {% trans "Optional — let us know your preferred hotel and car. This is a note for our team, not a priced item; we'll confirm availability and pricing on WhatsApp." %}
-              </p>
-              {% if hotels %}
-              <div>
-                <label class="label text-content-muted block mb-1">{% trans "Preferred hotel" %}</label>
-                <select name="preferred_hotel" x-model="preferredHotel" @change="refresh()"
-                        class="w-full border border-hairline rounded px-3 py-2 bg-surface-raised">
-                  <option value="">{% trans "No preference" %}</option>
-                  {% for hotel in hotels %}
-                    <option value="{{ hotel.id }}">{{ hotel.name }} ({{ hotel.get_category_display }})</option>
-                  {% endfor %}
-                </select>
-              </div>
-              {% endif %}
-              {% if cars %}
-              <div>
-                <label class="label text-content-muted block mb-1">{% trans "Preferred car" %}</label>
-                <select name="preferred_car" x-model="preferredCar" @change="refresh()"
-                        class="w-full border border-hairline rounded px-3 py-2 bg-surface-raised">
-                  <option value="">{% trans "No preference" %}</option>
-                  {% for car in cars %}
-                    <option value="{{ car.id }}">{{ car.name }} ({{ car.get_category_display }})</option>
-                  {% endfor %}
-                </select>
-              </div>
-              {% endif %}
+          <!-- Step 5: Stay -->
+          <div x-show="step === 5" x-cloak x-transition>
+            <h2 class="font-serif text-[20px] md:text-[24px] mb-4">{% trans "Where would you like to stay?" %}</h2>
+            <p class="text-[13px] text-content-muted mb-4">
+              {% trans "Optional — this is a note for our team, not a priced item; we'll confirm availability and pricing on WhatsApp." %}
+            </p>
+            {% if hotels %}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <label class="relative cursor-pointer flex flex-col rounded-lg overflow-hidden border-2 border-hairline hover:border-gold transition-colors bg-surface-raised">
+                <input type="radio" name="preferred_hotel" value="" x-model="preferredHotel" @change="refresh()" class="sr-only">
+                <div class="h-28 flex items-center justify-center bg-navy/5">
+                  <span class="font-serif text-[15px] text-content-muted">{% trans "No preference" %}</span>
+                </div>
+                <div class="p-3">
+                  <span class="block font-medium text-content">{% trans "Not sure yet" %}</span>
+                  <span class="block text-[13px] text-content-muted">{% trans "We'll suggest options that fit your budget." %}</span>
+                </div>
+                <div class="absolute inset-0 rounded-lg ring-2 ring-gold-bright pointer-events-none opacity-0 transition-opacity"
+                     :class="preferredHotel === '' ? 'opacity-100' : ''"></div>
+              </label>
+              {% for hotel in hotels %}
+                <label class="relative cursor-pointer flex flex-col rounded-lg overflow-hidden border-2 border-hairline hover:border-gold transition-colors bg-surface-raised">
+                  <input type="radio" name="preferred_hotel" value="{{ hotel.id }}"
+                         x-model="preferredHotel" @change="refresh()" class="sr-only">
+                  <div class="h-28 relative">
+                    {% if hotel.hero_image %}
+                      {% responsive_image hotel.hero_image hotel.name width=hotel.hero_image_width height=hotel.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="(min-width: 640px) 33vw, 100vw" loading="lazy" %}
+                    {% else %}
+                      <div class="absolute inset-0 bg-navy"></div>
+                    {% endif %}
+                  </div>
+                  <div class="p-3">
+                    <span class="block font-medium text-content">{{ hotel.name }}</span>
+                    <span class="block text-[13px] text-content-muted">{{ hotel.get_category_display }} &middot; {{ hotel.address }}</span>
+                    <span class="block text-[13px] text-gold-bright mt-1">{% trans "From" %} ${{ hotel.price_per_night_usd }}{% trans "/night" %}</span>
+                  </div>
+                  <div class="absolute inset-0 rounded-lg ring-2 ring-gold-bright pointer-events-none opacity-0 transition-opacity"
+                       :class="preferredHotel === '{{ hotel.id }}' ? 'opacity-100' : ''"></div>
+                </label>
+              {% endfor %}
             </div>
+            <p class="text-[13px] text-content-muted mt-2">
+              <a href="{% url 'catalog:hotel_index' %}" class="underline hover:text-gold-bright">{% trans "See all hotels" %}</a>
+            </p>
+            {% else %}
+              <p class="text-content-muted">TODO: content needed — no hotels yet (seed data is a follow-up task).</p>
             {% endif %}
           </div>
 
-          <div class="mt-8 flex justify-between border-t border-hairline pt-4" x-show="step < 5">
+          <div class="mt-8 flex justify-between border-t border-hairline pt-4" x-show="step < 6">
             <button type="button" class="text-content-muted px-4 py-2 rounded hover:bg-surface-alt" :class="step === 1 ? 'invisible' : ''" @click="prev()">{% trans "Back" %}</button>
             <button type="button" class="ms-auto rounded bg-gold-bright text-navy text-[13px] font-semibold uppercase tracking-[0.08em] px-6 py-3 hover:opacity-90" @click="next()">{% trans "Next step" %}</button>
           </div>
         </form>
 
-        <!-- Step 5: Contact — a real POST, not HTMX (this is the one submission that must persist). -->
-        <div x-show="step === 5" x-cloak x-transition>
+        <!-- Step 6: Contact — a real POST, not HTMX (this is the one submission that must persist). -->
+        <div x-show="step === 6" x-cloak x-transition>
           <h2 class="font-serif text-[20px] md:text-[24px] mb-4">{% trans "Your details" %}</h2>
           {% if site_settings.response_time_promise %}
           <p class="text-[14px] text-content-muted mb-4">{{ site_settings.response_time_promise }}</p>
@@ -287,7 +361,7 @@
 
 {% block extra_body %}
 <script>
-  function tourBuilder(initialStep, payload) {
+  function tourBuilder(initialStep, payload, carVehicleClassMap) {
     payload = payload || {};
     return {
       step: initialStep || 1,
@@ -301,8 +375,9 @@
       manualVehicleClass: payload.manual_vehicle_class_id || "",
       preferredHotel: payload.preferred_hotel_id || "",
       preferredCar: payload.preferred_car_id || "",
+      carVehicleClassMap: carVehicleClassMap || {},
       goTo(n) {
-        this.step = Math.min(Math.max(n, 1), 5);
+        this.step = Math.min(Math.max(n, 1), 6);
         this.refresh();
       },
       next() {
