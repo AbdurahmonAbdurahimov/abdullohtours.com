@@ -66,7 +66,7 @@ class SiteSettings(models.Model):
                 # junk value would either break admin saves or leak onto the
                 # live site. Templates hide each field's UI when it's empty;
                 # fill in the real values in the admin once known.
-                "email": "",
+                "email": "info@abdullohtours.com",
                 "office_address": "",
                 "working_hours": "",
                 "response_time_promise": "",
