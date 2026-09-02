@@ -82,11 +82,13 @@ considered complete; others gate on Destination.translation_complete_<lang>.
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           {% for attraction in destination.attractions.all %}
             <article class="card overflow-hidden flex flex-col">
-              {% if attraction.images.0 %}
-                <img src="{{ attraction.images.0 }}" alt="{{ attraction.name }}" loading="lazy" class="w-full aspect-video object-cover">
-              {% else %}
-                <div class="w-full aspect-video bg-navy" aria-hidden="true"></div>
-              {% endif %}
+              {% with cover=attraction.images.first %}
+                {% if cover %}
+                  <img src="{{ cover.image.url }}" alt="{{ attraction.name }}" loading="lazy" class="w-full aspect-video object-cover">
+                {% else %}
+                  <div class="w-full aspect-video bg-navy" aria-hidden="true"></div>
+                {% endif %}
+              {% endwith %}
               <div class="p-4 flex flex-col grow">
                 <h4 class="font-serif text-h3 text-content mb-1">{{ attraction.name }}</h4>
                 <p class="text-small text-content-muted grow">{{ attraction.description|default:"TODO: content needed"|truncatewords:24 }}</p>

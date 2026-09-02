@@ -4,23 +4,20 @@ feeds the pricing engine (apps/catalog/pricing.py) — vehicle classes,
 activities, add-ons, packages and seasonal rates.
 
 NOTE on "images"/"gallery" fields: CLAUDE.md §4 lists these as plain fields
-without specifying a gallery model. Rather than invent a separate Image model
-in this scaffold pass, we use a JSONField storing a list of media paths/URLs
-(`images`/`gallery`) alongside a single primary ImageField (`hero_image` /
-`cover_image`) for the "hero" shot. The primary ImageField is a
-`WebPImageField` (apps/core/fields.py) — §7's WebP conversion/responsive
-srcset pipeline runs on it automatically; the JSONField gallery entries are
-out of scope for that pipeline since they aren't real ImageFields. Revisit
-if a real gallery/ordering UI is needed.
+without specifying a gallery model. Each is a `GenericRelation` to
+`apps.core.models.GalleryImage` — a real, admin-uploadable WebPImageField
+per photo (so §7's WebP/srcset pipeline runs on every gallery photo, not
+just the hero shot) rather than a JSONField of hand-typed paths/URLs.
 """
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
 from django.urls import reverse
 from django.utils import translation
 from django.utils.translation import gettext
 
 from apps.core.fields import WebPImageField
-from apps.core.models import SEOMixin
+from apps.core.models import GalleryImage, SEOMixin
 
 
 class Destination(SEOMixin):
@@ -60,7 +57,7 @@ class Attraction(models.Model):
         Destination, on_delete=models.CASCADE, related_name="attractions"
     )
     name = models.CharField(max_length=255)
-    images = models.JSONField(default=list, blank=True, help_text="List of image paths/URLs.")
+    images = GenericRelation(GalleryImage)
     description = models.TextField(blank=True)
     entry_fee_usd = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     typical_duration_min = models.PositiveIntegerField(
@@ -114,7 +111,7 @@ class Activity(SEOMixin):
     price_type = models.CharField(max_length=20, choices=PriceType.choices)
     base_price_usd = models.DecimalField(max_digits=8, decimal_places=2)
     duration_hours = models.DecimalField(max_digits=4, decimal_places=1, default=1)
-    images = models.JSONField(default=list, blank=True)
+    images = GenericRelation(GalleryImage)
     short_desc = models.CharField(max_length=320, blank=True)
     full_desc = models.TextField(blank=True)
     included = models.TextField(blank=True, help_text="One item per line.")
@@ -170,7 +167,7 @@ class Package(SEOMixin):
     )
     hero_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
     hero_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
-    gallery = models.JSONField(default=list, blank=True)
+    gallery = GenericRelation(GalleryImage)
     base_vehicle_class = models.ForeignKey(
         VehicleClass, on_delete=models.PROTECT, related_name="packages"
     )
@@ -360,7 +357,7 @@ class Hotel(SEOMixin):
     )
     hero_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
     hero_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
-    gallery = models.JSONField(default=list, blank=True)
+    gallery = GenericRelation(GalleryImage)
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0)
 
@@ -406,7 +403,7 @@ class Car(SEOMixin):
     )
     hero_image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
     hero_image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
-    gallery = models.JSONField(default=list, blank=True)
+    gallery = GenericRelation(GalleryImage)
     is_active = models.BooleanField(default=True)
     order = models.PositiveIntegerField(default=0)
 

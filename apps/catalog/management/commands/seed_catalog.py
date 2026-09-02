@@ -19,6 +19,7 @@ from __future__ import annotations
 
 from decimal import Decimal
 
+from django.contrib.contenttypes.models import ContentType
 from django.core.files.storage import default_storage
 from django.core.management.base import BaseCommand
 from django.utils.text import slugify
@@ -35,6 +36,7 @@ from apps.catalog.models import (
     Vehicle,
     VehicleClass,
 )
+from apps.core.models import GalleryImage
 
 
 class Command(BaseCommand):
@@ -313,13 +315,13 @@ class Command(BaseCommand):
         # Media already sitting in media/ from the design phase (CLAUDE.md
         # §7 image pipeline) — wired up by natural key rather than uploaded
         # again, since default_storage already has these committed files.
-        # Attraction.images stores full URLs (help_text: "paths/URLs"), not
-        # bare storage names — the template renders it straight into <img
-        # src> with no MEDIA_URL prefix, so a bare name 404s.
+        # Attraction.images is a GalleryImage GenericRelation, so these are
+        # bare storage names (what WebPImageField.name expects), not URLs.
         attraction_images = {
-            "Registan Square": [default_storage.url("attractions/topattractions-registan.webp")],
-            "Gur-e-Amir Mausoleum": [default_storage.url("attractions/topattractions-guremir.webp")],
+            "Registan Square": ["attractions/topattractions-registan.webp"],
+            "Gur-e-Amir Mausoleum": ["attractions/topattractions-guremir.webp"],
         }
+        attraction_ct = ContentType.objects.get_for_model(Attraction)
 
         destinations: dict[str, Destination] = {}
         for row in data:
@@ -333,13 +335,19 @@ class Command(BaseCommand):
             )
             for name, description, duration in attractions:
                 defaults = {"description": description, "typical_duration_min": duration}
-                if name in attraction_images:
-                    defaults["images"] = attraction_images[name]
-                Attraction.objects.update_or_create(
+                attraction, _ = Attraction.objects.update_or_create(
                     destination=obj,
                     name=name,
                     defaults=defaults,
                 )
+                for order, path in enumerate(attraction_images.get(name, [])):
+                    if default_storage.exists(path):
+                        GalleryImage.objects.update_or_create(
+                            content_type=attraction_ct,
+                            object_id=attraction.pk,
+                            order=order,
+                            defaults={"image": path},
+                        )
             destinations[row["slug"]] = obj
         return destinations
 
@@ -819,6 +827,7 @@ class Command(BaseCommand):
             "packages/gallery/visualjourneys-3.webp",
         ]
 
+        package_ct = ContentType.objects.get_for_model(Package)
         seeded_packages: dict[str, Package] = {}
         for pkg_data in packages:
             days = pkg_data.pop("days")
@@ -827,8 +836,6 @@ class Command(BaseCommand):
             if default_storage.exists(hero_image):
                 pkg_data["hero_image"] = hero_image
             is_featured = pkg_data["tier"] == Package.Tier.STANDARD
-            if is_featured and all(default_storage.exists(p) for p in gallery_images):
-                pkg_data["gallery"] = gallery_images
             package, _ = Package.objects.update_or_create(
                 slug=pkg_data["slug"],
                 defaults={
@@ -839,6 +846,14 @@ class Command(BaseCommand):
                 },
             )
             seeded_packages[package.slug] = package
+            if is_featured and all(default_storage.exists(p) for p in gallery_images):
+                for order, path in enumerate(gallery_images):
+                    GalleryImage.objects.update_or_create(
+                        content_type=package_ct,
+                        object_id=package.pk,
+                        order=order,
+                        defaults={"image": path},
+                    )
             for day_number, title, description, activity_titles in days:
                 day, _ = PackageDay.objects.update_or_create(
                     package=package,

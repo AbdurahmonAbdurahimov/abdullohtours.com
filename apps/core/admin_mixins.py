@@ -1,4 +1,18 @@
 from django.contrib import admin
+from unfold.admin import GenericTabularInline
+
+from .models import GalleryImage
+
+
+class GalleryImageInline(GenericTabularInline):
+    """Drop-in uploadable gallery for any ModelAdmin whose model has a
+    `GenericRelation(GalleryImage)` — attach to any content admin that
+    needs a photo gallery (see apps.core.models.GalleryImage)."""
+
+    model = GalleryImage
+    extra = 1
+    fields = ("image", "caption", "order")
+    ordering = ("order",)
 
 
 class TranslationStatusMixin:

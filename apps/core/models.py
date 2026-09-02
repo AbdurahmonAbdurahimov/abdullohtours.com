@@ -1,3 +1,5 @@
+from django.contrib.contenttypes.fields import GenericForeignKey
+from django.contrib.contenttypes.models import ContentType
 from django.db import models
 
 from .fields import WebPImageField
@@ -136,6 +138,39 @@ class SEOMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class GalleryImage(models.Model):
+    """One uploaded photo in a model's gallery, attached generically via
+    `content_type`/`object_id` so every gallery on the site (Attraction,
+    Activity, Package, Hotel, Car, ...) shares one uploadable, orderable
+    admin inline instead of a hand-typed JSONField of URLs.
+
+    Add a `GenericRelation(GalleryImage)` on any parent model that needs a
+    gallery, then attach `apps.core.admin_mixins.GalleryImageInline` to its
+    ModelAdmin.
+    """
+
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey("content_type", "object_id")
+
+    image = WebPImageField(
+        upload_to="gallery/",
+        width_field="image_width",
+        height_field="image_height",
+    )
+    image_width = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    image_height = models.PositiveIntegerField(null=True, blank=True, editable=False)
+    caption = models.CharField(max_length=255, blank=True)
+    order = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        ordering = ["order", "id"]
+        indexes = [models.Index(fields=["content_type", "object_id"])]
+
+    def __str__(self) -> str:
+        return self.caption or f"Gallery image #{self.pk}"
 
 
 class Review(models.Model):

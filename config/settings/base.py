@@ -303,8 +303,8 @@ UNFOLD = {
                         "link": reverse_lazy("admin:catalog_seasonalrate_changelist"),
                     },
                     {
-                        "title": "Vehicle classes",
-                        "icon": "directions_car",
+                        "title": "Vehicle classes (pricing)",
+                        "icon": "payments",
                         "link": reverse_lazy("admin:catalog_vehicleclass_changelist"),
                     },
                     {
@@ -318,7 +318,7 @@ UNFOLD = {
                         "link": reverse_lazy("admin:catalog_hotel_changelist"),
                     },
                     {
-                        "title": "Cars",
+                        "title": "Cars (public catalog)",
                         "icon": "directions_car",
                         "link": reverse_lazy("admin:catalog_car_changelist"),
                     },
@@ -345,7 +345,7 @@ UNFOLD = {
                 "separator": True,
                 "items": [
                     {
-                        "title": "Vehicles",
+                        "title": "Fleet register (internal)",
                         "icon": "airport_shuttle",
                         "link": reverse_lazy("admin:catalog_vehicle_changelist"),
                     },

@@ -1,8 +1,9 @@
 from django.contrib import admin
+from django.utils.html import format_html
 from modeltranslation.admin import TranslationAdmin
 from unfold.admin import ModelAdmin, TabularInline
 
-from apps.core.admin_mixins import TranslationStatusMixin
+from apps.core.admin_mixins import GalleryImageInline, TranslationStatusMixin
 
 from .models import (
     Activity,
@@ -26,6 +27,31 @@ from .models import (
 # (CLAUDE.md §11) apply to BookingRequest — see apps/bookings/admin.py.
 # Every content model with SEOMixin gets a translation-status column via
 # TranslationStatusMixin (apps/core/admin_mixins.py).
+#
+# Three car-related models exist on purpose and are kept visually distinct
+# in the admin so they're never confused with each other:
+#   - VehicleClass: the pricing tier the quote engine actually charges by
+#     (sedan/SUV/minibus, daily rate, pax range). Edit this to change prices.
+#   - Car: the public-facing catalog page visitors browse (photos, gallery,
+#     description). Purely informational — changing a Car never changes a
+#     price.
+#   - Vehicle: the internal fleet register (plate numbers, partner vs
+#     owned) used only for availability counting and blackout dates.
+#
+# Every gallery (Attraction, Activity, Package, Hotel, Car) is a real
+# uploadable GalleryImageInline (apps/core/admin_mixins.py) backed by
+# apps.core.models.GalleryImage — not a hand-typed list of URLs.
+
+
+def _thumb(url: str | None, size: int = 40) -> str:
+    if not url:
+        return "—"
+    return format_html(
+        '<img src="{}" style="width:{}px;height:{}px;object-fit:cover;' 'border-radius:4px;" />',
+        url,
+        size,
+        size,
+    )
 
 
 class AttractionInline(TabularInline):
@@ -47,12 +73,22 @@ class AttractionAdmin(ModelAdmin):
     list_display = ("name", "destination", "entry_fee_usd", "typical_duration_min", "is_bookable")
     list_filter = ("destination", "is_bookable")
     search_fields = ("name",)
+    inlines = [GalleryImageInline]
 
 
 @admin.register(VehicleClass)
 class VehicleClassAdmin(ModelAdmin):
-    list_display = ("name", "min_pax", "max_pax", "daily_rate_usd", "order")
+    """Pricing tiers only. The quote engine (catalog/pricing.py) charges by
+    these daily rates — nothing else on the site sets a transport price."""
+
+    list_display = ("thumbnail", "name", "min_pax", "max_pax", "daily_rate_usd", "order")
+    list_display_links = ("thumbnail", "name")
     ordering = ("order",)
+    fields = ("name", "min_pax", "max_pax", "daily_rate_usd", "order", "image")
+
+    @admin.display(description="")
+    def thumbnail(self, obj):
+        return _thumb(obj.image.url if obj.image else None)
 
 
 @admin.register(Activity)
@@ -61,6 +97,7 @@ class ActivityAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
     list_filter = ("destination", "price_type", "is_active")
     search_fields = ("title",)
     prepopulated_fields = {"slug": ("title",)}
+    inlines = [GalleryImageInline]
 
 
 @admin.register(AddOn)
@@ -86,7 +123,7 @@ class PackageAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
     list_filter = ("tier", "is_active", "is_featured")
     search_fields = ("title",)
     prepopulated_fields = {"slug": ("title",)}
-    inlines = [PackageDayInline]
+    inlines = [PackageDayInline, GalleryImageInline]
 
 
 @admin.register(PackageDay)
@@ -110,7 +147,13 @@ class SeasonalRateAdmin(ModelAdmin):
 
 @admin.register(Vehicle)
 class VehicleAdmin(ModelAdmin):
+    """Internal fleet register — not shown to visitors. Used only to count
+    active vehicles for the "Limited availability" badge and to scope
+    Blackout dates to a specific unit. To change a public price, edit
+    Vehicle Classes instead; to change a public photo, edit Cars instead."""
+
     list_display = ("name", "vehicle_class", "plate", "is_partner", "is_active", "daily_cost_usd")
+    list_editable = ("is_active",)
     list_filter = ("vehicle_class", "is_partner", "is_active")
     search_fields = ("name", "plate")
 
@@ -135,14 +178,61 @@ class HotelAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
     list_filter = ("category", "destination", "is_active")
     search_fields = ("name", "address")
     prepopulated_fields = {"slug": ("name",)}
+    inlines = [GalleryImageInline]
 
 
 @admin.register(Car)
 class CarAdmin(TranslationStatusMixin, TranslationAdmin, ModelAdmin):
-    list_display = ("name", "category", "capacity_pax", "daily_rate_usd", "is_active", "order")
+    """The public /cars/ catalog page. Photos and descriptions only — this
+    model never sets a real price; VehicleClass does that."""
+
+    list_display = (
+        "thumbnail",
+        "name",
+        "category",
+        "capacity_pax",
+        "daily_rate_usd",
+        "is_active",
+        "order",
+    )
+    list_display_links = ("thumbnail", "name")
+    list_editable = ("is_active", "order")
     list_filter = ("category", "is_active")
     search_fields = ("name",)
     prepopulated_fields = {"slug": ("name",)}
+    inlines = [GalleryImageInline]
+    fieldsets = (
+        (
+            "Basic info",
+            {"fields": ("name", "slug", "category", "vehicle_class", "is_active", "order")},
+        ),
+        (
+            "Capacity & pricing (informational only)",
+            {"fields": ("capacity_pax", "trunk_capacity_desc", "daily_rate_usd")},
+        ),
+        ("Description", {"fields": ("description",)}),
+        (
+            "Cover image",
+            {"fields": ("hero_image",), "description": "The full gallery is below, after saving."},
+        ),
+        (
+            "SEO",
+            {
+                "classes": ("collapse",),
+                "fields": (
+                    "meta_title",
+                    "meta_description",
+                    "focus_keyword",
+                    "og_image",
+                    "noindex",
+                ),
+            },
+        ),
+    )
+
+    @admin.display(description="Cover")
+    def thumbnail(self, obj):
+        return _thumb(obj.hero_image.url if obj.hero_image else None)
 
 
 @admin.register(BlackoutDate)

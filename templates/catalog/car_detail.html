@@ -69,11 +69,11 @@
         {{ car.description|default:"TODO: content needed"|linebreaks }}
       </div>
 
-      {% if car.gallery %}
+      {% if car.gallery.all %}
       <h2 class="section-title mt-lg mb-4">{% trans "Gallery" %}</h2>
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {% for image_url in car.gallery %}
-          <img src="{{ image_url }}" alt="{% blocktrans with name=car.name %}{{ name }} photo{% endblocktrans %}" loading="lazy" class="w-full aspect-video object-cover rounded">
+        {% for photo in car.gallery.all %}
+          <img src="{{ photo.image.url }}" alt="{% blocktrans with name=car.name %}{{ name }} photo{% endblocktrans %}" loading="lazy" class="w-full aspect-video object-cover rounded">
         {% endfor %}
       </div>
       {% endif %}
