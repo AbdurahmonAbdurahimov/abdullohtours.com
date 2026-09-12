@@ -7,7 +7,7 @@
 {% block content %}
 <section class="bg-navy text-cream py-lg">
   <div class="container-page"
-       x-data="tourBuilder({{ initial_step }}, {{ builder_payload_json|safe }}, {{ car_vehicle_class_json|safe }})">
+       x-data="tourBuilder({{ initial_step }}, {{ builder_payload_json }}, {{ car_vehicle_class_json }})">
 
     {% block h1 %}
     <h1 class="font-serif text-h1 md:text-h1-md text-cream mb-2">{% trans "Build your tour" %}</h1>
@@ -127,12 +127,32 @@
                 </label>
                 {% for car in cars %}
                   {% if car.vehicle_class_id %}
-                  <label class="relative cursor-pointer flex flex-col rounded-lg overflow-hidden border-2 border-hairline hover:border-gold transition-colors bg-surface-raised">
+                  <label class="relative cursor-pointer flex flex-col rounded-lg overflow-hidden border-2 border-hairline hover:border-gold transition-colors bg-surface-raised group">
                     <input type="radio" name="_vehicle_pick" value="{{ car.id }}"
                            x-model="preferredCar" @change="refresh()" class="sr-only">
-                    <div class="h-40 relative">
-                      {% if car.hero_image %}
-                        {% responsive_image car.hero_image car.name width=car.hero_image_width height=car.hero_image_height css_class="absolute inset-0 w-full h-full object-cover" sizes="(min-width: 640px) 33vw, 100vw" loading="lazy" %}
+                    <div class="h-40 relative"
+                         x-data="imageGallery([
+                           {% if car.hero_image %}{ url: '{{ car.hero_image.url|escapejs }}', alt: '{{ car.name|escapejs }}' }{% if car.gallery.all %},{% endif %}{% endif %}
+                           {% for photo in car.gallery.all %}{ url: '{{ photo.image.url|escapejs }}', alt: '{{ car.name|escapejs }} — {% trans "photo" %} {{ forloop.counter }}' }{% if not forloop.last %},{% endif %}{% endfor %}
+                         ])">
+                      {% if car.hero_image or car.gallery.all %}
+                        <template x-for="(img, i) in images" :key="i">
+                          <img :src="img.url" :alt="img.alt" loading="lazy" x-show="index === i" x-cloak
+                               class="absolute inset-0 w-full h-full object-cover">
+                        </template>
+                        <button type="button" @click.stop.prevent="prev()" x-show="images.length > 1"
+                                class="absolute inset-y-0 start-0 flex items-center px-1.5 text-cream/90 hover:text-gold-bright bg-gradient-to-r from-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                                aria-label="{% trans 'Previous photo' %}">
+                          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                        </button>
+                        <button type="button" @click.stop.prevent="next()" x-show="images.length > 1"
+                                class="absolute inset-y-0 end-0 flex items-center px-1.5 text-cream/90 hover:text-gold-bright bg-gradient-to-l from-navy/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+                                aria-label="{% trans 'Next photo' %}">
+                          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                        </button>
+                        <span x-show="images.length > 1" x-cloak
+                              class="absolute bottom-1.5 end-1.5 text-[11px] leading-none px-1.5 py-1 rounded-full bg-navy/70 text-cream"
+                              x-text="(index + 1) + ' / ' + images.length"></span>
                       {% else %}
                         <div class="absolute inset-0 bg-navy"></div>
                       {% endif %}
