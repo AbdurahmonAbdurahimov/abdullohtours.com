@@ -78,11 +78,7 @@
 
       {% if hotel.gallery.all %}
       <h2 class="section-title mt-lg mb-4">{% trans "Gallery" %}</h2>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-        {% for photo in hotel.gallery.all %}
-          <img src="{{ photo.image.url }}" alt="{% blocktrans with name=hotel.name %}{{ name }} photo{% endblocktrans %}" loading="lazy" class="w-full aspect-video object-cover rounded">
-        {% endfor %}
-      </div>
+      {% include "catalog/partials/image_gallery.html" with gallery=hotel.gallery.all alt_base=hotel.name %}
       {% endif %}
     </div>
 
