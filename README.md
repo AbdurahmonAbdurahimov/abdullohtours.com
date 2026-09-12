@@ -97,6 +97,7 @@ Cron jobs (see CLAUDE.md §9) run `python manage.py <command>` inside the
 */15 * * * * cd /path/to/abdullohtours.com && docker compose exec -T web python manage.py check_unanswered_requests
 0 3 * * *    cd /path/to/abdullohtours.com && docker compose exec -T web python manage.py update_exchange_rates
 0 4 * * *    cd /path/to/abdullohtours.com && docker compose exec -T web python manage.py backup_db
+15 5 * * *   cd /path/to/abdullohtours.com && docker compose exec -T web python manage.py prune_stale_sessions
 ```
 
 ### Telegram bot

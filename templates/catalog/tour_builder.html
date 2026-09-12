@@ -7,7 +7,7 @@
 {% block content %}
 <section class="bg-navy text-cream py-lg">
   <div class="container-page"
-       x-data="tourBuilder({{ initial_step }}, {{ builder_payload_json|safe }}, {{ car_vehicle_class_json|safe }})">
+       x-data="tourBuilder({{ initial_step }}, {{ builder_payload_json }}, {{ car_vehicle_class_json }})">
 
     {% block h1 %}
     <h1 class="font-serif text-h1 md:text-h1-md text-cream mb-2">{% trans "Build your tour" %}</h1>

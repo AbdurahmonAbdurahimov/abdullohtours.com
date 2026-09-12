@@ -68,6 +68,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "apps.core.middleware.TrackActiveSessionMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -379,6 +380,16 @@ UNFOLD = {
                         "title": "Notifications",
                         "icon": "notifications",
                         "link": reverse_lazy("admin:notifications_notification_changelist"),
+                    },
+                    {
+                        "title": "Active sessions",
+                        "icon": "person_pin",
+                        "link": reverse_lazy("admin:core_activesession_changelist"),
+                    },
+                    {
+                        "title": "Login activity",
+                        "icon": "history",
+                        "link": reverse_lazy("admin:core_loginevent_changelist"),
                     },
                 ],
             },

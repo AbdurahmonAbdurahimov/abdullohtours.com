@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -218,3 +219,83 @@ class Review(models.Model):
 
     def __str__(self) -> str:
         return f"{self.author_name} ({self.rating}★)"
+
+
+class LoginEvent(models.Model):
+    """Audit trail of admin/staff sign-in activity.
+
+    Recorded from `django.contrib.auth.signals` (see `apps.core.signals`) so
+    every login, logout and failed attempt against `/admin/` is captured
+    regardless of which view handled auth — no dependence on middleware
+    running first. `user` is nullable because a failed attempt against a
+    username that doesn't exist has no user to point at; `username_attempted`
+    keeps that case auditable anyway.
+    """
+
+    class EventType(models.TextChoices):
+        LOGIN = "LOGIN", "Login"
+        LOGOUT = "LOGOUT", "Logout"
+        FAILED = "FAILED", "Failed attempt"
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="login_events",
+    )
+    username_attempted = models.CharField(
+        max_length=150,
+        blank=True,
+        help_text="Set for FAILED events where the username didn't match a user.",
+    )
+    event_type = models.CharField(max_length=10, choices=EventType.choices)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.CharField(max_length=255, blank=True)
+    session_key = models.CharField(max_length=40, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["user", "-created_at"]),
+            models.Index(fields=["event_type", "-created_at"]),
+        ]
+
+    def __str__(self) -> str:
+        who = self.user.get_username() if self.user_id else self.username_attempted or "unknown"
+        return f"{self.get_event_type_display()} · {who} · {self.created_at:%d %b %Y %H:%M}"
+
+
+class ActiveSession(models.Model):
+    """One currently-live browser session for a staff/admin user.
+
+    Created on login and refreshed on every request by
+    `apps.core.middleware.TrackActiveSessionMiddleware` (throttled — see
+    that module) so "who's online right now" and "last seen" are both
+    answerable without polling the session store directly. Deleted on
+    logout; stale rows (browser closed without logging out) are pruned by
+    the `prune_stale_sessions` cron command using Django's own session
+    expiry as the cutoff, mirroring how `django_session` itself expires.
+
+    Only staff users are tracked — this is an internal ops tool, not
+    analytics on tourist site visitors.
+    """
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="active_sessions",
+    )
+    session_key = models.CharField(max_length=40, unique=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_seen_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ["-last_seen_at"]
+        indexes = [models.Index(fields=["user", "-last_seen_at"])]
+
+    def __str__(self) -> str:
+        return f"{self.user.get_username()} · {self.ip_address or 'unknown IP'}"
